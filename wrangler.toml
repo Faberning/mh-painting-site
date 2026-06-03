@@ -1,0 +1,17 @@
+# Cloudflare Worker + static assets. EKO build rules §2.
+# Deploy with the wrangler CLI: `npx wrangler deploy` (asset-only/dynamic Workers
+# can't be configured from the dashboard). Or connect the repo via Workers Builds
+# for git auto-deploy so the "no manual deploy" loop holds.
+name = "mh-painting"
+main = "src/worker.js"
+compatibility_date = "2025-09-01"
+
+# Static assets served through the ASSETS binding — NEVER by self-fetching the
+# custom domain (522 loop). Astro builds to ./dist.
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+not_found_handling = "404-page"
+
+# Secrets are NOT here. Set them with: npx wrangler secret put <NAME>
+# e.g. MAILCHANNELS_KEY, LEAD_STORE_TOKEN. See .dev.vars.example for local dev.

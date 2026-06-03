@@ -1,0 +1,19 @@
+# MH Painting — migration 301s (Squarespace -> Astro on the standard stack).
+# Format: /old-path  /new-path  301. Only CHANGED URLs need a line.
+
+# Project pages with Squarespace junk auto-slugs -> clean, title-derived slugs
+/projects/little-manly-cliff-house-jwyrw         /projects/board-and-batten-warkworth   301
+/projects/little-manly-cliff-house-jwyrw-fr2ct   /projects/mount-eden-factory           301
+
+# Blog: Squarespace template-default slug -> clean slug
+# NOTE: confirm the EXACT live Squarespace slug before cutover.
+/blog/blog-post-title-one-3zaa9-zlxng-tr4r9      /blog/6-signs-to-repaint-your-auckland-home-exterior   301
+
+# Squarespace system page that won't exist on Astro
+/cart                                            /                                      301
+
+# --- PRESERVED 1:1 (no redirect needed) ---
+# / /projects /blog /contact /thank-you
+# /projects/langs-beach-new-build /projects/mangawhai-estuary-new-build
+# /projects/waipu-bach /projects/sudima-hotel-mural
+# /projects/langs-waterfront-new-build /projects/little-manly-cliff-house

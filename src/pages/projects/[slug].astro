@@ -1,0 +1,26 @@
+---
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import { PROJECTS } from "../../projects";
+
+export function getStaticPaths() {
+  return PROJECTS.map((p) => ({ params: { slug: p.slug }, props: { p } }));
+}
+const { p } = Astro.props;
+---
+<Base title={p.navTitle} description={p.meta} path={`/projects/${p.slug}`}>
+  <Nav />
+  <main>
+    <section class="wrap prose">
+      <p><a class="back" href="/projects">← All projects</a></p>
+      <p class="eyebrow">{p.tag}</p>
+      <h1>{p.title}</h1>
+      {p.body.map((par) => (<p>{par}</p>))}
+      <div class="cta-row">
+        <a class="btn" href="/contact">Get a quote for similar work</a>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Base>

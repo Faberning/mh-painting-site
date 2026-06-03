@@ -1,0 +1,4 @@
+# Copy to .dev.vars for local `wrangler dev`. NEVER commit .dev.vars (gitignored).
+# Production secrets go in: npx wrangler secret put <NAME>
+MAILCHANNELS_KEY=""
+LEAD_NOTIFY_TO=""

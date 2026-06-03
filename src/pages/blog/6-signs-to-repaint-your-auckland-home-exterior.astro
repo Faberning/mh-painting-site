@@ -1,0 +1,38 @@
+---
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+// TODO(pubDate): set a real recent publish date before cutover (NOT 2019).
+const desc = "Auckland's UV, salt air and rain wear exterior paint down fast. Here are 6 clear signs it's time to repaint — and what each one is telling you.";
+---
+<Base title="6 signs it's time to repaint" description={desc} path="/blog/6-signs-to-repaint-your-auckland-home-exterior">
+  <Nav />
+  <main>
+    <section class="wrap prose">
+      <p><a class="back" href="/blog">← Blog</a></p>
+      <h1>6 Signs It's Time to Repaint Your Home's Exterior</h1>
+      <p style="color:var(--inkSoft);font-size:14px;">By Max Hindley · MH Painting</p>
+      <p>From the exposed coast around Orewa and the Hibiscus Coast to the lifestyle blocks out Kumeu and Riverhead, north Auckland homes cop a hard mix of weather — strong UV, salt-laden air near the water, heavy rain and plenty of wind. That combination wears exterior paint down faster than most people expect.</p>
+      <p>The trick is to repaint <em>before</em> small issues turn into real damage. Here are six clear signs it's time, and what each one is actually telling you.</p>
+      <h2>1. Fading or chalky paint</h2>
+      <p>If the colour looks washed out — especially on the sun-facing walls — or a fine powder comes off on your hand when you touch it, the paint is breaking down. That chalking means the coating has lost its UV protection and is no longer doing its job.</p>
+      <h2>2. Peeling, blistering or flaking</h2>
+      <p>Bubbling, cracking, or paint lifting away in sheets almost always means moisture is getting in underneath — from humidity, a hidden leak, or poor prep last time round. Left alone it leads to rot or mould in the timber and weatherboards. This is the one to act on quickly.</p>
+      <h2>3. Cracks or gaps in the paint film</h2>
+      <p>Hairline cracks let water in, and north Auckland's temperature swings make them worse as materials expand and contract through the day. Catching them early is the difference between a repaint and a repair.</p>
+      <h2>4. Mould, mildew or algae</h2>
+      <p>Dark green or black streaks on the shaded, south-facing walls are common in our damp climate. They're not just a look thing — they sit on the surface and break the coating, and the substrate underneath, down over time.</p>
+      <h2>5. Wood rot or rust on metal</h2>
+      <p>Soft, spongy timber or rust bubbling up on steelwork — gutters, railings, brackets — means the paint barrier has already failed. Salt air speeds this right up closer to the coast, so exposed weatherboards and fibre-cement cladding like Hardies need a closer eye out that way.</p>
+      <h2>6. It's been 7–10 years (or you can't remember)</h2>
+      <p>Even good paint generally lasts 7–10 years in NZ conditions, and less than that on exposed coastal sites. If your last repaint was that long ago — or you're not sure — it's worth refreshing before failure sets in rather than after.</p>
+      <h2>One extra, if you're going dark</h2>
+      <p>Deep, modern colours look great on weatherboards, but dark surfaces soak up a lot of heat, which stresses the substrate and can shorten the life of the finish. Paint systems built for this — like Resene CoolColour — reflect more of that heat back out, so the boards stay cooler and the coating lasts longer. Worth raising before you settle on a colour.</p>
+      <p>Spotting these early keeps your home protected and looking sharp, and a timely repaint saves real money down the track. Not sure where your place sits? We're happy to take a look — Max has been painting for over 7 years, and every full exterior repaint comes with a free house wash through our partner So Clean.</p>
+      <div class="cta-row">
+        <a class="btn" href="/contact">Get a free quote</a>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Base>

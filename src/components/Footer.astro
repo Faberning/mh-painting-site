@@ -1,0 +1,21 @@
+---
+import { BUSINESS } from "../consts";
+const tel = `tel:${BUSINESS.phone.replace(/\s/g, "")}`;
+const year = new Date().getFullYear();
+---
+<footer class="site">
+  <div class="wrap frow">
+    <div>
+      <strong>{BUSINESS.legalName}</strong><br />
+      {BUSINESS.experienceYears}+ years' experience · Dulux Accredited · Fully insured
+    </div>
+    <div>
+      <a href={tel}>{BUSINESS.phone}</a> · <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a><br />
+      Serving {BUSINESS.areaServed.slice(0, 6).join(", ")} &amp; the wider north.
+    </div>
+    <div>
+      <a href={BUSINESS.reviews.url}>★ {BUSINESS.reviews.rating} on Google ({BUSINESS.reviews.count} reviews)</a><br />
+      © {year} {BUSINESS.legalName}
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,20 @@
+---
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+const desc = "Thanks — your enquiry has reached MH Painting. Max will be in touch shortly. For anything urgent, call 020 4076 7979.";
+---
+<Base title="Thank you" description={desc} path="/thank-you" noindex={true}>
+  <Nav />
+  <main>
+    <section class="wrap">
+      <h1>Thanks — we'll be in touch.</h1>
+      <p class="lead">Your enquiry's reached Max. He'll get back to you shortly. For anything urgent, give us a call.</p>
+      <div class="cta-row">
+        <a class="btn" href="/">Back to home</a>
+        <a class="btn ghost" href="/projects">See our work</a>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Base>

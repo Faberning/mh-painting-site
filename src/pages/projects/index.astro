@@ -1,0 +1,27 @@
+---
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import { PROJECTS } from "../../projects";
+const desc = "From new builds to repaints, interiors to exteriors — clean, precise finishes across Auckland and the north. See MH Painting's project portfolio.";
+---
+<Base title="Our work" description={desc} path="/projects">
+  <Nav />
+  <main>
+    <section class="wrap">
+      <p class="eyebrow">Portfolio</p>
+      <h1>Our work.</h1>
+      <p class="lead">From new builds to renovations, interiors to exteriors — our portfolio shows the range and quality of our work across Auckland and the north. Clean, precise finishes and attention to detail on every job.</p>
+      <div class="cards">
+        {PROJECTS.map((p) => (
+          <a class="pcard" href={`/projects/${p.slug}`}>
+            <span class="tag">{p.tag}</span>
+            <h3>{p.title}</h3>
+            <p>{p.body[0]}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Base>

@@ -1,0 +1,13 @@
+---
+import { BUSINESS } from "../consts";
+const tel = `tel:${BUSINESS.phone.replace(/\s/g, "")}`;
+---
+<nav class="site">
+  <a class="brand" href="/" aria-label="mh painting home"><img src="/wordmark.svg" alt="mh painting" /></a>
+  <div class="links">
+    <a href="/projects">Work</a>
+    <a href="/blog">Blog</a>
+    <a href="/contact">Contact</a>
+    <a class="call" href={tel}>{BUSINESS.phone}</a>
+  </div>
+</nav>

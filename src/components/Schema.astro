@@ -1,0 +1,50 @@
+---
+// Schema.astro — JSON-LD from consts. Only emits fields that have a real value,
+// so a pre-incorporation site never ships an empty phone/address or a claim that
+// isn't true (EKO §6 claims traceability).
+import { BUSINESS } from "../consts";
+
+const { schemaType, name, legalName, url, logo, phone, email, address, geo,
+        areaServed, priceRange, services, sameAs, tagline } = BUSINESS;
+
+const hasAddr = address && (address.street || address.locality);
+const biz: Record<string, any> = {
+  "@type": schemaType,
+  "@id": `${url}/#business`,
+  name,
+  url,
+};
+if (legalName) biz.legalName = legalName;
+if (tagline) biz.description = tagline;
+if (phone) biz.telephone = phone;
+if (email) biz.email = email;
+if (logo) biz.image = `${url}${logo}`;
+if (priceRange) biz.priceRange = priceRange;
+if (hasAddr) biz.address = {
+  "@type": "PostalAddress",
+  ...(address.street ? { streetAddress: address.street } : {}),
+  ...(address.locality ? { addressLocality: address.locality } : {}),
+  ...(address.region ? { addressRegion: address.region } : {}),
+  ...(address.postcode ? { postalCode: address.postcode } : {}),
+  addressCountry: address.country || "NZ",
+};
+if (geo && geo.lat && geo.lng) biz.geo = { "@type": "GeoCoordinates", latitude: geo.lat, longitude: geo.lng };
+if (areaServed?.length) biz.areaServed = areaServed.map((a) => ({ "@type": "Place", name: a }));
+if (sameAs?.length) biz.sameAs = sameAs;
+
+const graph = {
+  "@context": "https://schema.org",
+  "@graph": [
+    biz,
+    ...services.map((s, i) => ({
+      "@type": "Service",
+      "@id": `${url}/#service-${i}`,
+      name: s.title,
+      description: s.blurb,
+      provider: { "@id": `${url}/#business` },
+      ...(areaServed?.length ? { areaServed: areaServed.map((a) => ({ "@type": "Place", name: a })) } : {}),
+    })),
+  ],
+};
+---
+<script type="application/ld+json" set:html={JSON.stringify(graph)} />

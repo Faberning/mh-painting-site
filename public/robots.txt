@@ -1,0 +1,16 @@
+# MH Painting robots.txt — AI crawlers EXPLICITLY ALLOWED (EKO §3 / Karin lesson).
+# Cloudflare's default edge bot-block is the real silent failure — robots is the
+# secondary signal. Kept Disallow-free to match the kit's known-good pattern
+# (the check-gate's AI-block scan is order-sensitive to any Disallow line).
+User-agent: GPTBot
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: *
+Allow: /
+
+Sitemap: https://mhpainting.co/sitemap-index.xml

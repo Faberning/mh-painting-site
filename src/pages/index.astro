@@ -1,0 +1,85 @@
+---
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import { BUSINESS } from "../consts";
+import { PROJECTS } from "../projects";
+const tel = `tel:${BUSINESS.phone.replace(/\s/g, "")}`;
+const featured = PROJECTS.filter((p) => p.featured);
+const desc = "New build painters, plasterers and repaint specialists across north Auckland — Kumeu to the Hibiscus Coast. Dulux Accredited, fully insured.";
+---
+<Base title={BUSINESS.seoTitle} description={desc}>
+  <Nav />
+  <main>
+    <section class="hero wrap">
+      <p class="eyebrow">New builds · Repaints · North Auckland</p>
+      <h1>New build painters &amp; plasterers,<br />north Auckland.</h1>
+      <p class="lead">Specialist new-build painting and plastering — plus quality repaints — across Kumeu, Riverhead, Silverdale, Millwater, Orewa and Warkworth. We travel the coast for the right job.</p>
+      <div class="pills">
+        <span class="pill"><b>{BUSINESS.experienceYears}+ yrs</b> experience</span>
+        <span class="pill">Dulux Accredited</span>
+        <span class="pill">Fully insured</span>
+        <span class="pill"><b>★ {BUSINESS.reviews.rating}</b> on Google</span>
+      </div>
+      <div class="cta-row">
+        <a class="btn" href="/contact">Get a free quote</a>
+        <a class="btn ghost" href="/projects">See our work</a>
+      </div>
+      <p class="offer">{BUSINESS.offer}</p>
+    </section>
+
+    <section class="wrap">
+      <p class="eyebrow">What we do</p>
+      <h2>Painting &amp; plastering, done properly.</h2>
+      <div class="grid3">
+        {BUSINESS.services.map((s, i) => (
+          <div class="cell">
+            <span class="num">{String(i + 1).padStart(2, "0")}</span>
+            <h3>{s.title}</h3>
+            <p>{s.blurb}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="wrap">
+      <p class="eyebrow">Why MH Painting</p>
+      <h2>Seven years on the tools.</h2>
+      <div class="prose">
+        <p>Max Hindley has been painting for over {BUSINESS.experienceYears} years. MH Painting is a newer company, but the hands behind it aren't — and that shows in the prep, the paint systems and the finish.</p>
+        <p>The focus is new builds and quality repaints, for builders and homeowners across the north-west and the Hibiscus Coast. We'll travel up the coast for the right project — the kind of coastal, dark-weatherboard work that has to be done properly.</p>
+        <p>Every job is Dulux Accredited and fully insured. And every full exterior repaint comes with a free house wash through our partner So Clean.</p>
+      </div>
+    </section>
+
+    <section class="wrap">
+      <p class="eyebrow">Recent work</p>
+      <h2>A few of the jobs.</h2>
+      <div class="cards">
+        {featured.map((p) => (
+          <a class="pcard" href={`/projects/${p.slug}`}>
+            <span class="tag">{p.tag}</span>
+            <h3>{p.title}</h3>
+            <p>{p.body[0]}</p>
+          </a>
+        ))}
+      </div>
+      <p style="margin-top:24px"><a class="back" href="/projects">See all projects →</a></p>
+    </section>
+
+    <section class="wrap">
+      <h2>Planning a new build or a repaint?</h2>
+      <p class="lead">Tell us a bit about the job and we'll come back to you with a free quote.</p>
+      <div class="cta-row">
+        <a class="btn" href="/contact">Get a free quote</a>
+        <a class="btn ghost" href={tel}>{BUSINESS.phone}</a>
+      </div>
+    </section>
+  </main>
+  <Footer />
+  <style>
+    .hero { padding-top: 9vh; padding-bottom: 3vh; }
+    h1 { font-size: clamp(40px, 7vw, 76px); font-weight: 600; line-height: 1.04; }
+    .offer { margin-top: 20px; font-size: 15px; color: var(--inkSoft); }
+  </style>
+</Base>
