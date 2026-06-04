@@ -13,35 +13,32 @@ const desc = "New build painters, plasterers and repaint specialists across nort
 <Base title={BUSINESS.seoTitle} description={desc}>
   <Nav />
   <main>
-    <section class="hero wrap">
-      <div class="hero-grid">
-        <div class="hero-copy">
-          <p class="eyebrow">New builds · Repaints · North Auckland</p>
-          <h1>New build painters &amp; plasterers,<br />north Auckland.</h1>
-          <p class="lead">Specialist new-build painting and plastering — plus quality repaints — across Kumeu, Riverhead, Silverdale, Millwater, Orewa and Warkworth. We travel the coast for the right job.</p>
-          <div class="pills">
-            <span class="pill"><b>{BUSINESS.experienceYears}+ yrs</b> experience</span>
-            <span class="pill">Dulux Accredited</span>
-            <span class="pill">Fully insured</span>
-            <span class="pill"><b>★ {BUSINESS.reviews.rating}</b> on Google</span>
-          </div>
-          <div class="cta-row">
-            <a class="btn" href="/contact">Get a free quote</a>
-            <a class="btn ghost" href="/projects">See our work</a>
-          </div>
-          <p class="offer">{BUSINESS.offer}</p>
+    <section class="hero">
+      <img
+        class="hero-bg"
+        src={heroImg.src}
+        width={heroImg.width}
+        height={heroImg.height}
+        loading="eager"
+        fetchpriority="high"
+        alt="Black board-and-batten new build exterior in Warkworth, painted by MH Painting"
+      />
+      <div class="hero-overlay"></div>
+      <div class="hero-inner wrap">
+        <p class="eyebrow">New builds · Repaints · North Auckland</p>
+        <h1>New build painters &amp; plasterers,<br />north Auckland.</h1>
+        <p class="lead">Specialist new-build painting and plastering — plus quality repaints — across Kumeu, Riverhead, Silverdale, Millwater, Orewa and Warkworth. We travel the coast for the right job.</p>
+        <div class="pills">
+          <span class="pill"><b>{BUSINESS.experienceYears}+ yrs</b> experience</span>
+          <span class="pill">Dulux Accredited</span>
+          <span class="pill">Fully insured</span>
+          <span class="pill"><b>★ {BUSINESS.reviews.rating}</b> on Google</span>
         </div>
-        <div class="hero-media">
-          <img
-            src={heroImg.src}
-            width={heroImg.width}
-            height={heroImg.height}
-            loading="eager"
-            fetchpriority="high"
-            alt="Black board-and-batten new build exterior in Warkworth, painted by MH Painting"
-            style={`aspect-ratio:${heroImg.width}/${heroImg.height}`}
-          />
+        <div class="cta-row">
+          <a class="btn" href="/contact">Get a free quote</a>
+          <a class="btn ghost" href="/projects">See our work</a>
         </div>
+        <p class="offer">{BUSINESS.offer}</p>
       </div>
     </section>
 
@@ -109,20 +106,57 @@ const desc = "New build painters, plasterers and repaint specialists across nort
   </main>
   <Footer />
   <style>
-    .hero { padding-top: 9vh; padding-bottom: 3vh; }
     h1 { font-size: clamp(40px, 7vw, 76px); font-weight: 600; line-height: 1.04; }
-    .offer { margin-top: 20px; font-size: 15px; color: var(--inkSoft); }
 
-    /* Two-column hero: copy left, landscape photo right; stacks on mobile. */
-    .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: center; }
-    .hero-media img {
-      width: 100%; height: auto; display: block;
-      object-fit: contain; /* §9 — never cover */
-      border: 1px solid var(--line); border-radius: 10px; background: #fff;
+    /* Full-bleed photographic hero. cover is correct here: this is a
+       decorative backdrop, not content (§9 governs galleries/content, which
+       stay contain). Copy is overlaid in white, left-aligned, vertically
+       centred. */
+    .hero {
+      position: relative;
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
     }
-    @media (max-width: 860px) {
-      .hero-grid { grid-template-columns: 1fr; gap: 28px; }
-      .hero-media { order: -1; }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0; z-index: 1;
+      background:
+        linear-gradient(90deg, rgba(15,18,20,0.80) 0%, rgba(15,18,20,0.55) 45%, rgba(15,18,20,0.20) 100%),
+        linear-gradient(0deg, rgba(15,18,20,0.55) 0%, rgba(15,18,20,0) 55%);
+    }
+    .hero-inner {
+      position: relative; z-index: 2;
+      width: 100%;
+      padding-top: 7vh; padding-bottom: 7vh;
+      color: #fff;
+    }
+    .hero-inner .eyebrow { color: #fff; opacity: 0.85; }
+    .hero-inner h1 { color: #fff; text-shadow: 0 2px 18px rgba(0,0,0,0.35); }
+    .hero-inner .lead { color: rgba(255,255,255,0.92); }
+    .hero-inner .offer { margin-top: 20px; font-size: 15px; color: rgba(255,255,255,0.82); }
+    /* Trust pills on dark */
+    .hero-inner .pill {
+      background: rgba(255,255,255,0.12); color: #fff;
+      border-color: rgba(255,255,255,0.32);
+    }
+    .hero-inner .pill b { color: #fff; }
+    /* Ghost CTA needs light borders on the dark image */
+    .hero-inner .btn.ghost { color: #fff; border-color: rgba(255,255,255,0.6); }
+    .hero-inner .btn.ghost:hover { border-color: #fff; color: #fff; }
+
+    @media (max-width: 640px) {
+      .hero { min-height: 72vh; }
+      .hero-overlay {
+        background:
+          linear-gradient(90deg, rgba(15,18,20,0.78) 0%, rgba(15,18,20,0.62) 100%),
+          linear-gradient(0deg, rgba(15,18,20,0.55) 0%, rgba(15,18,20,0) 60%);
+      }
     }
 
     /* Featured-card thumbnail: uniform box, contain (no crop to cover). */
