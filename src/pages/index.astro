@@ -4,10 +4,10 @@ import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import { BUSINESS } from "../consts";
 import { PROJECTS } from "../projects";
-import { GALLERIES, leadImage } from "../galleries";
+import { leadImage } from "../galleries";
 const tel = `tel:${BUSINESS.phone.replace(/\s/g, "")}`;
 const featured = PROJECTS.filter((p) => p.featured);
-const heroImg = GALLERIES["board-and-batten-warkworth"][0];
+const heroImg = { src: "/hero.jpg", width: 1080, height: 596 };
 const desc = "New build painters, plasterers and repaint specialists across north Auckland — Kumeu to the Hibiscus Coast. Dulux Accredited, fully insured.";
 ---
 <Base title={BUSINESS.seoTitle} description={desc}>
@@ -21,7 +21,7 @@ const desc = "New build painters, plasterers and repaint specialists across nort
         height={heroImg.height}
         loading="eager"
         fetchpriority="high"
-        alt="Black board-and-batten new build exterior in Warkworth, painted by MH Painting"
+        alt="Black cedar and bagged-brick new build exterior at Mangawhai Estuary, painted by MH Painting"
       />
       <div class="hero-overlay"></div>
       <div class="hero-inner wrap">
