@@ -4,28 +4,45 @@ import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import { BUSINESS } from "../consts";
 import { PROJECTS } from "../projects";
+import { GALLERIES, leadImage } from "../galleries";
 const tel = `tel:${BUSINESS.phone.replace(/\s/g, "")}`;
 const featured = PROJECTS.filter((p) => p.featured);
+const heroImg = GALLERIES["board-and-batten-warkworth"][0];
 const desc = "New build painters, plasterers and repaint specialists across north Auckland — Kumeu to the Hibiscus Coast. Dulux Accredited, fully insured.";
 ---
 <Base title={BUSINESS.seoTitle} description={desc}>
   <Nav />
   <main>
     <section class="hero wrap">
-      <p class="eyebrow">New builds · Repaints · North Auckland</p>
-      <h1>New build painters &amp; plasterers,<br />north Auckland.</h1>
-      <p class="lead">Specialist new-build painting and plastering — plus quality repaints — across Kumeu, Riverhead, Silverdale, Millwater, Orewa and Warkworth. We travel the coast for the right job.</p>
-      <div class="pills">
-        <span class="pill"><b>{BUSINESS.experienceYears}+ yrs</b> experience</span>
-        <span class="pill">Dulux Accredited</span>
-        <span class="pill">Fully insured</span>
-        <span class="pill"><b>★ {BUSINESS.reviews.rating}</b> on Google</span>
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">New builds · Repaints · North Auckland</p>
+          <h1>New build painters &amp; plasterers,<br />north Auckland.</h1>
+          <p class="lead">Specialist new-build painting and plastering — plus quality repaints — across Kumeu, Riverhead, Silverdale, Millwater, Orewa and Warkworth. We travel the coast for the right job.</p>
+          <div class="pills">
+            <span class="pill"><b>{BUSINESS.experienceYears}+ yrs</b> experience</span>
+            <span class="pill">Dulux Accredited</span>
+            <span class="pill">Fully insured</span>
+            <span class="pill"><b>★ {BUSINESS.reviews.rating}</b> on Google</span>
+          </div>
+          <div class="cta-row">
+            <a class="btn" href="/contact">Get a free quote</a>
+            <a class="btn ghost" href="/projects">See our work</a>
+          </div>
+          <p class="offer">{BUSINESS.offer}</p>
+        </div>
+        <div class="hero-media">
+          <img
+            src={heroImg.src}
+            width={heroImg.width}
+            height={heroImg.height}
+            loading="eager"
+            fetchpriority="high"
+            alt="Black board-and-batten new build exterior in Warkworth, painted by MH Painting"
+            style={`aspect-ratio:${heroImg.width}/${heroImg.height}`}
+          />
+        </div>
       </div>
-      <div class="cta-row">
-        <a class="btn" href="/contact">Get a free quote</a>
-        <a class="btn ghost" href="/projects">See our work</a>
-      </div>
-      <p class="offer">{BUSINESS.offer}</p>
     </section>
 
     <section class="wrap">
@@ -56,13 +73,27 @@ const desc = "New build painters, plasterers and repaint specialists across nort
       <p class="eyebrow">Recent work</p>
       <h2>A few of the jobs.</h2>
       <div class="cards">
-        {featured.map((p) => (
-          <a class="pcard" href={`/projects/${p.slug}`}>
-            <span class="tag">{p.tag}</span>
-            <h3>{p.title}</h3>
-            <p>{p.body[0]}</p>
-          </a>
-        ))}
+        {featured.map((p) => {
+          const img = leadImage(p.slug);
+          return (
+            <a class="pcard" href={`/projects/${p.slug}`}>
+              {img && (
+                <div class="thumb">
+                  <img
+                    src={img.src}
+                    width={img.width}
+                    height={img.height}
+                    loading="lazy"
+                    alt={`${p.title} — photo 1`}
+                  />
+                </div>
+              )}
+              <span class="tag">{p.tag}</span>
+              <h3>{p.title}</h3>
+              <p>{p.body[0]}</p>
+            </a>
+          );
+        })}
       </div>
       <p style="margin-top:24px"><a class="back" href="/projects">See all projects →</a></p>
     </section>
@@ -81,5 +112,24 @@ const desc = "New build painters, plasterers and repaint specialists across nort
     .hero { padding-top: 9vh; padding-bottom: 3vh; }
     h1 { font-size: clamp(40px, 7vw, 76px); font-weight: 600; line-height: 1.04; }
     .offer { margin-top: 20px; font-size: 15px; color: var(--inkSoft); }
+
+    /* Two-column hero: copy left, landscape photo right; stacks on mobile. */
+    .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: center; }
+    .hero-media img {
+      width: 100%; height: auto; display: block;
+      object-fit: contain; /* §9 — never cover */
+      border: 1px solid var(--line); border-radius: 10px; background: #fff;
+    }
+    @media (max-width: 860px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 28px; }
+      .hero-media { order: -1; }
+    }
+
+    /* Featured-card thumbnail: uniform box, contain (no crop to cover). */
+    .pcard .thumb {
+      width: 100%; aspect-ratio: 3 / 2; margin-bottom: 16px;
+      border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: #faf9f7;
+    }
+    .pcard .thumb img { width: 100%; height: 100%; display: block; object-fit: contain; }
   </style>
 </Base>

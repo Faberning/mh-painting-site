@@ -3,11 +3,15 @@ import Base from "../../layouts/Base.astro";
 import Nav from "../../components/Nav.astro";
 import Footer from "../../components/Footer.astro";
 import { PROJECTS } from "../../projects";
+import { GALLERIES } from "../../galleries";
 
 export function getStaticPaths() {
   return PROJECTS.map((p) => ({ params: { slug: p.slug }, props: { p } }));
 }
 const { p } = Astro.props;
+const images = GALLERIES[p.slug] ?? [];
+const lead = images[0];
+const rest = images.slice(1);
 ---
 <Base title={p.navTitle} description={p.meta} path={`/projects/${p.slug}`}>
   <Nav />
@@ -16,11 +20,67 @@ const { p } = Astro.props;
       <p><a class="back" href="/projects">← All projects</a></p>
       <p class="eyebrow">{p.tag}</p>
       <h1>{p.title}</h1>
+
+      {lead && (
+        <figure class="lead-shot">
+          <img
+            src={lead.src}
+            width={lead.width}
+            height={lead.height}
+            loading="lazy"
+            alt={`${p.title} — photo 1`}
+            style={`aspect-ratio:${lead.width}/${lead.height}`}
+          />
+        </figure>
+      )}
+
       {p.body.map((par) => (<p>{par}</p>))}
       <div class="cta-row">
         <a class="btn" href="/contact">Get a quote for similar work</a>
       </div>
     </section>
+
+    {rest.length > 0 && (
+      <section class="wrap gallery-section">
+        <div class="gallery">
+          {rest.map((img, i) => (
+            <figure class="shot">
+              <img
+                src={img.src}
+                width={img.width}
+                height={img.height}
+                loading="lazy"
+                alt={`${p.title} — photo ${i + 2}`}
+                style={`aspect-ratio:${img.width}/${img.height}`}
+              />
+            </figure>
+          ))}
+        </div>
+      </section>
+    )}
   </main>
   <Footer />
+  <style>
+    /* §9: object-fit: contain everywhere — never cover. Each box uses the
+       image's own aspect-ratio (set inline) so there is no crop and no
+       letterbox; width/height attrs prevent layout shift. */
+    .lead-shot { margin: 28px 0 34px; }
+    .lead-shot img {
+      width: 100%; height: auto; display: block;
+      object-fit: contain;
+      border: 1px solid var(--line); border-radius: 8px; background: #fff;
+    }
+    .gallery-section { padding-top: 0; }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+    .gallery .shot { margin: 0; }
+    .gallery .shot img {
+      width: 100%; height: auto; display: block;
+      object-fit: contain;
+      border: 1px solid var(--line); border-radius: 8px; background: #fff;
+    }
+  </style>
 </Base>
