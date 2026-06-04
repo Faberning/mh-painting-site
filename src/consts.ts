@@ -51,7 +51,7 @@ export const BUSINESS = {
   experienceYears: 7,                    // MAX's experience (since ~2019). NEVER render as business age.
   accreditations: ["Dulux Accredited Painter"],
   insured: true,
-  reviews: { rating: 5.0, count: 15, url: "https://g.page/r/CcHmBz0_i51sEAE/review" },
+  reviews: { rating: 5.0, count: 15, url: "https://g.page/r/CcHmBz0_i51sEBM/review" },
   offer: "Free house wash with every full exterior repaint — through our partner So Clean.",
 
   // --- Entity graph (sameAs) — socials TODO; review write-link is a CTA, not a profile ---
