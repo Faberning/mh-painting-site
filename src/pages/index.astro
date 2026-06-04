@@ -26,7 +26,7 @@ const desc = "New build painters, plasterers and repaint specialists across nort
       <div class="hero-overlay"></div>
       <div class="hero-inner wrap">
         <p class="eyebrow">New builds · Repaints · North Auckland</p>
-        <h1>New build painters &amp; plasterers,<br />north Auckland.</h1>
+        <h1>New build painters &amp; plasterers,<br />North Auckland.</h1>
         <p class="lead">Specialist new-build painting and plastering — plus quality repaints — across Kumeu, Riverhead, Silverdale, Millwater, Orewa and Warkworth. We travel the coast for the right job.</p>
         <div class="pills">
           <span class="pill"><b>{BUSINESS.experienceYears}+ yrs</b> experience</span>
@@ -38,7 +38,7 @@ const desc = "New build painters, plasterers and repaint specialists across nort
           <a class="btn" href="/contact">Get a free quote</a>
           <a class="btn ghost" href="/projects">See our work</a>
         </div>
-        <p class="offer">{BUSINESS.offer}</p>
+        <p class="offer" set:html={BUSINESS.offer.replace("So Clean", '<a href="https://www.soclean.co.nz/" target="_blank" rel="noopener noreferrer" style="text-decoration:underline">So Clean</a>')}></p>
       </div>
     </section>
 
@@ -62,7 +62,7 @@ const desc = "New build painters, plasterers and repaint specialists across nort
       <div class="prose">
         <p>Max Hindley has been painting for over {BUSINESS.experienceYears} years. MH Painting is a newer company, but the hands behind it aren't — and that shows in the prep, the paint systems and the finish.</p>
         <p>The focus is new builds and quality repaints, for builders and homeowners across the north-west and the Hibiscus Coast. We'll travel up the coast for the right project — the kind of coastal, dark-weatherboard work that has to be done properly.</p>
-        <p>Every job is Dulux Accredited and fully insured. And every full exterior repaint comes with a free house wash through our partner So Clean.</p>
+        <p>Every job is Dulux Accredited and fully insured. And every full exterior repaint comes with a free house wash through our partner <a href="https://www.soclean.co.nz/" target="_blank" rel="noopener noreferrer" style="text-decoration:underline">So Clean</a>.</p>
       </div>
     </section>
 
