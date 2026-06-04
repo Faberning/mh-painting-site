@@ -51,7 +51,21 @@ export const BUSINESS = {
   experienceYears: 7,                    // MAX's experience (since ~2019). NEVER render as business age.
   accreditations: ["Dulux Accredited Painter"],
   insured: true,
-  reviews: { rating: 5.0, count: 15, url: "https://g.page/r/CcHmBz0_i51sEBM/review" },
+  reviews: {
+    rating: 5.0, count: 15, url: "https://g.page/r/CcHmBz0_i51sEBM/review",
+    // Verbatim from the MH Painting Limited Google Business Profile (5.0 / 15).
+    // Display-only (no review schema — see note above). Update from GBP only.
+    featured: [
+      { name: "Susan Bradburn", stars: 5,
+        text: "We couldn't be happier with the exterior painting of our house recently. From start to finish they were professional…" },
+      { name: "Danielle Bedford", stars: 5,
+        text: "Max and his team are very reliable and have great attention to detail. Highly recommend." },
+      { name: "Shyeanne Wynhard", stars: 5,
+        text: "Max and his team were great to work with, super easy to communicate with, they worked fast and all at a reasonable price!" },
+      { name: "Nick Watson", stars: 5,
+        text: "I am a repeat customer, and value Max's professionalism, trustworthiness, and for consistently doing a great job at a good price." },
+    ],
+  },
   offer: "Free house wash with every full exterior repaint — through our partner So Clean.",
 
   // --- Entity graph (sameAs) — socials TODO; review write-link is a CTA, not a profile ---
