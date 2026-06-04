@@ -22,7 +22,7 @@ export const BUSINESS = {
   tagline: "New build painters & plasterers, north Auckland.",
   seoTitle: "New build painters & plasterers, north Auckland", // home <title> (<=60)
   url: "https://mhpainting.co",
-  logo: "/logo.svg",
+  logo: "/logo.png",
 
   // --- Contact / NAP (mobile only; address hidden — service-area business) ---
   phone: "020 4076 7979",
