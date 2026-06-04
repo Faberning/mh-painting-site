@@ -28,9 +28,12 @@ export const BUSINESS = {
   phone: "020 4076 7979",
   email: "max@mhpainting.co",
   // address + geo intentionally omitted: areaServed-only (Bok decision).
+  // Bounded by Takapuna→Warkworth (S–N) and Long Bay→Helensville (E–W):
+  // the North Shore, Hibiscus Coast, Rodney and the north-west.
   areaServed: [
-    "Kumeu", "Riverhead", "Silverdale", "Millwater", "Orewa", "Warkworth",
-    "Hibiscus Coast", "Rodney", "Mangawhai", "North Shore", "Auckland",
+    "Takapuna", "Long Bay", "Albany", "Browns Bay", "Silverdale", "Millwater",
+    "Orewa", "Whangaparāoa", "Warkworth", "Kumeu", "Riverhead", "Helensville",
+    "North Shore", "Hibiscus Coast", "Rodney", "Auckland",
   ],
 
   // --- Schema type ---
