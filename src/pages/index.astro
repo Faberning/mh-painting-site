@@ -150,7 +150,10 @@ const desc = "Painters and plasterers across north Auckland — new builds, repa
     .hero-inner .btn.ghost:hover { border-color: #fff; color: #fff; }
 
     @media (max-width: 640px) {
-      .hero { min-height: 72vh; }
+      /* Top-align on mobile: centring tall content inside overflow:hidden
+         was clipping the eyebrow + H1 behind the nav. */
+      .hero { min-height: 72vh; align-items: flex-start; }
+      .hero-inner { padding-top: 5vh; padding-bottom: 8vh; }
       .hero-overlay {
         background:
           linear-gradient(90deg, rgba(15,18,20,0.78) 0%, rgba(15,18,20,0.62) 100%),
