@@ -8,7 +8,7 @@ import { leadImage } from "../galleries";
 const tel = `tel:${BUSINESS.phone.replace(/\s/g, "")}`;
 const featured = PROJECTS.filter((p) => p.featured);
 const heroImg = { src: "/hero.jpg", width: 1080, height: 596 };
-const desc = "New build painters, plasterers and repaint specialists across north Auckland — Kumeu to the Hibiscus Coast. Dulux Accredited, fully insured.";
+const desc = "Painters and plasterers across north Auckland — new builds, repaints and renovations, done properly. Fully insured, Dulux Accredited.";
 ---
 <Base title={BUSINESS.seoTitle} description={desc}>
   <Nav />
@@ -25,9 +25,9 @@ const desc = "New build painters, plasterers and repaint specialists across nort
       />
       <div class="hero-overlay"></div>
       <div class="hero-inner wrap">
-        <p class="eyebrow">New builds · Repaints · North Auckland</p>
-        <h1>New build painters &amp; plasterers,<br />North Auckland.</h1>
-        <p class="lead">Specialist new-build painting and plastering — plus quality repaints — right across north Auckland: from Takapuna to Warkworth, and Long Bay to Helensville. We travel the coast for the right project.</p>
+        <p class="eyebrow">New builds · Repaints · Renovations · North Auckland</p>
+        <h1>North Auckland painters and plasterers —<br />new builds, repaints and renovations.</h1>
+        <p class="lead">Prepped properly and finished to last. Fully insured, Dulux Accredited — and a free house wash with every full repaint.</p>
         <div class="pills">
           <span class="pill"><b>{BUSINESS.experienceYears}+ yrs</b> experience</span>
           <span class="pill">Dulux Accredited</span>
@@ -46,9 +46,8 @@ const desc = "New build painters, plasterers and repaint specialists across nort
       <p class="eyebrow">What we do</p>
       <h2>Painting &amp; plastering, done properly.</h2>
       <div class="grid3">
-        {BUSINESS.services.map((s, i) => (
+        {BUSINESS.services.map((s) => (
           <div class="cell">
-            <span class="num">{String(i + 1).padStart(2, "0")}</span>
             <h3>{s.title}</h3>
             <p>{s.blurb}</p>
           </div>
@@ -58,7 +57,7 @@ const desc = "New build painters, plasterers and repaint specialists across nort
 
     <section class="wrap">
       <p class="eyebrow">Why MH Painting</p>
-      <h2>Seven years on the tools.</h2>
+      <h2>{BUSINESS.experienceYears} years on the tools.</h2>
       <div class="prose">
         <p>Max Hindley has been painting for over {BUSINESS.experienceYears} years. MH Painting is a newer company, but the hands behind it aren't — and that shows in the prep, the paint systems and the finish.</p>
         <p>The focus is new builds and quality repaints, for builders and homeowners across the north-west and the Hibiscus Coast. We'll travel up the coast for the right project — the kind of coastal, dark-weatherboard work that has to be done properly.</p>
@@ -159,11 +158,13 @@ const desc = "New build painters, plasterers and repaint specialists across nort
       }
     }
 
-    /* Featured-card thumbnail: uniform box, contain (no crop to cover). */
+    /* Featured-card thumbnail: uniform box, cover (fills the box; full
+       uncropped images live on the project detail galleries, which stay
+       contain per §9). */
     .pcard .thumb {
       width: 100%; aspect-ratio: 3 / 2; margin-bottom: 16px;
       border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: #faf9f7;
     }
-    .pcard .thumb img { width: 100%; height: 100%; display: block; object-fit: contain; }
+    .pcard .thumb img { width: 100%; height: 100%; display: block; object-fit: cover; }
   </style>
 </Base>

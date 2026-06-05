@@ -19,8 +19,8 @@ export const BUSINESS = {
   legalName: "MH Painting Limited",
   nzbn: "9429048898102",
   owner: "Max Hindley",
-  tagline: "New build painters & plasterers, north Auckland.",
-  seoTitle: "New build painters & plasterers, north Auckland", // home <title> (<=60)
+  tagline: "New builds, repaints and plastering — north Auckland",
+  seoTitle: "House & New Build Painters, North Auckland | MH Painting", // home <title> (<=65)
   url: "https://mhpainting.co",
   logo: "/logo.png",
 
@@ -41,17 +41,19 @@ export const BUSINESS = {
   priceRange: "$$",
 
   // --- Services (drive the services grid + Service schema). No steel coatings (Bok). ---
+  // Order gives equal billing to new builds AND repaints/renovations (top row mixes both).
   services: [
-    { title: "New build painting",          blurb: "Builder and architect-grade finishes on new homes — sprayed interiors through to durable exteriors." },
-    { title: "New build plastering",         blurb: "Crisp interior plastering and stopping, prepped and finished ready for a flawless paint job." },
-    { title: "Interior painting",            blurb: "Walls, ceilings, doors and trim in enamel and water-based systems, properly prepped." },
-    { title: "Exterior painting & repaints", blurb: "Refresh and protect weatherboard, fibre-cement and rendered homes against the north Auckland weather." },
-    { title: "Plastering",                   blurb: "Solid plastering, bagging and skim coats — a smooth, lasting base." },
-    { title: "Roof painting",                blurb: "Wash, treat and recoat tired roofs with durable, roof-grade systems." },
+    { title: "New build painting",          blurb: "Painting new homes inside and out, undercoat to topcoat. Interiors sprayed and rolled for an even, hard-wearing finish, and we work in with the build programme so painting doesn't hold the job up." },
+    { title: "Exterior painting & repaints", blurb: "Repainting and protecting weatherboard, fibre-cement and plaster homes. Prep first — wash, scrape, fill and prime — then coats chosen to stand up to north Auckland sun and salt air. Tired exteriors brought back and sealed up properly." },
+    { title: "Interior painting",            blurb: "Repainting and refreshing interiors — walls, ceilings, doors and trim — in the right system for each surface: hard-wearing enamels where they earn their keep, water-based elsewhere. Most of the finish is in the prep, so that's where the time goes." },
+    { title: "New build plastering",         blurb: "Interior plastering and stopping on new builds: walls and ceilings flattened, stopped and sanded back so they're genuinely ready for paint, not just covered over." },
+    { title: "Plastering",                   blurb: "Solid plastering, bagging and skim coats to even out tired or patchy walls — a smooth, sound base, whether it's a fresh surface or repairs before a repaint." },
+    { title: "Roof painting",                blurb: "Washing, treating and recoating tired roofs in roof-grade systems, bringing the colour back and adding years before it needs doing again." },
   ],
 
   // --- Trust signals (read by pages; deliberately NOT in schema to avoid self-serving review markup) ---
-  experienceYears: 7,                    // MAX's experience (since ~2019). NEVER render as business age.
+  experienceYears: 9,                    // MAX's hands-on experience ("9 years on the tools"). NEVER render as business age.
+  yearsInBusiness: null,                 // Company newly registered — no business-age claim (EKO §6). Keep null.
   accreditations: ["Dulux Accredited Painter"],
   insured: true,
   reviews: {

@@ -64,6 +64,8 @@ const rest = images.slice(1);
     /* §9: object-fit: contain everywhere — never cover. Each box uses the
        image's own aspect-ratio (set inline) so there is no crop and no
        letterbox; width/height attrs prevent layout shift. */
+    /* Breathing room around the "quote for similar work" CTA. */
+    .prose .cta-row { margin-top: 38px; margin-bottom: 6px; }
     .lead-shot { margin: 28px 0 34px; }
     .lead-shot img {
       width: 100%; height: auto; display: block;

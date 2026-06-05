@@ -74,20 +74,20 @@ const b = BUSINESS.brand;
       .btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
       .btn.ghost:hover { border-color: var(--accent); color: var(--accent); }
       .cta-row { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 32px; }
-      section { padding: 7vh 0; }
+      section { padding: 9vh 0; }
       h2 { font-size: clamp(28px, 4.4vw, 46px); font-weight: 600; margin-bottom: 8px; }
       h3 { font-weight: 600; }
       /* site chrome */
       nav.site { display: flex; justify-content: space-between; align-items: center;
         padding: 18px 6vw; border-bottom: 1px solid var(--line); position: sticky; top: 0;
         background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); z-index: 50; }
-      nav.site .brand img { height: 30px; width: auto; display: block; }
+      nav.site .brand img { height: 48px; width: auto; display: block; }
       nav.site .links { display: flex; gap: 22px; align-items: center; font-size: 15px; font-weight: 500; }
       nav.site .links a:hover { color: var(--accent); }
       nav.site .links .call { background: var(--accent); color: #fff; padding: 9px 16px; border-radius: 4px; }
-      footer.site { border-top: 1px solid var(--line); padding: 6vh 0; margin-top: 4vh; font-size: 14px; color: var(--inkSoft); }
+      footer.site { background: #221F1C; color: #fff; padding: 8vh 0 7vh; margin-top: 6vh; font-size: 14px; }
       footer.site .frow { display: flex; justify-content: space-between; gap: 30px; flex-wrap: wrap; }
-      footer.site strong { color: var(--ink); }
+      footer.site strong { color: #fff; }
       footer.site a:hover { color: var(--accent); }
       .pills { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 26px; }
       .pill { border: 1px solid var(--line); border-radius: 999px; padding: 7px 15px; font-size: 13px;
@@ -120,7 +120,7 @@ const b = BUSINESS.brand;
       @media (max-width: 560px) {
         nav.site { flex-wrap: wrap; gap: 12px; }
         nav.site .links { width: 100%; justify-content: space-between; gap: 10px; }
-        nav.site .brand img { height: 28px; }
+        nav.site .brand img { height: 40px; }
       }
     </style>
   </head>
