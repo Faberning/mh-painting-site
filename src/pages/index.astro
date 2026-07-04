@@ -8,6 +8,9 @@ import { leadImage } from "../galleries";
 const tel = `tel:${BUSINESS.phone.replace(/\s/g, "")}`;
 const featured = PROJECTS.filter((p) => p.featured);
 const heroImg = { src: "/hero.jpg", width: 1080, height: 596 };
+// Hero trust strip reads the offer from consts; drop the "— through So Clean"
+// credit for the thin strip (it's credited in full in the About section below).
+const houseWash = BUSINESS.offer.split(" — ")[0];
 const desc = "Painters and plasterers across north Auckland — new builds, repaints and renovations, done properly. Fully insured, Dulux Accredited.";
 ---
 <Base title={BUSINESS.seoTitle} description={desc}>
@@ -27,18 +30,16 @@ const desc = "Painters and plasterers across north Auckland — new builds, repa
       <div class="hero-inner wrap">
         <p class="eyebrow">New builds · Repaints · Renovations · North Auckland</p>
         <h1>North Auckland painters and plasterers —<br />new builds, repaints and renovations.</h1>
-        <p class="lead">Prepped properly and finished to last. Fully insured, Dulux Accredited — and a free house wash with every full repaint.</p>
+        <p class="lead">Turning your vision into value.<br />Quality work that stands the test of time.</p>
+        <p class="trust-strip">{BUSINESS.accreditations[0]} · Fully insured · {houseWash}</p>
         <div class="pills">
           <span class="pill"><b>{BUSINESS.experienceYears}+ yrs</b> experience</span>
-          <span class="pill">Dulux Accredited</span>
-          <span class="pill">Fully insured</span>
           <span class="pill"><b>★ {BUSINESS.reviews.rating}</b> on Google</span>
         </div>
         <div class="cta-row">
           <a class="btn" href="/contact">Get a free quote</a>
           <a class="btn ghost" href="/projects">See our work</a>
         </div>
-        <p class="offer" set:html={BUSINESS.offer.replace("So Clean", '<a href="https://www.soclean.co.nz/" target="_blank" rel="noopener noreferrer" style="text-decoration:underline">So Clean</a>')}></p>
       </div>
     </section>
 
@@ -59,9 +60,10 @@ const desc = "Painters and plasterers across north Auckland — new builds, repa
       <p class="eyebrow">Why MH Painting</p>
       <h2>{BUSINESS.experienceYears} years on the tools.</h2>
       <div class="prose">
-        <p>Max Hindley has been painting for over {BUSINESS.experienceYears} years. MH Painting is a newer company, but the hands behind it aren't — and that shows in the prep, the paint systems and the finish.</p>
-        <p>The focus is new builds and quality repaints, for builders and homeowners across the north-west and the Hibiscus Coast. We'll travel up the coast for the right project — the kind of coastal, dark-weatherboard work that has to be done properly.</p>
-        <p>Every job is Dulux Accredited and fully insured. And every full exterior repaint comes with a free house wash through our partner <a href="https://www.soclean.co.nz/" target="_blank" rel="noopener noreferrer" style="text-decoration:underline">So Clean</a>.</p>
+        <p>Max has been painting for {BUSINESS.experienceYears}+ years — and that shows in the prep, the knowledge and the finish.</p>
+        <p>Specialising in new builds, repaints and commercial painting across Auckland, from the North Shore and Hibiscus Coast through to Orewa, Silverdale and Whangaparāoa.</p>
+        <p>For the right project we'll travel north — as you can see in our portfolio, we've worked on architectural new builds in Mangawhai, Langs Beach, Waipu and Warkworth.</p>
+        <p>We are Dulux Accredited and fully insured, serving builders and homeowners across Auckland and Northland. Every full exterior repaint also comes with a free house wash through our partner <a href="https://www.soclean.co.nz/" target="_blank" rel="noopener noreferrer" style="text-decoration:underline">So Clean</a> — because the job isn't done until it looks the part.</p>
       </div>
     </section>
 
@@ -138,7 +140,12 @@ const desc = "Painters and plasterers across north Auckland — new builds, repa
     .hero-inner .eyebrow { color: #fff; opacity: 0.85; }
     .hero-inner h1 { color: #fff; text-shadow: 0 2px 18px rgba(0,0,0,0.35); }
     .hero-inner .lead { color: rgba(255,255,255,0.92); }
-    .hero-inner .offer { margin-top: 20px; font-size: 15px; color: rgba(255,255,255,0.82); }
+    .hero-inner .trust-strip {
+      margin-top: 18px;
+      font-size: 14px;
+      letter-spacing: 0.01em;
+      color: rgba(255,255,255,0.9);
+    }
     /* Trust pills on dark */
     .hero-inner .pill {
       background: rgba(255,255,255,0.12); color: #fff;
@@ -149,15 +156,19 @@ const desc = "Painters and plasterers across north Auckland — new builds, repa
     .hero-inner .btn.ghost { color: #fff; border-color: rgba(255,255,255,0.6); }
     .hero-inner .btn.ghost:hover { border-color: #fff; color: #fff; }
 
-    @media (max-width: 640px) {
+    @media (max-width: 768px) {
       /* Top-align on mobile: centring tall content inside overflow:hidden
          was clipping the eyebrow + H1 behind the nav. */
       .hero { min-height: 72vh; align-items: flex-start; }
-      .hero-inner { padding-top: 5vh; padding-bottom: 8vh; }
+      .hero-inner { padding-top: 4vh; padding-bottom: 8vh; }
+      /* Smaller headline so it fits without dominating the compact mobile view. */
+      .hero-inner h1 { font-size: 30px; line-height: 1.08; }
+      /* Shift the focal point left to the lighter side of the photo. */
+      .hero-bg { object-position: 25% center; }
+      /* Lighter top-to-bottom scrim — keeps the headline legible on the
+         brighter area without darkening the whole image. */
       .hero-overlay {
-        background:
-          linear-gradient(90deg, rgba(15,18,20,0.78) 0%, rgba(15,18,20,0.62) 100%),
-          linear-gradient(0deg, rgba(15,18,20,0.55) 0%, rgba(15,18,20,0) 60%);
+        background: linear-gradient(180deg, rgba(22,20,18,0.25) 0%, rgba(22,20,18,0.5) 100%);
       }
     }
 

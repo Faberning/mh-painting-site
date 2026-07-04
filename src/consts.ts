@@ -5,9 +5,9 @@
  * object and never hardcode a phone, address, service or colour.
  *
  * Claims discipline (EKO §6): only what is verifiably true is asserted —
- *   - 7 years is MAX'S personal experience, never "years in business" (Co. is new).
+ *   - 9 years is MAX'S personal experience, never "years in business" (Co. is new).
  *   - Only Dulux Accredited + fully insured (NOT Master Painters / Resene / coatings).
- *   - Reviews mirror GBP exactly (5.0 / 15) — single source, injected everywhere.
+ *   - Reviews mirror GBP exactly (5.0 / 26) — single source, injected everywhere.
  *   - Free house wash is delivered via partner So Clean — credited, not implied in-house.
  * Service-area business: address + geo are intentionally omitted from schema;
  *   areaServed carries the location signal instead (per Bok: "area service").
@@ -41,14 +41,20 @@ export const BUSINESS = {
   priceRange: "$$",
 
   // --- Services (drive the services grid + Service schema). No steel coatings (Bok). ---
-  // Order gives equal billing to new builds AND repaints/renovations (top row mixes both).
+  // Six cards: new build + repaint (interiors/exteriors), plastering, roof. Commercial
+  // painting is asserted in schema only (schemaServices) — no card per Max.
   services: [
-    { title: "New build painting",          blurb: "Painting new homes inside and out, undercoat to topcoat. Interiors sprayed and rolled for an even, hard-wearing finish, and we work in with the build programme so painting doesn't hold the job up." },
-    { title: "Exterior painting & repaints", blurb: "Repainting and protecting weatherboard, fibre-cement and plaster homes. Prep first — wash, scrape, fill and prime — then coats chosen to stand up to north Auckland sun and salt air. Tired exteriors brought back and sealed up properly." },
-    { title: "Interior painting",            blurb: "Repainting and refreshing interiors — walls, ceilings, doors and trim — in the right system for each surface: hard-wearing enamels where they earn their keep, water-based elsewhere. Most of the finish is in the prep, so that's where the time goes." },
-    { title: "New build plastering",         blurb: "Interior plastering and stopping on new builds: walls and ceilings flattened, stopped and sanded back so they're genuinely ready for paint, not just covered over." },
-    { title: "Plastering",                   blurb: "Solid plastering, bagging and skim coats to even out tired or patchy walls — a smooth, sound base, whether it's a fresh surface or repairs before a repaint." },
-    { title: "Roof painting",                blurb: "Washing, treating and recoating tired roofs in roof-grade systems, bringing the colour back and adding years before it needs doing again." },
+    { title: "New build interiors",  blurb: "New build interiors require speed and flexibility without sacrificing quality. We prep thoroughly, then spray-finish everything except the final coat on the walls, which we cut and roll to perfection." },
+    { title: "New build exteriors",  blurb: "With ever-changing manufacturer specs, it's important to stay up to date so you never run the risk of voiding the cladding warranty. We carry out the tailored process from prep to final coat with speed and precision." },
+    { title: "Repaint interiors",    blurb: "When repainting the interior of a home, we assess the condition and select the correct preparation and system for excellent adhesion and finish. Once we start, we treat your home like it's our own — tidy and respectful, every step of the way." },
+    { title: "Repaint exteriors",    blurb: "Repainting exteriors starts with proper prep — washed, scraped, sanded, filled and primed, depending on what the surface needs. The right system is then applied for excellent adhesion and a finish that stands up to New Zealand's harsh weather." },
+    { title: "Plastering",           blurb: "A quality paint job starts with quality plastering. New builds get three coats to all joins and screws, sanded back and light-checked. Older homes get cracks dug out, re-taped and plastered properly so they stay gone — kept tidy every step of the way." },
+    { title: "Roof painting",        blurb: "The right paint for your roof type makes all the difference. Properly treated, properly coated and built to handle New Zealand's harsh weather — a premium finish that adds years back onto your roof." },
+  ],
+
+  // Services asserted in schema only — real & offered, but no service card (Max's call).
+  schemaServices: [
+    { title: "Commercial painting", blurb: "Commercial painting for builders and businesses across Auckland and Northland — interiors and exteriors prepped and finished to the same standard as our residential work." },
   ],
 
   // --- Trust signals (read by pages; deliberately NOT in schema to avoid self-serving review markup) ---
@@ -57,9 +63,10 @@ export const BUSINESS = {
   accreditations: ["Dulux Accredited Painter"],
   insured: true,
   reviews: {
-    rating: 5.0, count: 15, url: "https://g.page/r/CcHmBz0_i51sEBM/review",
-    // Verbatim from the MH Painting Limited Google Business Profile (5.0 / 15).
-    // Display-only (no review schema — see note above). Update from GBP only.
+    rating: 5.0, count: 26, url: "https://g.page/r/CcHmBz0_i51sEBM/review",
+    // From the MH Painting Limited Google Business Profile (5.0 / 26).
+    // Single source — feeds the footer line and the contact-page carousel heading.
+    // Display-only (no review schema). Update rating + count from GBP only.
     featured: [
       { name: "Susan Bradburn", stars: 5,
         text: "We couldn't be happier with the exterior painting of our house recently. From start to finish they were professional…" },

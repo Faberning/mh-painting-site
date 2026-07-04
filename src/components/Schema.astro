@@ -5,7 +5,11 @@
 import { BUSINESS } from "../consts";
 
 const { schemaType, name, legalName, url, logo, phone, email, address, geo,
-        areaServed, priceRange, services, sameAs, tagline } = BUSINESS;
+        areaServed, priceRange, services, schemaServices, sameAs, tagline } = BUSINESS;
+
+// Cards + schema-only services (e.g. commercial painting): assert every real
+// service in the markup, even those without a card on the page.
+const allServices = [...services, ...(schemaServices ?? [])];
 
 const hasAddr = address && (address.street || address.locality);
 const biz: Record<string, any> = {
@@ -36,7 +40,7 @@ const graph = {
   "@context": "https://schema.org",
   "@graph": [
     biz,
-    ...services.map((s, i) => ({
+    ...allServices.map((s, i) => ({
       "@type": "Service",
       "@id": `${url}/#service-${i}`,
       name: s.title,

@@ -6,7 +6,24 @@
  *
  * Routing: /api/lead is handled here (form round-trip, EKO §7); everything else
  * is a static asset served from ./dist via the ASSETS binding.
+ *
+ * Lead email is delivered via Resend (https://resend.com). Set the key once:
+ *   wrangler secret put RESEND_API_KEY
+ * Sends are fired after the 200 (ctx.waitUntil) so the form is always fast and
+ * a mail hiccup never fails the submission. Until the sending domain verifies
+ * (or the key is set) sends just log and the form still succeeds.
  */
+
+const RESEND_ENDPOINT = "https://api.resend.com/emails";
+
+// From a verified SUBDOMAIN (keeps the root domain's deliverability clean).
+// Override with the LEAD_FROM env var to test from onboarding@resend.dev before
+// send.mhpainting.co verifies — no code change needed.
+const DEFAULT_FROM = "mh painting <leads@send.mhpainting.co>";
+
+// Team inbox that gets new-enquiry notifications (mirrors BUSINESS.email).
+const TEAM_TO = "max@mhpainting.co";
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
@@ -45,11 +62,105 @@ async function handleLead(request, env, ctx) {
   return json({ ok: true }, 200);
 }
 
-// TODO(setup): wire a real store (KV/D1/Sheet) + MailChannels send.
-// MailChannels DNS: _mailchannels TXT must use `auth=<account-id>` (NOT cfid=) — EKO §2.
-async function storeLead(env, data) { /* TODO: KV/D1/Sheet write incl. submitted_at + source */ }
-async function notifyTeam(env, data) { /* TODO: MailChannels send to client inbox */ }
-async function autoresponder(env, data) { /* TODO: MailChannels send to lead */ }
+// --- Email senders (Resend) -------------------------------------------------
+
+// Notify Max: To the team inbox, Reply-To the lead so a reply goes straight back.
+async function notifyTeam(env, data) {
+  const name = (data.name || "").trim();
+  const email = (data.email || "").trim();
+  const phone = (data.phone || "").trim() || "—";
+  const message = (data.details || data.message || "").trim() || "—";
+  const source = (data.source || "website").trim();
+
+  const text =
+`New enquiry via the MH Painting website.
+
+Name:    ${name}
+Email:   ${email}
+Phone:   ${phone}
+Source:  ${source}
+
+Message:
+${message}
+`;
+
+  return sendEmail(env, {
+    to: TEAM_TO,
+    replyTo: email,
+    subject: `New enquiry from ${name} — mh painting`,
+    text,
+  });
+}
+
+// Confirm to the lead: To the lead, Reply-To Max. Short, plain, in MH's voice.
+async function autoresponder(env, data) {
+  const name = (data.name || "").trim();
+  const email = (data.email || "").trim();
+  if (!email) return;
+
+  const text =
+`Hi ${name || "there"},
+
+Thanks for getting in touch with MH Painting — we've got your enquiry and Max will get back to you shortly, usually within a day.
+
+If it's urgent, give us a call on 020 4076 7979.
+
+Cheers,
+Max
+MH Painting
+`;
+
+  return sendEmail(env, {
+    to: email,
+    replyTo: TEAM_TO,
+    subject: "Thanks for your enquiry — mh painting",
+    text,
+  });
+}
+
+// Optional KV backup of the raw lead — only runs if a LEADS namespace is bound.
+// Not a blocker: no binding => no-op. Wire env.LEADS in wrangler.toml to enable.
+async function storeLead(env, data) {
+  if (!env.LEADS || typeof env.LEADS.put !== "function") return;
+  const key = `lead:${Date.now()}:${(data.email || "anon").trim()}`;
+  const record = {
+    name: (data.name || "").trim(),
+    email: (data.email || "").trim(),
+    phone: (data.phone || "").trim(),
+    message: (data.details || data.message || "").trim(),
+    source: (data.source || "website").trim(),
+    submitted_at: new Date().toISOString(),
+  };
+  await env.LEADS.put(key, JSON.stringify(record));
+}
+
+// Thin Resend client. Throws on non-2xx so Promise.allSettled records the
+// failure (logged) without ever failing the user's already-sent 200.
+async function sendEmail(env, { to, replyTo, subject, text }) {
+  if (!env.RESEND_API_KEY) {
+    console.warn("RESEND_API_KEY not set — skipping send to", to);
+    return;
+  }
+  const from = env.LEAD_FROM || DEFAULT_FROM;
+  const res = await fetch(RESEND_ENDPOINT, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${env.RESEND_API_KEY}`,
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({
+      from,
+      to: [to],
+      reply_to: replyTo,
+      subject,
+      text,
+    }),
+  });
+  if (!res.ok) {
+    const body = await res.text().catch(() => "");
+    throw new Error(`Resend ${res.status}: ${body}`);
+  }
+}
 
 function json(obj, status) {
   return new Response(JSON.stringify(obj), {

@@ -117,10 +117,12 @@ const b = BUSINESS.brand;
       .hp { position: absolute; left: -9999px; }
       @media (max-width: 820px) { .grid3 { grid-template-columns: 1fr; } .cards { grid-template-columns: 1fr; }
         nav.site .links { gap: 14px; font-size: 14px; } }
-      @media (max-width: 560px) {
-        nav.site { flex-wrap: wrap; gap: 12px; }
-        nav.site .links { width: 100%; justify-content: space-between; gap: 10px; }
-        nav.site .brand img { height: 160px; }
+      /* Compact mobile header (~95px): small wordmark, tight padding, nav row
+         tucked up under the logo. Desktop (>768px) is untouched. */
+      @media (max-width: 768px) {
+        nav.site { flex-wrap: wrap; gap: 11px; padding: 12px 16px; }
+        nav.site .brand img { height: 23px; }
+        nav.site .links { width: 100%; justify-content: space-between; gap: 10px; font-size: 14px; }
       }
     </style>
   </head>
