@@ -182,43 +182,35 @@ const b = BUSINESS.brand;
       .js .hero-inner > *:nth-child(6) { animation-delay: .42s; }
       @keyframes weHeroRise { from { transform: translateY(16px); } to { transform: none; } }
 
-      /* -- PAINT THROW: the section is thrown with paint that runs down in tapered
-            drips (inverted triangles), each at its own speed + depth like real runs.
-            The paint then forms the blocks — each cell drains its terracotta wash to
-            reveal the card. Copy is real DOM text; only html.js hides it, only in
-            view. One throw. -- */
+      /* -- PAINT THROW: an SVG "gooey" liquid filter (turbulence + displacement for
+            organic edges, blur + alpha-threshold for surface-tension merge) turns
+            stroked Bézier paths into real paint. Drips flow down (stroke-draw) at
+            their own speed + depth; the round line-cap makes a bulbous leading blob.
+            Then each cell's terracotta wash drains to FORM the block. Decorative/
+            aria-hidden; copy is real DOM text, hidden only under html.js + in view. -- */
       .paint-scene { position: relative; overflow: hidden; }
-      .paint-throw { position: absolute; left: -6vw; right: -6vw; top: 0; bottom: 0; z-index: 4; pointer-events: none; }
+      .paint-throw { position: absolute; left: -6vw; right: -6vw; top: -10px; bottom: 0; z-index: 4; pointer-events: none; }
+      .paint-svg { position: absolute; inset: 0; width: 100%; height: 100%; color: var(--accent); opacity: 0; }
+      .paint-svg .drip { stroke-dasharray: 100; stroke-dashoffset: 100; }
 
-      .paint-cap { position: absolute; top: 0; left: 0; right: 0; height: 24px; background: var(--accent);
-        opacity: 0; border-radius: 0 0 40% 40% / 0 0 14px 10px; }
-      .paint-splat { position: absolute; top: 2px; background: var(--accent); opacity: 0; }
-      .paint-splat.s1 { left: 22%; width: 120px; height: 58px; border-radius: 46% 54% 47% 53% / 54% 46% 58% 42%; }
-      .paint-splat.s2 { left: 60%; width: 96px; height: 50px; border-radius: 52% 48% 44% 56% / 46% 58% 42% 54%; }
-
-      /* tapered drips — inverted triangles that grow downward from the top edge. */
-      .drip { position: absolute; top: 20px; left: var(--l); width: var(--w); height: var(--d);
-        background: var(--accent); clip-path: polygon(0 0, 100% 0, 50% 100%);
-        transform: scaleY(0); transform-origin: top; opacity: 0; }
-
-      /* the grid forms out of paint: each cell wears a terracotta wash that drains. */
-      .js .paint-scene .paint-grid .cell { position: relative; }
+      /* the drips flow over empty space first; then each card forms in the paint's
+         wake — fades up under a terracotta tint that clears. */
+      .js .paint-scene .paint-grid .cell { position: relative; opacity: 0; transform: translateY(10px); }
       .js .paint-scene .paint-grid .cell::after { content: ""; position: absolute; inset: 0;
-        background: var(--accent); transform-origin: bottom; z-index: 3; }
+        background: var(--accent); z-index: 3; opacity: 1; }
       .js .paint-scene .pc { opacity: 0; transform: translateY(12px); }
 
-      .js .paint-scene.in .paint-cap { animation: weCap 2.6s ease forwards; }
-      .js .paint-scene.in .paint-splat.s1 { animation: weSplat .55s cubic-bezier(.2,.8,.3,1.2) forwards; }
-      .js .paint-scene.in .paint-splat.s2 { animation: weSplat .55s cubic-bezier(.2,.8,.3,1.2) .08s forwards; }
-      .js .paint-scene.in .drip { animation: weDrip var(--dur) cubic-bezier(.45,0,.25,1) var(--dl) forwards; }
-      .js .paint-scene.in .paint-grid .cell::after { animation: weDrain .7s cubic-bezier(.5,0,.3,1) var(--cd, 0s) forwards; }
+      .js .paint-scene.in .paint-svg { animation: weSvg 3.2s linear forwards; }
+      .js .paint-scene.in .paint-svg .drip { animation: weFlow var(--dur) cubic-bezier(.5,0,.3,1) var(--dl) forwards; }
+      .js .paint-scene.in .paint-grid .cell { animation: weCellIn .6s ease var(--cd, 0s) forwards; }
+      .js .paint-scene.in .paint-grid .cell::after { animation: weTint .85s ease var(--cd, 0s) forwards; }
       .js .paint-scene.in .pc { animation: weFadeUp .6s ease forwards; }
       .js .paint-scene.in h2.pc { animation-delay: .1s; }
 
-      @keyframes weCap { 0% { opacity: 1; } 76% { opacity: 1; } 100% { opacity: 0; } }
-      @keyframes weSplat { 0% { transform: scale(0); opacity: 1; } 70% { transform: scale(1.05); opacity: 1; } 100% { transform: scale(1); opacity: 0; } }
-      @keyframes weDrip { 0% { opacity: 1; transform: scaleY(0); } 80% { opacity: 1; transform: scaleY(1); } 100% { opacity: 0; transform: scaleY(1); } }
-      @keyframes weDrain { 0% { transform: scaleY(1); } 100% { transform: scaleY(0); } }
+      @keyframes weSvg { 0% { opacity: 0; } 5% { opacity: 1; } 86% { opacity: 1; } 100% { opacity: 0; } }
+      @keyframes weFlow { to { stroke-dashoffset: 0; } }
+      @keyframes weCellIn { to { opacity: 1; transform: none; } }
+      @keyframes weTint { to { opacity: 0; } }
       @keyframes weFadeUp { to { opacity: 1; transform: none; } }
 
       @media (prefers-reduced-motion: reduce) {
@@ -228,6 +220,7 @@ const b = BUSINESS.brand;
         nav.site, nav.site .brand img { transition: none !important; }
         .js [data-type].typing::after { display: none !important; }
         /* Paint throw off: reveal the cards + copy immediately, hide the paint. */
+        .js .paint-scene .paint-grid .cell { opacity: 1 !important; transform: none !important; animation: none !important; }
         .js .paint-scene .paint-grid .cell::after { display: none !important; }
         .js .paint-scene .pc { opacity: 1 !important; transform: none !important; animation: none !important; }
         .paint-throw { display: none !important; }

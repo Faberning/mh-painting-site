@@ -11,6 +11,21 @@ const heroImg = { src: "/hero.jpg", width: 1080, height: 596 };
 // Hero trust strip reads the offer from consts; drop the "— through So Clean"
 // credit for the thin strip (it's credited in full in the About section below).
 const houseWash = BUSINESS.offer.split(" — ")[0];
+// Wet Edge paint drips (SVG). Each flows down at its own depth (D) + speed (dur).
+const paintDrips = [
+  { x: 40,   D: 300, w: 16, dur: 2.0, dl: 0.05 },
+  { x: 140,  D: 620, w: 24, dur: 2.7, dl: 0.0 },
+  { x: 250,  D: 210, w: 15, dur: 1.7, dl: 0.12 },
+  { x: 360,  D: 480, w: 26, dur: 2.4, dl: 0.04 },
+  { x: 470,  D: 340, w: 15, dur: 2.0, dl: 0.16 },
+  { x: 560,  D: 660, w: 20, dur: 2.7, dl: 0.02 },
+  { x: 660,  D: 250, w: 15, dur: 1.8, dl: 0.10 },
+  { x: 760,  D: 520, w: 24, dur: 2.5, dl: 0.06 },
+  { x: 860,  D: 330, w: 16, dur: 1.9, dl: 0.14 },
+  { x: 970,  D: 600, w: 22, dur: 2.6, dl: 0.0 },
+  { x: 1080, D: 270, w: 15, dur: 1.8, dl: 0.12 },
+  { x: 1160, D: 390, w: 18, dur: 2.1, dl: 0.08 },
+];
 const desc = "Painters and plasterers across north Auckland — new builds, repaints and renovations, done properly. Fully insured, Dulux Accredited.";
 ---
 <Base title={BUSINESS.seoTitle} description={desc}>
@@ -44,22 +59,31 @@ const desc = "Painters and plasterers across north Auckland — new builds, repa
 
     <section class="wrap paint-scene">
       <div class="paint-throw" aria-hidden="true">
-        <span class="paint-cap"></span>
-        <span class="paint-splat s1"></span>
-        <span class="paint-splat s2"></span>
-        <span class="drip" style="--l:2%;--w:14px;--d:120px;--dur:2s;--dl:.05s"></span>
-        <span class="drip" style="--l:9%;--w:20px;--d:300px;--dur:2.6s;--dl:0s"></span>
-        <span class="drip" style="--l:16%;--w:11px;--d:90px;--dur:1.7s;--dl:.12s"></span>
-        <span class="drip" style="--l:23%;--w:24px;--d:230px;--dur:2.3s;--dl:.04s"></span>
-        <span class="drip" style="--l:31%;--w:13px;--d:170px;--dur:2s;--dl:.16s"></span>
-        <span class="drip" style="--l:39%;--w:18px;--d:330px;--dur:2.7s;--dl:.02s"></span>
-        <span class="drip" style="--l:47%;--w:12px;--d:110px;--dur:1.8s;--dl:.1s"></span>
-        <span class="drip" style="--l:55%;--w:22px;--d:260px;--dur:2.4s;--dl:.06s"></span>
-        <span class="drip" style="--l:63%;--w:14px;--d:150px;--dur:1.9s;--dl:.14s"></span>
-        <span class="drip" style="--l:71%;--w:20px;--d:310px;--dur:2.6s;--dl:0s"></span>
-        <span class="drip" style="--l:80%;--w:12px;--d:100px;--dur:1.7s;--dl:.12s"></span>
-        <span class="drip" style="--l:88%;--w:24px;--d:240px;--dur:2.3s;--dl:.05s"></span>
-        <span class="drip" style="--l:95%;--w:15px;--d:140px;--dur:1.9s;--dl:.1s"></span>
+        <svg class="paint-svg" viewBox="0 0 1200 720" preserveAspectRatio="none">
+          <defs>
+            <filter id="wePaint" x="-15%" y="-15%" width="130%" height="130%">
+              <feTurbulence type="fractalNoise" baseFrequency="0.016 0.05" numOctaves="2" seed="4" result="n" />
+              <feDisplacementMap in="SourceGraphic" in2="n" scale="10" xChannelSelector="R" yChannelSelector="G" result="d" />
+              <feGaussianBlur in="d" stdDeviation="4" result="b" />
+              <feColorMatrix in="b" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 21 -9" />
+            </filter>
+          </defs>
+          <g filter="url(#wePaint)">
+            <rect x="-40" y="-26" width="1280" height="46" rx="16" fill="currentColor" />
+            {paintDrips.map((d) => (
+              <path
+                class="drip"
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                pathLength="100"
+                stroke-width={d.w}
+                style={`--dur:${d.dur}s;--dl:${d.dl}s`}
+                d={`M ${d.x},6 C ${d.x + 7},${Math.round(d.D * 0.35)} ${d.x - 8},${Math.round(d.D * 0.72)} ${d.x},${d.D}`}
+              />
+            ))}
+          </g>
+        </svg>
       </div>
       <p class="eyebrow pc">What we do</p>
       <h2 class="pc" data-type>Painting &amp; plastering, done properly.</h2>
