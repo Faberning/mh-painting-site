@@ -182,12 +182,47 @@ const b = BUSINESS.brand;
       .js .hero-inner > *:nth-child(6) { animation-delay: .42s; }
       @keyframes weHeroRise { from { transform: translateY(16px); } to { transform: none; } }
 
+      /* -- PAINT THROW: the services section is "thrown" with paint that runs
+            down and the blocks appear in its wake. The copy is real DOM text —
+            only html.js clips/hides it, and only while the section is in view. -- */
+      .paint-scene { position: relative; overflow: hidden; }
+      .paint-throw { position: absolute; left: -6vw; right: -6vw; top: 0; bottom: 0; z-index: 5; pointer-events: none; }
+      .paint-splat, .paint-edge { position: absolute; background: var(--accent); opacity: 0; }
+      .paint-splat { top: -18px; border-radius: 47% 53% 44% 56% / 58% 42% 58% 42%; }
+      .paint-splat.s1 { left: 24%; width: 132px; height: 98px; }
+      .paint-splat.s2 { left: 60%; width: 92px; height: 74px; }
+      .paint-edge { left: 0; right: 0; top: 0; height: 7px; }
+      .paint-edge::before, .paint-edge::after { content: ""; position: absolute; top: 100%;
+        width: 11px; background: var(--accent); border-radius: 0 0 7px 7px; }
+      .paint-edge::before { left: 24%; height: 34px; }
+      .paint-edge::after { left: 66%; height: 22px; box-shadow: 44px 0 0 -2px var(--accent), -140px 0 0 -3px var(--accent); }
+
+      /* Hidden state ONLY under js. Default & no-js keep the grid + copy visible. */
+      .js .paint-scene .paint-grid { clip-path: inset(0 0 100% 0); }
+      .js .paint-scene .pc { opacity: 0; transform: translateY(12px); }
+
+      .js .paint-scene.in .paint-splat.s1 { animation: weSplat .5s cubic-bezier(.2,.8,.3,1.2) forwards; }
+      .js .paint-scene.in .paint-splat.s2 { animation: weSplat .5s cubic-bezier(.2,.8,.3,1.2) .08s forwards; }
+      .js .paint-scene.in .paint-edge { animation: wePaintEdge 1.15s cubic-bezier(.5,0,.25,1) .18s forwards; }
+      .js .paint-scene.in .paint-grid { animation: wePaintReveal 1.15s cubic-bezier(.5,0,.25,1) .18s forwards; }
+      .js .paint-scene.in .pc { animation: weFadeUp .55s ease forwards; }
+      .js .paint-scene.in h2.pc { animation-delay: .08s; }
+
+      @keyframes weSplat { 0% { transform: scale(0); opacity: 1; } 65% { transform: scale(1.06); opacity: 1; } 100% { transform: scale(1); opacity: 0; } }
+      @keyframes wePaintEdge { 0% { opacity: 1; top: 0; } 92% { opacity: 1; } 100% { opacity: 0; top: 100%; } }
+      @keyframes wePaintReveal { to { clip-path: inset(0 0 0% 0); } }
+      @keyframes weFadeUp { to { opacity: 1; transform: none; } }
+
       @media (prefers-reduced-motion: reduce) {
         .js .reveal, .js .reveal.in, .js .reveal.out { opacity: 1 !important; transform: none !important; transition: none !important; }
         .js .edge::before { transform: scaleY(1) !important; transition: none !important; }
         .js .hero-inner > * { animation: none !important; }
         nav.site, nav.site .brand img { transition: none !important; }
         .js [data-type].typing::after { display: none !important; }
+        /* Paint throw off: show the grid + copy immediately, hide the paint layer. */
+        .js .paint-scene .paint-grid { clip-path: none !important; animation: none !important; }
+        .js .paint-scene .pc { opacity: 1 !important; transform: none !important; animation: none !important; }
+        .paint-throw { display: none !important; }
       }
     </style>
   </head>
@@ -231,8 +266,8 @@ const b = BUSINESS.brand;
         step();
       };
 
-      // Reveal in/out on scroll.
-      const reveals = document.querySelectorAll(".reveal");
+      // Reveal in/out on scroll. Paint scenes play once (then unobserve).
+      const reveals = document.querySelectorAll(".reveal, .paint-scene");
       if (reduce || !("IntersectionObserver" in window)) {
         reveals.forEach((el) => el.classList.add("in"));
         document.querySelectorAll("[data-type]").forEach((el) => (el.dataset.typed = "1"));
@@ -246,6 +281,7 @@ const b = BUSINESS.brand;
                 el.classList.remove("out");
                 if (el.matches("[data-type]")) type(el);
                 el.querySelectorAll("[data-type]").forEach(type);
+                if (el.classList.contains("paint-scene")) io.unobserve(el); // one throw only
               } else if (e.boundingClientRect.top < 0) {
                 el.classList.add("out"); // settled out above the fold
               } else {

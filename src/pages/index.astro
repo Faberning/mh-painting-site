@@ -28,9 +28,8 @@ const desc = "Painters and plasterers across north Auckland — new builds, repa
       />
       <div class="hero-overlay"></div>
       <div class="hero-inner wrap">
-        <p class="eyebrow">New builds · Repaints · Renovations · North Auckland</p>
         <h1>North Auckland painters and plasterers —<br />new builds, repaints and renovations.</h1>
-        <p class="lead">Turning your vision into value.<br />Quality work that stands the test of time.</p>
+        <p class="lead">Turning your vision into value — work that stands the test of time.</p>
         <p class="trust-strip">{BUSINESS.accreditations[0]} · Fully insured · {houseWash}</p>
         <div class="pills">
           <span class="pill"><b>{BUSINESS.experienceYears}+ yrs</b> experience</span>
@@ -43,12 +42,17 @@ const desc = "Painters and plasterers across north Auckland — new builds, repa
       </div>
     </section>
 
-    <section class="wrap">
-      <p class="eyebrow reveal">What we do</p>
-      <h2 class="reveal edge" data-type>Painting &amp; plastering, done properly.</h2>
-      <div class="grid3">
-        {BUSINESS.services.map((s, i) => (
-          <div class="cell reveal" style={`--i:${i}`}>
+    <section class="wrap paint-scene">
+      <div class="paint-throw" aria-hidden="true">
+        <span class="paint-splat s1"></span>
+        <span class="paint-splat s2"></span>
+        <span class="paint-edge"></span>
+      </div>
+      <p class="eyebrow pc">What we do</p>
+      <h2 class="pc" data-type>Painting &amp; plastering, done properly.</h2>
+      <div class="grid3 paint-grid">
+        {BUSINESS.services.map((s) => (
+          <div class="cell">
             <h3>{s.title}</h3>
             <p>{s.blurb}</p>
           </div>
@@ -63,7 +67,7 @@ const desc = "Painters and plasterers across north Auckland — new builds, repa
         <p>Max has been painting for {BUSINESS.experienceYears}+ years — and that shows in the prep, the knowledge and the finish.</p>
         <p>Specialising in new builds, repaints and commercial painting across Auckland, from the North Shore and Hibiscus Coast through to Orewa, Silverdale and Whangaparāoa.</p>
         <p>For the right project we'll travel north — as you can see in our portfolio, we've worked on architectural new builds in Mangawhai, Langs Beach, Waipu and Warkworth.</p>
-        <p>We are Dulux Accredited and fully insured, serving builders and homeowners across Auckland and Northland. Every full exterior repaint also comes with a free house wash through our partner <a href="https://www.soclean.co.nz/" target="_blank" rel="noopener noreferrer" style="text-decoration:underline">So Clean</a> — because the job isn't done until it looks the part.</p>
+        <p>Serving builders and homeowners across Auckland and Northland — and every full exterior repaint comes with a free house wash through our partner <a href="https://www.soclean.co.nz/" target="_blank" rel="noopener noreferrer" style="text-decoration:underline">So Clean</a>, because the job isn't done until it looks the part.</p>
       </div>
     </section>
 
