@@ -44,33 +44,28 @@ const desc = "Painters and plasterers across north Auckland — new builds, repa
 
     <section class="wrap paint-scene">
       <div class="paint-throw" aria-hidden="true">
+        <span class="paint-cap"></span>
         <span class="paint-splat s1"></span>
         <span class="paint-splat s2"></span>
-        <span class="paint-splat s3"></span>
-        <div class="paint-front">
-          <span class="lobe" style="--l:-3%;--w:26%;--t:5px;--bh:54px"></span>
-          <span class="lobe" style="--l:13%;--w:28%;--t:-10px;--bh:64px"></span>
-          <span class="lobe" style="--l:33%;--w:22%;--t:11px;--bh:48px"></span>
-          <span class="lobe" style="--l:49%;--w:30%;--t:-7px;--bh:60px"></span>
-          <span class="lobe" style="--l:69%;--w:24%;--t:6px;--bh:52px"></span>
-          <span class="lobe" style="--l:85%;--w:22%;--t:-5px;--bh:50px"></span>
-          <i style="--l:5%;--w:15px;--h:72px"></i>
-          <i style="--l:15%;--w:22px;--h:128px"></i>
-          <i style="--l:24%;--w:13px;--h:52px"></i>
-          <i style="--l:33%;--w:26px;--h:158px"></i>
-          <i style="--l:44%;--w:17px;--h:96px"></i>
-          <i style="--l:54%;--w:13px;--h:60px"></i>
-          <i style="--l:63%;--w:24px;--h:140px"></i>
-          <i style="--l:73%;--w:16px;--h:84px"></i>
-          <i style="--l:82%;--w:20px;--h:116px"></i>
-          <i style="--l:92%;--w:14px;--h:66px"></i>
-        </div>
+        <span class="drip" style="--l:2%;--w:14px;--d:120px;--dur:2s;--dl:.05s"></span>
+        <span class="drip" style="--l:9%;--w:20px;--d:300px;--dur:2.6s;--dl:0s"></span>
+        <span class="drip" style="--l:16%;--w:11px;--d:90px;--dur:1.7s;--dl:.12s"></span>
+        <span class="drip" style="--l:23%;--w:24px;--d:230px;--dur:2.3s;--dl:.04s"></span>
+        <span class="drip" style="--l:31%;--w:13px;--d:170px;--dur:2s;--dl:.16s"></span>
+        <span class="drip" style="--l:39%;--w:18px;--d:330px;--dur:2.7s;--dl:.02s"></span>
+        <span class="drip" style="--l:47%;--w:12px;--d:110px;--dur:1.8s;--dl:.1s"></span>
+        <span class="drip" style="--l:55%;--w:22px;--d:260px;--dur:2.4s;--dl:.06s"></span>
+        <span class="drip" style="--l:63%;--w:14px;--d:150px;--dur:1.9s;--dl:.14s"></span>
+        <span class="drip" style="--l:71%;--w:20px;--d:310px;--dur:2.6s;--dl:0s"></span>
+        <span class="drip" style="--l:80%;--w:12px;--d:100px;--dur:1.7s;--dl:.12s"></span>
+        <span class="drip" style="--l:88%;--w:24px;--d:240px;--dur:2.3s;--dl:.05s"></span>
+        <span class="drip" style="--l:95%;--w:15px;--d:140px;--dur:1.9s;--dl:.1s"></span>
       </div>
       <p class="eyebrow pc">What we do</p>
       <h2 class="pc" data-type>Painting &amp; plastering, done properly.</h2>
       <div class="grid3 paint-grid">
-        {BUSINESS.services.map((s) => (
-          <div class="cell">
+        {BUSINESS.services.map((s, i) => (
+          <div class="cell" style={`--cd:${(0.7 + (i % 3) * 0.15 + Math.floor(i / 3) * 0.5).toFixed(2)}s`}>
             <h3>{s.title}</h3>
             <p>{s.blurb}</p>
           </div>
@@ -84,7 +79,6 @@ const desc = "Painters and plasterers across north Auckland — new builds, repa
       <div class="prose reveal">
         <p>Max has been painting for {BUSINESS.experienceYears}+ years — and that shows in the prep, the knowledge and the finish.</p>
         <p>Specialising in new builds, repaints and commercial painting across Auckland, from the North Shore and Hibiscus Coast through to Orewa, Silverdale and Whangaparāoa.</p>
-        <p>For the right project we'll travel north — as you can see in our portfolio, we've worked on architectural new builds in Mangawhai, Langs Beach, Waipu and Warkworth.</p>
         <p>Serving builders and homeowners across Auckland and Northland — and every full exterior repaint comes with a free house wash through our partner <a href="https://www.soclean.co.nz/" target="_blank" rel="noopener noreferrer" style="text-decoration:underline">So Clean</a>, because the job isn't done until it looks the part.</p>
       </div>
     </section>

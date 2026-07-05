@@ -44,12 +44,12 @@ export const BUSINESS = {
   // Six cards: new build + repaint (interiors/exteriors), plastering, roof. Commercial
   // painting is asserted in schema only (schemaServices) — no card per Max.
   services: [
-    { title: "New build interiors",  blurb: "New build interiors require speed and flexibility without sacrificing quality. We prep thoroughly, then spray-finish everything except the final coat on the walls, which we cut and roll to perfection." },
-    { title: "New build exteriors",  blurb: "With ever-changing manufacturer specs, it's important to stay up to date so you never run the risk of voiding the cladding warranty. We carry out the tailored process from prep to final coat with speed and precision." },
-    { title: "Repaint interiors",    blurb: "When repainting the interior of a home, we assess the condition and select the correct preparation and system for excellent adhesion and finish. Once we start, we treat your home like it's our own — tidy and respectful, every step of the way." },
-    { title: "Repaint exteriors",    blurb: "Repainting exteriors starts with proper prep — washed, scraped, sanded, filled and primed, depending on what the surface needs. The right system is then applied for excellent adhesion and a finish that stands up to New Zealand's harsh weather." },
-    { title: "Plastering",           blurb: "A quality paint job starts with quality plastering. New builds get three coats to all joins and screws, sanded back and light-checked. Older homes get cracks dug out, re-taped and plastered properly so they stay gone — kept tidy every step of the way." },
-    { title: "Roof painting",        blurb: "The right paint for your roof type makes all the difference. Properly treated, properly coated and built to handle New Zealand's harsh weather — a premium finish that adds years back onto your roof." },
+    { title: "New build interiors",  blurb: "Prepped thoroughly and spray-finished fast, with walls cut and rolled to a perfect final coat." },
+    { title: "New build exteriors",  blurb: "Tailored to your cladding's specs, prep to final coat — so the warranty stays intact and the finish lasts." },
+    { title: "Repaint interiors",    blurb: "The right prep and system for a lasting finish — and we treat your home like our own, tidy every step." },
+    { title: "Repaint exteriors",    blurb: "Washed, scraped, sanded and primed, then coated in the right system to stand up to NZ weather." },
+    { title: "Plastering",           blurb: "Three-coat plastering on new builds; cracks dug out and re-taped on older homes so they stay gone." },
+    { title: "Roof painting",        blurb: "Treated and coated for your roof type — a premium finish built for NZ weather that adds years back." },
   ],
 
   // Services asserted in schema only — real & offered, but no service card (Max's call).
