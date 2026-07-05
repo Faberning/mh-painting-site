@@ -182,35 +182,50 @@ const b = BUSINESS.brand;
       .js .hero-inner > *:nth-child(6) { animation-delay: .42s; }
       @keyframes weHeroRise { from { transform: translateY(16px); } to { transform: none; } }
 
-      /* -- PAINT THROW: the services section is "thrown" with paint that runs
-            down and the blocks appear in its wake. The copy is real DOM text —
-            only html.js clips/hides it, and only while the section is in view. -- */
+      /* -- PAINT THROW: the services section is thrown with paint that splashes,
+            then runs down in thick irregular drips; the blocks appear in its wake.
+            Copy is real DOM text — only html.js clips/hides it, and only while in
+            view. Slow (~2.6s), one throw. -- */
       .paint-scene { position: relative; overflow: hidden; }
-      .paint-throw { position: absolute; left: -6vw; right: -6vw; top: 0; bottom: 0; z-index: 5; pointer-events: none; }
-      .paint-splat, .paint-edge { position: absolute; background: var(--accent); opacity: 0; }
-      .paint-splat { top: -18px; border-radius: 47% 53% 44% 56% / 58% 42% 58% 42%; }
-      .paint-splat.s1 { left: 24%; width: 132px; height: 98px; }
-      .paint-splat.s2 { left: 60%; width: 92px; height: 74px; }
-      .paint-edge { left: 0; right: 0; top: 0; height: 7px; }
-      .paint-edge::before, .paint-edge::after { content: ""; position: absolute; top: 100%;
-        width: 11px; background: var(--accent); border-radius: 0 0 7px 7px; }
-      .paint-edge::before { left: 24%; height: 34px; }
-      .paint-edge::after { left: 66%; height: 22px; box-shadow: 44px 0 0 -2px var(--accent), -140px 0 0 -3px var(--accent); }
+      .paint-throw { position: absolute; left: -6vw; right: -6vw; top: 0; bottom: 0; z-index: 4; pointer-events: none; }
+
+      /* the splash where the paint lands */
+      .paint-splat { position: absolute; top: 8px; background: var(--accent); opacity: 0; }
+      .paint-splat.s1 { left: 16%; width: 168px; height: 120px; border-radius: 42% 58% 47% 53% / 55% 45% 60% 40%; }
+      .paint-splat.s2 { left: 48%; width: 120px; height: 92px; border-radius: 56% 44% 52% 48% / 46% 58% 42% 54%; }
+      .paint-splat.s3 { left: 72%; width: 94px; height: 80px; border-radius: 50% 50% 44% 56% / 58% 42% 56% 44%; }
+
+      /* the running front: a thick wavy band whose <i> children are drips of
+         varying length + width, each ending in a rounded bead — a gravity run. */
+      .paint-front { position: absolute; left: 0; right: 0; top: 0; height: 24px;
+        background: var(--accent); opacity: 0; }
+      /* overlapping lobes bulge the leading edge up + down so it never reads as a bar */
+      .paint-front .lobe { position: absolute; top: var(--t); left: var(--l); width: var(--w); height: var(--bh);
+        background: var(--accent); border-radius: 50%; }
+      .paint-front i { position: absolute; top: calc(100% - 4px); left: var(--l); width: var(--w); height: var(--h);
+        background: var(--accent); border-radius: 0 0 60% 60% / 0 0 24px 24px; }
+      .paint-front i::after { content: ""; position: absolute; left: 50%; top: 100%;
+        width: calc(var(--w) + 3px); height: calc(var(--w) + 3px); transform: translate(-50%, -55%);
+        background: var(--accent); border-radius: 50%; }
 
       /* Hidden state ONLY under js. Default & no-js keep the grid + copy visible. */
       .js .paint-scene .paint-grid { clip-path: inset(0 0 100% 0); }
       .js .paint-scene .pc { opacity: 0; transform: translateY(12px); }
 
-      .js .paint-scene.in .paint-splat.s1 { animation: weSplat .5s cubic-bezier(.2,.8,.3,1.2) forwards; }
-      .js .paint-scene.in .paint-splat.s2 { animation: weSplat .5s cubic-bezier(.2,.8,.3,1.2) .08s forwards; }
-      .js .paint-scene.in .paint-edge { animation: wePaintEdge 1.15s cubic-bezier(.5,0,.25,1) .18s forwards; }
-      .js .paint-scene.in .paint-grid { animation: wePaintReveal 1.15s cubic-bezier(.5,0,.25,1) .18s forwards; }
-      .js .paint-scene.in .pc { animation: weFadeUp .55s ease forwards; }
-      .js .paint-scene.in h2.pc { animation-delay: .08s; }
+      .js .paint-scene.in .paint-splat.s1 { animation: weSplat .6s cubic-bezier(.2,.8,.3,1.2) forwards; }
+      .js .paint-scene.in .paint-splat.s2 { animation: weSplat .6s cubic-bezier(.2,.8,.3,1.2) .07s forwards; }
+      .js .paint-scene.in .paint-splat.s3 { animation: weSplat .6s cubic-bezier(.2,.8,.3,1.2) .13s forwards; }
+      .js .paint-scene.in .paint-front { animation: wePaintRun 2.6s cubic-bezier(.5,0,.35,1) .28s forwards; }
+      .js .paint-scene.in .paint-grid { animation: wePaintReveal 2.6s cubic-bezier(.5,0,.35,1) .28s forwards; }
+      .js .paint-scene.in .pc { animation: weFadeUp .6s ease forwards; }
+      .js .paint-scene.in h2.pc { animation-delay: .1s; }
 
-      @keyframes weSplat { 0% { transform: scale(0); opacity: 1; } 65% { transform: scale(1.06); opacity: 1; } 100% { transform: scale(1); opacity: 0; } }
-      @keyframes wePaintEdge { 0% { opacity: 1; top: 0; } 92% { opacity: 1; } 100% { opacity: 0; top: 100%; } }
-      @keyframes wePaintReveal { to { clip-path: inset(0 0 0% 0); } }
+      @keyframes weSplat { 0% { transform: scale(0); opacity: 1; } 70% { transform: scale(1.06); opacity: 1; } 100% { transform: scale(1); opacity: 0; } }
+      @keyframes wePaintRun { 0% { opacity: 1; top: -6%; } 88% { opacity: 1; } 100% { opacity: 0; top: 106%; } }
+      @keyframes wePaintReveal {
+        0%   { clip-path: polygon(0% 0%,100% 0%,100% 3%,90% 0%,82% 5%,73% 1%,64% 6%,55% 1%,46% 5%,37% 1%,28% 6%,19% 1%,10% 5%,0% 2%); }
+        100% { clip-path: polygon(0% 0%,100% 0%,100% 108%,90% 100%,82% 118%,73% 102%,64% 120%,55% 101%,46% 116%,37% 103%,28% 119%,19% 101%,10% 115%,0% 104%); }
+      }
       @keyframes weFadeUp { to { opacity: 1; transform: none; } }
 
       @media (prefers-reduced-motion: reduce) {
