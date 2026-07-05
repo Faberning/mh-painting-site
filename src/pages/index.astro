@@ -44,11 +44,11 @@ const desc = "Painters and plasterers across north Auckland — new builds, repa
     </section>
 
     <section class="wrap">
-      <p class="eyebrow">What we do</p>
-      <h2>Painting &amp; plastering, done properly.</h2>
+      <p class="eyebrow reveal">What we do</p>
+      <h2 class="reveal edge" data-type>Painting &amp; plastering, done properly.</h2>
       <div class="grid3">
-        {BUSINESS.services.map((s) => (
-          <div class="cell">
+        {BUSINESS.services.map((s, i) => (
+          <div class="cell reveal" style={`--i:${i}`}>
             <h3>{s.title}</h3>
             <p>{s.blurb}</p>
           </div>
@@ -57,9 +57,9 @@ const desc = "Painters and plasterers across north Auckland — new builds, repa
     </section>
 
     <section class="wrap">
-      <p class="eyebrow">Why MH Painting</p>
-      <h2>{BUSINESS.experienceYears} years on the tools.</h2>
-      <div class="prose">
+      <p class="eyebrow reveal">Why MH Painting</p>
+      <h2 class="reveal edge" data-type>{BUSINESS.experienceYears} years on the tools.</h2>
+      <div class="prose reveal">
         <p>Max has been painting for {BUSINESS.experienceYears}+ years — and that shows in the prep, the knowledge and the finish.</p>
         <p>Specialising in new builds, repaints and commercial painting across Auckland, from the North Shore and Hibiscus Coast through to Orewa, Silverdale and Whangaparāoa.</p>
         <p>For the right project we'll travel north — as you can see in our portfolio, we've worked on architectural new builds in Mangawhai, Langs Beach, Waipu and Warkworth.</p>
@@ -68,13 +68,13 @@ const desc = "Painters and plasterers across north Auckland — new builds, repa
     </section>
 
     <section class="wrap">
-      <p class="eyebrow">Recent work</p>
-      <h2>Featured Works</h2>
+      <p class="eyebrow reveal">Recent work</p>
+      <h2 class="reveal edge" data-type>Featured Works</h2>
       <div class="cards">
-        {featured.map((p) => {
+        {featured.map((p, i) => {
           const img = leadImage(p.slug);
           return (
-            <a class="pcard" href={`/projects/${p.slug}`}>
+            <a class="pcard reveal" style={`--i:${i}`} href={`/projects/${p.slug}`}>
               {img && (
                 <div class="thumb">
                   <img
@@ -93,13 +93,13 @@ const desc = "Painters and plasterers across north Auckland — new builds, repa
           );
         })}
       </div>
-      <p style="margin-top:24px"><a class="back" href="/projects">See all projects →</a></p>
+      <p class="reveal" style="margin-top:24px"><a class="back" href="/projects">See all projects →</a></p>
     </section>
 
     <section class="wrap">
-      <h2>Planning a new build or a repaint?</h2>
-      <p class="lead">Tell us a bit about the job and we'll come back to you with a free quote.</p>
-      <div class="cta-row">
+      <h2 class="reveal edge" data-type>Planning a new build or a repaint?</h2>
+      <p class="lead reveal">Tell us a bit about the job and we'll come back to you with a free quote.</p>
+      <div class="cta-row reveal">
         <a class="btn" href="/contact">Get a free quote</a>
         <a class="btn ghost" href={tel}>{BUSINESS.phone}</a>
       </div>

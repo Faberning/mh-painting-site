@@ -17,10 +17,17 @@ const fullTitle = path === "" ? title : `${title} — ${BUSINESS.name}`;
 const b = BUSINESS.brand;
 ---
 <!doctype html>
-<html lang="en-NZ">
+<html lang="en-NZ" class="no-js">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Wet Edge motion: flip no-js→js BEFORE paint so animated states only ever
+         apply when JS runs. JS-off (and crawlers) keep the fully-rendered static
+         page — every headline/body word is real DOM text, presentation-only motion. -->
+    <script is:inline>
+      document.documentElement.classList.remove("no-js");
+      document.documentElement.classList.add("js");
+    </script>
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex" />}
@@ -124,9 +131,132 @@ const b = BUSINESS.brand;
         nav.site .brand img { height: 23px; }
         nav.site .links { width: 100%; justify-content: space-between; gap: 10px; font-size: 14px; }
       }
+
+      /* ================= WET EDGE — signature motion ==================
+         Craft metaphor: a painter keeps a "wet edge" so coats blend with no
+         lap marks. Here content is revealed by an advancing edge on scroll and
+         key headings type in like hand-lettering. Presentation-only: all copy is
+         real DOM text; only `html.js` ever hides/animates it. Honors reduced-motion. */
+
+      /* -- Header shrink on scroll (desktop). JS toggles html.scrolled. -- */
+      nav.site { transition: padding .35s cubic-bezier(.4,0,.2,1), background .35s ease, box-shadow .35s ease; }
+      nav.site .brand img { transition: height .35s cubic-bezier(.4,0,.2,1); }
+      @media (min-width: 769px) {
+        html.scrolled nav.site {
+          padding-top: 12px; padding-bottom: 12px;
+          background: color-mix(in srgb, var(--bg) 94%, transparent);
+          box-shadow: 0 1px 0 var(--line), 0 8px 26px rgba(34,31,28,0.07);
+        }
+        html.scrolled nav.site .brand img { height: 62px; }
+      }
+
+      /* -- Scroll reveal in/out. Default (no JS) = fully visible. -- */
+      .js .reveal { opacity: 0; transform: translateY(22px);
+        transition: opacity .7s cubic-bezier(.4,0,.2,1), transform .7s cubic-bezier(.4,0,.2,1); }
+      .js .reveal.in { opacity: 1; transform: none; }
+      .js .reveal.out { opacity: .35; transform: translateY(-10px); }
+      .js .grid3 .cell.reveal { transition-delay: calc(var(--i, 0) * 70ms); }
+      .js .cards .pcard.reveal { transition-delay: calc(var(--i, 0) * 80ms); }
+
+      /* -- The wet edge itself: a terracotta rule that draws down beside headings. -- */
+      .js .edge { position: relative; }
+      .js .edge::before { content: ""; position: absolute; left: -6vw; top: .12em; bottom: .12em;
+        width: 4px; background: var(--accent); transform: scaleY(0); transform-origin: top;
+        transition: transform .6s cubic-bezier(.4,0,.2,1) .08s; }
+      .js .edge.in::before { transform: scaleY(1); }
+
+      /* -- Typing caret for key copy. -- */
+      .js [data-type].typing::after { content: ""; display: inline-block; width: .55ch; height: .95em;
+        margin-left: 3px; vertical-align: -0.08em; background: var(--accent);
+        animation: weCaret .8s steps(1) infinite; }
+      @keyframes weCaret { 50% { opacity: 0; } }
+
+      /* -- Hero entrance: transform-only rise (opacity stays 1 → LCP-safe, text
+            painted on the first frame), gently staggered. -- */
+      .js .hero-inner > * { animation: weHeroRise .7s cubic-bezier(.4,0,.2,1) both; }
+      .js .hero-inner > *:nth-child(1) { animation-delay: .02s; }
+      .js .hero-inner > *:nth-child(2) { animation-delay: .10s; }
+      .js .hero-inner > *:nth-child(3) { animation-delay: .18s; }
+      .js .hero-inner > *:nth-child(4) { animation-delay: .26s; }
+      .js .hero-inner > *:nth-child(5) { animation-delay: .34s; }
+      .js .hero-inner > *:nth-child(6) { animation-delay: .42s; }
+      @keyframes weHeroRise { from { transform: translateY(16px); } to { transform: none; } }
+
+      @media (prefers-reduced-motion: reduce) {
+        .js .reveal, .js .reveal.in, .js .reveal.out { opacity: 1 !important; transform: none !important; transition: none !important; }
+        .js .edge::before { transform: scaleY(1) !important; transition: none !important; }
+        .js .hero-inner > * { animation: none !important; }
+        nav.site, nav.site .brand img { transition: none !important; }
+        .js [data-type].typing::after { display: none !important; }
+      }
     </style>
   </head>
   <body>
     <slot />
+    <script>
+      // Wet Edge motion controller. Enhancement only — the page is fully readable
+      // and complete without this file. Typed headings keep their real text in the
+      // DOM; we cache and re-type, never remove copy from the source.
+      const root = document.documentElement;
+      const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      // Header shrink on scroll (desktop; CSS guards mobile height).
+      let ticking = false;
+      const onScroll = () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          root.classList.toggle("scrolled", window.scrollY > 40);
+          ticking = false;
+        });
+      };
+      addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+
+      // Type key copy in. Full text is already in the DOM (crawler-visible); we
+      // cache it, clear, and retype character by character.
+      const type = (el) => {
+        if (el.dataset.typed) return;
+        el.dataset.typed = "1";
+        if (reduce) return; // reduced-motion: leave the full text untouched
+        const full = el.textContent;
+        el.textContent = "";
+        el.classList.add("typing");
+        let i = 0;
+        const step = () => {
+          el.textContent = full.slice(0, i);
+          if (i++ < full.length) setTimeout(step, 16 + Math.random() * 26);
+          else el.classList.remove("typing");
+        };
+        step();
+      };
+
+      // Reveal in/out on scroll.
+      const reveals = document.querySelectorAll(".reveal");
+      if (reduce || !("IntersectionObserver" in window)) {
+        reveals.forEach((el) => el.classList.add("in"));
+        document.querySelectorAll("[data-type]").forEach((el) => (el.dataset.typed = "1"));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) {
+              const el = e.target;
+              if (e.isIntersecting) {
+                el.classList.add("in");
+                el.classList.remove("out");
+                if (el.matches("[data-type]")) type(el);
+                el.querySelectorAll("[data-type]").forEach(type);
+              } else if (e.boundingClientRect.top < 0) {
+                el.classList.add("out"); // settled out above the fold
+              } else {
+                el.classList.remove("in"); // re-arm entrance from below
+              }
+            }
+          },
+          { threshold: 0.15, rootMargin: "0px 0px -8% 0px" }
+        );
+        reveals.forEach((el) => io.observe(el));
+      }
+    </script>
   </body>
 </html>
