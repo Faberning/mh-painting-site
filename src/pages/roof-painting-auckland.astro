@@ -41,6 +41,23 @@ const faqSchema = {
     acceptedAnswer: { "@type": "Answer", text: f.answer },
   })),
 };
+
+const roofService = BUSINESS.services.find((s) => s.id === "roof-painting");
+// Shares the sitewide graph's Service @id (Schema.astro keys off `id` too) —
+// same entity, reconciled with more detail, not a duplicate. areaServed here
+// is deliberately the narrower primaryCorridor, not the general areaServed —
+// see the consts.ts note on that list.
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "@id": `${BUSINESS.url}/#service-roof-painting`,
+  serviceType: "Roof painting",
+  name: roofService?.title,
+  description: roofService?.blurb,
+  provider: { "@id": `${BUSINESS.url}/#business` },
+  url: `${BUSINESS.url}/roof-painting-auckland`,
+  areaServed: BUSINESS.serviceAreas.primaryCorridor.map((a) => ({ "@type": "Place", name: a })),
+};
 ---
 <Base title="Roof Painting, North Auckland" description={desc} path="/roof-painting-auckland">
   <Nav />
@@ -94,6 +111,11 @@ const faqSchema = {
         <p>Two roof quotes for the same address can differ by thousands — usually because they're not quoting the same work. Make sure scaffolding or access gear and the moss/rust treatment are actually written into the quote, and that whoever's quoting has been up on the roof (or properly assessed it), not eyeballed it from the driveway. Ask what prep and how many coats are included before you compare on price.</p>
       </div>
 
+      <div class="roof-block">
+        <h2>Where we paint roofs</h2>
+        <p>We cover the north Auckland corridor — Rodney, the Hibiscus Coast and the north-west — including {BUSINESS.serviceAreas.primaryCorridor.join(", ")} and the surrounding areas. If your roof's in the region, we'll come and take a look.</p>
+      </div>
+
       <div class="cta-row">
         <a class="btn" href="/contact">Get a free quote</a>
         <a class="btn ghost" href={`tel:${BUSINESS.phone.replace(/\s/g, "")}`}>{BUSINESS.phone}</a>
@@ -117,6 +139,7 @@ const faqSchema = {
   <Footer />
   <script type="application/ld+json" set:html={JSON.stringify(videoSchema)} />
   <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
   <style>
     .roof-hero { padding-top: 8vh; max-width: 900px; }
     .roof-hero h1 { font-size: clamp(30px, 4vw, 44px); margin-bottom: 18px; }

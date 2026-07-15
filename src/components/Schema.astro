@@ -42,7 +42,7 @@ const graph = {
     biz,
     ...allServices.map((s, i) => ({
       "@type": "Service",
-      "@id": `${url}/#service-${i}`,
+      "@id": `${url}/#service-${s.id ?? i}`,
       name: s.title,
       description: s.blurb,
       provider: { "@id": `${url}/#business` },

@@ -52,7 +52,7 @@ export const BUSINESS = {
     { title: "Repaint interiors",    icon: "icon-interior.png", blurb: "When repainting the interior of a home, we assess the condition and select the correct preparation and system for excellent adhesion and finish. Once we start, we treat your home like it's our own — tidy and respectful, every step of the way." },
     { title: "Repaint exteriors",    icon: "icon-brush.png",    blurb: "Repainting exteriors starts with proper prep — washed, scraped, sanded, filled and primed, depending on what the surface needs. The right system is then applied for excellent adhesion and a finish that stands up to New Zealand's harsh weather." },
     { title: "Plastering",           icon: "icon-trowel.png",   blurb: "A quality paint job starts with quality plastering. New builds get three coats to all joins and screws, sanded back and light-checked. Older homes get cracks dug out, re-taped and plastered properly so they stay gone — kept tidy every step of the way." },
-    { title: "Roof painting",        icon: "icon-roof.png",     href: "/roof-painting-auckland", blurb: "The right paint for your roof type makes all the difference. Properly treated, properly coated and built to handle New Zealand's harsh weather — a premium finish that adds years back onto your roof." },
+    { title: "Roof painting",        icon: "icon-roof.png",     href: "/roof-painting-auckland", id: "roof-painting", blurb: "The right paint for your roof type makes all the difference. Properly treated, properly coated and built to handle New Zealand's harsh weather — a premium finish that adds years back onto your roof." },
   ],
 
   // Services asserted in schema only — real & offered, but no service card (Max's call).
@@ -69,6 +69,20 @@ export const BUSINESS = {
     title: "Roof Repainting Before & After — Auckland Painters | mh painting", // real YouTube title, verified
     description: "Roof repainting in north Auckland — before and after. A metal roof cleaned, prepped and recoated by MH Painting to bring it back to a clean, protected finish.",
     uploadDate: "2026-06-04T23:54:44-07:00", // real upload date, verified from the YouTube watch page — never guess this
+  },
+
+  // NOTE (2026-07-16 roof brief): this is a DELIBERATELY NARROWER list than
+  // `areaServed` above — it adds Huapai/Waimauku/Milldale and drops Takapuna/
+  // Long Bay/Albany/Browns Bay/Whangaparāoa/North Shore/Hibiscus Coast/Rodney/
+  // Auckland. Scoped to the roof page only pending confirmation of whether
+  // this should also replace `areaServed` sitewide — see audit in chat.
+  // Single source for the roof page's Service schema + "Where we paint
+  // roofs" copy; do not retype this list anywhere.
+  serviceAreas: {
+    primaryCorridor: [
+      "Kumeu", "Huapai", "Riverhead", "Waimauku", "Helensville",
+      "Silverdale", "Millwater", "Milldale", "Orewa", "Warkworth",
+    ],
   },
 
   // --- Trust signals (read by pages; deliberately NOT in schema to avoid self-serving review markup) ---
