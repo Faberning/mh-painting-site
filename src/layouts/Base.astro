@@ -35,7 +35,15 @@ const b = BUSINESS.brand;
     <meta property="og:image" content={`${BUSINESS.url}/og-wordmark.png`} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content={`${BUSINESS.url}/og-wordmark.png`} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- Roller favicon set (2026-07-16 brief) — SVG mark intentionally not
+         referenced here: it's a different (monogram) design and SVG icons
+         take priority over PNG/ICO in browsers, which would mask the roller. -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png" />
     <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png" />
 
     <link rel="sitemap" href="/sitemap-index.xml" />
@@ -84,7 +92,7 @@ const b = BUSINESS.brand;
       nav.site { display: flex; justify-content: space-between; align-items: center;
         padding: 18px 6vw; border-bottom: 1px solid var(--line); position: sticky; top: 0;
         background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); z-index: 50; }
-      nav.site .brand img { height: 80px; width: auto; display: block; }
+      nav.site .brand img { height: 104px; width: auto; display: block; }
       nav.site .links { display: flex; gap: 22px; align-items: center; font-size: 15px; font-weight: 500; }
       nav.site .links a:not(.call) { position: relative; padding: 3px 0; transition: color .2s ease; }
       nav.site .links a:not(.call)::after {
@@ -130,11 +138,13 @@ const b = BUSINESS.brand;
       .hp { position: absolute; left: -9999px; }
       @media (max-width: 820px) { .grid3 { grid-template-columns: 1fr; } .cards { grid-template-columns: 1fr; }
         nav.site .links { gap: 14px; font-size: 14px; } }
-      /* Mobile header: 60px wordmark (brief: 80px desktop / 60px mobile),
-         tight padding, nav row tucked up under the logo. Desktop (>768px) is untouched. */
+      /* Mobile header: 76px wordmark (brief 2026-07-16: 104px desktop / 76px
+         mobile), tight padding, nav row tucked up under the logo. Desktop
+         (>768px) is untouched. Phone-button min-height: 44px above keeps the
+         tap target intact regardless of logo size. */
       @media (max-width: 768px) {
         nav.site { flex-wrap: wrap; gap: 11px; padding: 12px 16px; }
-        nav.site .brand img { height: 60px; }
+        nav.site .brand img { height: 76px; }
         nav.site .links { width: 100%; justify-content: space-between; gap: 10px; font-size: 14px; }
       }
     </style>

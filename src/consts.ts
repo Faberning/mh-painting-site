@@ -83,10 +83,11 @@ export const BUSINESS = {
   },
   offer: "Free house wash with every full exterior repaint — through our partner So Clean.",
 
-  // --- Entity graph (sameAs) — socials TODO; review write-link is a CTA, not a profile ---
+  // --- Entity graph (sameAs) — review write-link is a CTA, not a profile.
+  // Facebook/Instagram intentionally absent — no placeholder links (2026-07-16 brief). ---
   sameAs: [
-    // "https://www.facebook.com/...",  // TODO
-    // "https://www.instagram.com/...", // TODO
+    "https://www.linkedin.com/in/max-hindley-982b633a8/",
+    "https://www.youtube.com/channel/UCMg_AeF09TxhXhpOokr91bA",
   ],
 
   // --- Brand tokens (MH palette: charcoal / terracotta / cream) ---

@@ -74,7 +74,7 @@ const desc = "Painters and plasterers across north Auckland — new builds, repa
               <div class="lbl">from <span id="countReviews">{BUSINESS.reviews.count}</span> Google reviews</div>
             </div>
             <div class="div"></div>
-            <img class="badge" src="/dulux-accredited.png" alt="Dulux Accredited Painter" width="150" height="40" />
+            <img class="badge" src="/dulux-accredited.png" alt="Dulux Accredited Painter" width="375" height="40" />
           </div>
         </div>
       </div>
@@ -244,7 +244,7 @@ const desc = "Painters and plasterers across north Auckland — new builds, repa
     .metric-card .stars { color: var(--accent); font-size: 14px; letter-spacing: 2px; }
     .metric-card .lbl { font-size: 12.5px; color: var(--inkSoft); margin-top: 4px; }
     .metric-card .div { width: 1px; align-self: stretch; background: color-mix(in srgb, var(--ink) 12%, transparent); }
-    .metric-card .badge { height: 34px; width: auto; }
+    .metric-card .badge { height: 34px; width: auto; object-fit: contain; }
     .exp-tag { position: absolute; top: 34px; right: -10px; z-index: 3; background: var(--ink); color: var(--bg); border-radius: 10px; padding: 12px 18px; font-size: 13px; font-weight: 600; box-shadow: 0 14px 34px rgba(34,31,28,.3); }
     .exp-tag .n { font-family: var(--display); font-size: 24px; color: var(--accent-soft); display: block; line-height: 1.1; }
 
@@ -346,12 +346,29 @@ const desc = "Painters and plasterers across north Auckland — new builds, repa
       .scoper { padding: 26px 20px; }
       .work-photo { height: 250px; }
 
-      /* full-bleed fade is desktop-only; show a large framed photo instead */
-      .hero-bg, .hero-fade { display: none; }
-      .hero-visual { height: 52vh; min-height: 340px; margin-top: 22px; pointer-events: auto; }
-      .hv-photo { display: block; position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 60% center; border-radius: 16px; }
-      .exp-tag { top: 16px; right: 14px; }
-      .metric-card { left: 14px; right: auto; bottom: 16px; transform: scale(.86); transform-origin: bottom left; }
+      /* Full-bleed hero photo behind the header (brief 2026-07-16 #3) — the
+         desktop treatment, brought to mobile instead of the separate framed
+         hv-photo block. object-position keeps the lighter part of the photo
+         behind the nav/H1; the fade is a strong top->bottom cream wash so
+         charcoal text passes WCAG AA over the photo, easing off toward the
+         bottom where the visual/metric-card sit. */
+      .hero { min-height: 92vh; padding: 28px 0 40px; }
+      .hero-bg img { object-position: 25% center; }
+      .hero-fade {
+        background:
+          linear-gradient(180deg, var(--bg) 0%, var(--bg) 30%, color-mix(in srgb, var(--bg) 80%, transparent) 46%, color-mix(in srgb, var(--bg) 40%, transparent) 62%, color-mix(in srgb, var(--bg) 12%, transparent) 78%, transparent 92%);
+      }
+      .hv-photo { display: none; }
+      .hero-visual { height: 220px; margin-top: 18px; pointer-events: auto; }
+      .exp-tag { top: 10px; right: 14px; }
+      /* The real badge asset is a wide 375x40 lockup (Dulux + "ACCREDITED
+         PAINTER" + roller mark) — at mobile card widths there isn't room to
+         keep it beside the rating block without either clipping or shrinking
+         it illegibly. Wrap it onto its own full-width row instead, sized to
+         stay legible; drop the divider, which only makes sense side-by-side. */
+      .metric-card { left: 14px; right: 14px; bottom: 10px; max-width: calc(100vw - 28px); flex-wrap: wrap; row-gap: 10px; transform: scale(.86); transform-origin: bottom left; }
+      .metric-card .div { display: none; }
+      .metric-card .badge { flex: 1 1 100%; height: 28px; width: auto; max-width: 100%; }
 
       .works-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 16px; margin: 0 -6vw; padding: 2px 6vw 12px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
       .works-grid::-webkit-scrollbar { display: none; }

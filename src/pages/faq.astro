@@ -1,0 +1,55 @@
+---
+// faq.astro — AI-citation legibility page (2026-07-16 brief), not a Google
+// rich-snippet play (Google dropped FAQ rich results for non gov/health
+// sites). Plain, fully-expanded Q&A text so crawlers read it directly, no
+// JS-gated accordion. Copy + schema both come from src/faq.ts — one source.
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import { BUSINESS } from "../consts";
+import { FAQS } from "../faq";
+
+const desc = "Straight answers on Auckland painting costs, prep, coastal repaint timing and hiring a painter — from MH Painting.";
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: FAQS.map((f) => ({
+    "@type": "Question",
+    name: f.question,
+    acceptedAnswer: { "@type": "Answer", text: f.answer },
+  })),
+};
+---
+<Base title="FAQ" description={desc} path="/faq">
+  <Nav />
+  <main>
+    <section class="wrap prose">
+      <p class="eyebrow">Questions we get asked</p>
+      <h1>Frequently asked questions.</h1>
+      <p class="lead">Straight answers on cost, prep and timing — from {BUSINESS.owner} at {BUSINESS.name}.</p>
+
+      <div class="faq-list">
+        {FAQS.map((f) => (
+          <div class="faq-item">
+            <h2>{f.question}</h2>
+            <p>{f.answer}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="cta-row">
+        <a class="btn" href="/contact">Get a free quote</a>
+      </div>
+    </section>
+  </main>
+  <Footer />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <style>
+    .faq-list { margin-top: 12px; }
+    .faq-item { padding: 26px 0; border-bottom: 1px solid var(--line); }
+    .faq-item:first-child { padding-top: 0; }
+    .faq-item h2 { font-size: clamp(19px, 2.2vw, 23px); margin-bottom: 10px; }
+    .faq-item p { font-size: 15.5px; color: var(--inkSoft); line-height: 1.65; max-width: 70ch; }
+  </style>
+</Base>
