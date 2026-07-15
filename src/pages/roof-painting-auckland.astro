@@ -1,0 +1,184 @@
+---
+// roof-painting-auckland.astro — service/landing page (2026-07-16 roof
+// brief). NOT a project case study: the proof anchor is Max's real roof
+// video, not a photographed job with a gallery, so this stays a service
+// page rather than a fabricated projects.ts entry (EKO §6 traceability).
+// No free-house-wash mention anywhere here — So Clean covers full exterior
+// repaints only, not roof jobs (confirmed by Freddie 2026-07-16).
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import { BUSINESS } from "../consts";
+import { ROOF_FAQS } from "../faq";
+
+const { youtubeId, title: videoTitle, description: videoDescription, uploadDate } = BUSINESS.roofVideo;
+const thumbnailUrl = `https://i.ytimg.com/vi/${youtubeId}/maxresdefault.jpg`;
+
+const desc = "Roof painting across north Auckland — long-run steel, corrugated iron, concrete tile and Decramastic. Dulux Accredited, fully insured.";
+
+const videoSchema = {
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  name: videoTitle,
+  description: videoDescription,
+  thumbnailUrl,
+  uploadDate,
+  contentUrl: `https://youtu.be/${youtubeId}`,
+  embedUrl: `https://www.youtube-nocookie.com/embed/${youtubeId}`,
+  publisher: {
+    "@type": "Organization",
+    name: BUSINESS.name,
+    logo: { "@type": "ImageObject", url: `${BUSINESS.url}${BUSINESS.logo}` },
+  },
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: ROOF_FAQS.map((f) => ({
+    "@type": "Question",
+    name: f.question,
+    acceptedAnswer: { "@type": "Answer", text: f.answer },
+  })),
+};
+---
+<Base title="Roof Painting, North Auckland" description={desc} path="/roof-painting-auckland">
+  <Nav />
+  <main>
+    <section class="wrap roof-hero">
+      <p class="eyebrow">Roof painting</p>
+      <h1>Roof painting across north Auckland — protect it, extend it, lift the whole house.</h1>
+      <p class="lead">A tired roof drags down the whole house — and in coastal Auckland, salt and UV are hard on it. Done properly, a roof coat protects the surface, sharpens the look, and buys you years before you'd need to think about replacing it. Here's how we approach it, and honest answers to what people usually ask.</p>
+
+      <div class="yt-facade" id="roofVideoFacade" data-yt-id={youtubeId} role="button" tabindex="0" aria-label={`Play video: ${videoTitle}`}>
+        <img src={thumbnailUrl} alt="Roof repainting before and after, north Auckland — MH Painting" width="1280" height="720" loading="eager" />
+        <span class="yt-play" aria-hidden="true">
+          <svg viewBox="0 0 68 48" width="56" height="40"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.64 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#191714"/><path d="M45 24 27 14v20" fill="#F4EFE6"/></svg>
+        </span>
+      </div>
+    </section>
+
+    <section class="wrap prose roof-body">
+      <div class="roof-block">
+        <h2><span class="h2-stroke">What roof painting actually does (and what it doesn't)<svg viewBox="0 0 200 10" preserveAspectRatio="none" aria-hidden="true"><path class="draw" d="M2 6 C 60 2, 120 9, 198 4" /></svg></span></h2>
+        <p>A good roof coat is a protective system — it shields the surface from UV, rain and salt, holds moss and mould back, and freshens a faded or chalky roof. What it won't do is fix a structural problem: painting doesn't repair failed flashings or stop an existing leak. If the roof's leaking, that gets sorted first — coating over a leak just hides it for a season. We'll tell you straight if what you need is a repair, not a repaint.</p>
+      </div>
+
+      <div class="roof-block">
+        <h2>Paint or replace?</h2>
+        <p>If the roof structure is sound — sheets, fixings and flashings in good order — a quality coating extends its life for a good while, at a fraction of what a full re-roof costs. If the substrate itself is failing, paint won't save it, and we'll say so. The honest answer depends on the roof, which is why we assess it properly rather than quote off a photo.</p>
+      </div>
+
+      <div class="roof-block">
+        <h2>What drives the price</h2>
+        <p>Every roof's different. The big variables are pitch and height (steeper, higher roofs need more access gear), site access and whether scaffolding or harnesses are required, and how much prep the roof needs — heavy moss, rust spots and flaking all add time. A flat per-metre number off the street usually doesn't survive contact with the actual roof, so we quote on what yours needs.</p>
+      </div>
+
+      <div class="roof-block">
+        <h2>Prep is the job</h2>
+        <p>The coat is only as good as what's under it. Proper roof prep means a thorough clean and moss/mould treatment so nothing's sealed in underneath, sorting rust spots, and priming where it's needed before the topcoats go on. Rushing this is the number-one reason a roof coat fails early — and it's the part cheap quotes quietly skip.</p>
+      </div>
+
+      <div class="roof-block">
+        <h2>Auckland's coast is hard on roofs</h2>
+        <p>Out here, salt-laden air and strong northern UV break coatings down faster than they would inland — exposed, sea-facing roofs feel it most. That's why product choice and prep matter: the right system for the exposure lasts, the wrong one doesn't. We work across the north Auckland corridor and paint every common roof here — {BUSINESS.roofSubstrates.join(", ")} — matching the coating system to the roof and its exposure.</p>
+      </div>
+
+      <div class="roof-block">
+        <h2>How often should you paint a roof?</h2>
+        <p>Watch the roof, not the calendar. Chalky, faded colour, moss taking hold, and surface rust starting to show are the signs the protective coat is giving up. Catch it at that stage and you're recoating a sound roof; leave it too long and you're into repairs first.</p>
+      </div>
+
+      <div class="roof-block">
+        <h2>Choosing a roof painter</h2>
+        <p>Two roof quotes for the same address can differ by thousands — usually because they're not quoting the same work. Make sure scaffolding or access gear and the moss/rust treatment are actually written into the quote, and that whoever's quoting has been up on the roof (or properly assessed it), not eyeballed it from the driveway. Ask what prep and how many coats are included before you compare on price.</p>
+      </div>
+
+      <div class="cta-row">
+        <a class="btn" href="/contact">Get a free quote</a>
+        <a class="btn ghost" href={`tel:${BUSINESS.phone.replace(/\s/g, "")}`}>{BUSINESS.phone}</a>
+      </div>
+      <p class="roof-cta-note">Thinking about your roof? Send through a few details or use the quote tool — we'll take a proper look and give you a straight answer on whether it's a recoat or a repair.</p>
+    </section>
+
+    <section class="wrap roof-faq">
+      <p class="eyebrow">Roof painting FAQ</p>
+      <h2>Questions people ask us about roofs.</h2>
+      <div class="faq-list">
+        {ROOF_FAQS.map((f) => (
+          <div class="faq-item">
+            <h3>{f.question}</h3>
+            <p>{f.answer}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  </main>
+  <Footer />
+  <script type="application/ld+json" set:html={JSON.stringify(videoSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <style>
+    .roof-hero { padding-top: 8vh; max-width: 900px; }
+    .roof-hero h1 { font-size: clamp(30px, 4vw, 44px); margin-bottom: 18px; }
+    .roof-hero .lead { margin-bottom: 32px; }
+
+    /* Lazy YouTube facade — no iframe, no YouTube JS, until clicked
+       (Lighthouse perf gate). Poster is YouTube's own maxres thumbnail. */
+    .yt-facade {
+      position: relative; aspect-ratio: 16/9; border-radius: 16px; overflow: hidden;
+      cursor: pointer; background: var(--ink); border: 1px solid var(--line);
+    }
+    .yt-facade img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .yt-play {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      pointer-events: none;
+    }
+    .yt-play svg { filter: drop-shadow(0 6px 18px rgba(0,0,0,.35)); transition: transform .25s ease; }
+    .yt-facade:hover .yt-play svg, .yt-facade:focus-visible .yt-play svg { transform: scale(1.08); }
+    :global(.yt-iframe) { width: 100%; aspect-ratio: 16/9; border: 0; border-radius: 16px; display: block; }
+
+    .roof-body { margin-top: 4vh; }
+    .roof-block { padding: 28px 0; border-bottom: 1px solid var(--line); }
+    .roof-block:first-child { padding-top: 0; }
+    .roof-block h2 { font-size: clamp(20px, 2.4vw, 26px); margin-bottom: 10px; }
+    .roof-block p { color: var(--inkSoft); max-width: 72ch; }
+    .h2-stroke { position: relative; display: inline-block; }
+    .h2-stroke svg { position: absolute; left: 0; bottom: -4px; width: 100%; height: 8px; overflow: visible; }
+    .h2-stroke path { fill: none; stroke: var(--accent); stroke-width: 5; stroke-linecap: round; }
+    .roof-cta-note { margin-top: 14px; font-size: 14px; color: var(--inkSoft); max-width: 60ch; }
+
+    .roof-faq { margin-top: 2vh; }
+    .roof-faq .faq-list { margin-top: 8px; }
+    .roof-faq .faq-item { padding: 22px 0; border-bottom: 1px solid var(--line); }
+    .roof-faq .faq-item:first-child { padding-top: 0; }
+    .roof-faq .faq-item h3 { font-size: 18px; margin-bottom: 8px; }
+    .roof-faq .faq-item p { font-size: 15px; color: var(--inkSoft); max-width: 68ch; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .yt-facade:hover .yt-play svg, .yt-facade:focus-visible .yt-play svg { transform: none; }
+    }
+  </style>
+  <script define:vars={{ youtubeId, videoTitle }}>
+    // Click-to-load facade — the iframe (and YouTube's JS) never loads until
+    // the visitor actually wants the video. Keyboard-accessible (Enter/Space).
+    const facade = document.getElementById("roofVideoFacade");
+    if (facade) {
+      const loadVideo = () => {
+        const iframe = document.createElement("iframe");
+        iframe.className = "yt-iframe";
+        iframe.src = `https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0`;
+        iframe.title = videoTitle;
+        iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+        iframe.allowFullscreen = true;
+        facade.replaceWith(iframe);
+      };
+      facade.addEventListener("click", loadVideo);
+      facade.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          loadVideo();
+        }
+      });
+    }
+  </script>
+</Base>

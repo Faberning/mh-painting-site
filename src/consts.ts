@@ -52,13 +52,24 @@ export const BUSINESS = {
     { title: "Repaint interiors",    icon: "icon-interior.png", blurb: "When repainting the interior of a home, we assess the condition and select the correct preparation and system for excellent adhesion and finish. Once we start, we treat your home like it's our own — tidy and respectful, every step of the way." },
     { title: "Repaint exteriors",    icon: "icon-brush.png",    blurb: "Repainting exteriors starts with proper prep — washed, scraped, sanded, filled and primed, depending on what the surface needs. The right system is then applied for excellent adhesion and a finish that stands up to New Zealand's harsh weather." },
     { title: "Plastering",           icon: "icon-trowel.png",   blurb: "A quality paint job starts with quality plastering. New builds get three coats to all joins and screws, sanded back and light-checked. Older homes get cracks dug out, re-taped and plastered properly so they stay gone — kept tidy every step of the way." },
-    { title: "Roof painting",        icon: "icon-roof.png",     blurb: "The right paint for your roof type makes all the difference. Properly treated, properly coated and built to handle New Zealand's harsh weather — a premium finish that adds years back onto your roof." },
+    { title: "Roof painting",        icon: "icon-roof.png",     href: "/roof-painting-auckland", blurb: "The right paint for your roof type makes all the difference. Properly treated, properly coated and built to handle New Zealand's harsh weather — a premium finish that adds years back onto your roof." },
   ],
 
   // Services asserted in schema only — real & offered, but no service card (Max's call).
   schemaServices: [
     { title: "Commercial painting", blurb: "Commercial painting for builders and businesses across Auckland and Northland — interiors and exteriors prepped and finished to the same standard as our residential work." },
   ],
+
+  // Roof substrates Max paints — confirmed by Freddie 2026-07-16, feeds the
+  // /roof-painting-auckland page. Free house wash (So Clean) does NOT apply
+  // to roof jobs — full exterior repaints only; never state it on that page.
+  roofSubstrates: ["long-run steel", "corrugated iron", "concrete tile", "Decramastic"],
+  roofVideo: {
+    youtubeId: "5VdfSKiGCJk",
+    title: "Roof Repainting Before & After — Auckland Painters | mh painting", // real YouTube title, verified
+    description: "Roof repainting in north Auckland — before and after. A metal roof cleaned, prepped and recoated by MH Painting to bring it back to a clean, protected finish.",
+    uploadDate: "2026-06-04T23:54:44-07:00", // real upload date, verified from the YouTube watch page — never guess this
+  },
 
   // --- Trust signals (read by pages; deliberately NOT in schema to avoid self-serving review markup) ---
   experienceYears: 9,                    // MAX's hands-on experience ("9 years on the tools"). NEVER render as business age. Confirmed accurate by Max at go-live (2026-07-16).

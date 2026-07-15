@@ -71,3 +71,30 @@ export const FAQS: Faq[] = [
       "Yes — with every accepted full repaint we include a free house wash through our partner So Clean. A clean surface is also better prep, so it's not just a freebie: it helps the new coating bond and last.",
   },
 ];
+
+// Roof-specific Q&As (2026-07-16 roof brief) — scoped FAQPage schema on
+// /roof-painting-auckland only, not merged into the general FAQS above.
+// Free house wash intentionally never mentioned here: So Clean applies to
+// full exterior repaints only, not roof jobs.
+export const ROOF_FAQS: Faq[] = [
+  {
+    question: "Is roof painting worth it?",
+    answer:
+      "If the roof's structurally sound, yes — a quality coat protects it and extends its life for a fraction of a re-roof. If the substrate's failing, no — and a straight painter will tell you that rather than sell you a coat that won't hold.",
+  },
+  {
+    question: "Will roof painting fix a leak?",
+    answer:
+      "No. It's a protective coat, not a repair — it won't fix failed flashings or an existing structural leak. Those get sorted first; painting over a leak only hides it.",
+  },
+  {
+    question: "How often should a house roof be painted?",
+    answer:
+      "There's no fixed number — it's about condition. Chalking, fading, moss and the first surface rust are the signs the coat is giving up. Recoat a sound roof at that point and you avoid slipping into repair territory.",
+  },
+  {
+    question: "Does painting the roof help when selling?",
+    answer:
+      "Often — a clean, freshly coated roof lifts the look of the whole house and reads as well-kept, both in listing photos and from the street.",
+  },
+];

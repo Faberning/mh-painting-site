@@ -133,13 +133,17 @@ const desc = "Painters and plasterers across north Auckland — new builds, repa
         <p class="carousel-hint">Swipe to see more</p>
       </div>
       <div class="svc-grid">
-        {BUSINESS.services.map((s) => (
-          <div class="svc" data-reveal>
-            <img class="svc-img" src={`/icons/${s.icon}`} width="88" height="88" alt="" loading="lazy" />
-            <h3>{s.title}</h3>
-            <p>{s.blurb}</p>
-          </div>
-        ))}
+        {BUSINESS.services.map((s) => {
+          const Tag = s.href ? "a" : "div";
+          return (
+            <Tag class="svc" data-reveal {...(s.href ? { href: s.href } : {})}>
+              <img class="svc-img" src={`/icons/${s.icon}`} width="88" height="88" alt="" loading="lazy" />
+              <h3>{s.title}</h3>
+              <p>{s.blurb}</p>
+              {s.href && <span class="svc-more" aria-hidden="true">Learn more →</span>}
+            </Tag>
+          );
+        })}
       </div>
     </section>
 
@@ -287,11 +291,12 @@ const desc = "Painters and plasterers across north Auckland — new builds, repa
 
     /* ---------- services ---------- */
     .svc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
-    .svc { background: #fff; border-radius: 14px; padding: 32px 28px; border: 1px solid color-mix(in srgb, var(--ink) 7%, transparent); position: relative; overflow: hidden; transition: transform .35s, box-shadow .35s; }
-    .svc:hover { transform: translateY(-5px); box-shadow: 0 18px 40px rgba(34,31,28,.12); }
+    .svc { display: block; background: #fff; border-radius: 14px; padding: 32px 28px; border: 1px solid color-mix(in srgb, var(--ink) 7%, transparent); position: relative; overflow: hidden; transition: transform .35s, box-shadow .35s; }
+    .svc:hover, .svc:focus-visible { transform: translateY(-5px); box-shadow: 0 18px 40px rgba(34,31,28,.12); }
     .svc-img { width: 88px; height: 88px; border-radius: 20px; object-fit: cover; margin-bottom: 20px; border: 1px solid color-mix(in srgb, var(--ink) 8%, transparent); transition: transform .35s cubic-bezier(.34,1.56,.64,1); }
     .svc:hover .svc-img { transform: scale(1.08) rotate(-2deg); }
     .svc h3 { font-size: 21px; margin-bottom: 9px; }
+    .svc-more { display: inline-block; margin-top: 12px; font-size: 13.5px; font-weight: 600; color: var(--accent); }
     .svc p { font-size: 14.5px; color: var(--inkSoft); }
 
     /* ---------- scoper ---------- */
