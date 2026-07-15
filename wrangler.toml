@@ -19,10 +19,14 @@ custom_domain = true
 
 # Static assets served through the ASSETS binding — NEVER by self-fetching the
 # custom domain (522 loop). Astro builds to ./dist.
+# run_worker_first: assets are served directly from the edge by default,
+# bypassing worker.js entirely (including for "/") — the www->apex redirect
+# needs the Worker to run first on every request.
 [assets]
 directory = "./dist"
 binding = "ASSETS"
 not_found_handling = "404-page"
+run_worker_first = true
 
 # Secrets are NOT here. Set them with: npx wrangler secret put <NAME>
 # e.g. MAILCHANNELS_KEY, LEAD_STORE_TOKEN. See .dev.vars.example for local dev.

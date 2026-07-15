@@ -24,9 +24,19 @@ const DEFAULT_FROM = "mh painting <leads@send.mhpainting.co>";
 // Team inbox that gets new-enquiry notifications (mirrors BUSINESS.email).
 const TEAM_TO = "max@mhpainting.co";
 
+// Canonical is non-www (go-live brief, Step 3).
+const WWW_HOST = "www.mhpainting.co";
+const APEX_HOST = "mhpainting.co";
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
+
+    // --- www -> apex, 301, path + query preserved ---
+    if (url.hostname === WWW_HOST) {
+      url.hostname = APEX_HOST;
+      return Response.redirect(url.toString(), 301);
+    }
 
     // --- Lead capture (EKO §7: 2xx fast, send async, store + notify) ---
     if (url.pathname === "/api/lead" && request.method === "POST") {
