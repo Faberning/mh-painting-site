@@ -1,54 +1,141 @@
 ---
+// index.astro — "Fresh Coat" redesign (production brief v1). Ported from the
+// approved mh-painting-fresh-coat-v8.html mockup into real Astro + consts.ts
+// data. Motion is GSAP, dynamically imported only when the visitor doesn't
+// prefer reduced motion — nothing here hides content by default; JS is a
+// pure enhancement layer (crawlers + no-JS visitors get the full page).
 import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import { BUSINESS } from "../consts";
 import { PROJECTS } from "../projects";
 import { leadImage } from "../galleries";
+
 const tel = `tel:${BUSINESS.phone.replace(/\s/g, "")}`;
 const featured = PROJECTS.filter((p) => p.featured);
 const heroImg = { src: "/hero.jpg", width: 1080, height: 596 };
-// Hero trust strip reads the offer from consts; drop the "— through So Clean"
-// credit for the thin strip (it's credited in full in the About section below).
-const houseWash = BUSINESS.offer.split(" — ")[0];
+const areaPhoto = leadImage("board-and-batten-warkworth");
+const finalPhoto = "/projects/langs-beach-new-build/02.jpg";
+
+// Marquee: real service names + coverage, duplicated once for a seamless
+// GSAP scroll loop (server-rendered so it works with JS off too).
+const marqueeItems = [
+  "New builds",
+  "Quality repaints",
+  "Interior & exterior",
+  "Plastering",
+  "Roof painting",
+  "North Auckland",
+];
+
+// "Where we work" chips: every specific place in areaServed, minus the
+// generic regional labels (North Shore / Hibiscus Coast / Rodney / Auckland)
+// already spelled out in the coverage sentence below.
+const suburbs = BUSINESS.areaServed.filter(
+  (a) => !["North Shore", "Hibiscus Coast", "Rodney", "Auckland"].includes(a)
+);
+
 const desc = "Painters and plasterers across north Auckland — new builds, repaints and renovations, done properly. Fully insured, Dulux Accredited.";
 ---
 <Base title={BUSINESS.seoTitle} description={desc}>
   <Nav />
   <main>
     <section class="hero">
-      <img
-        class="hero-bg"
-        src={heroImg.src}
-        width={heroImg.width}
-        height={heroImg.height}
-        loading="eager"
-        fetchpriority="high"
-        alt="Black cedar and bagged-brick new build exterior at Mangawhai Estuary, painted by MH Painting"
-      />
-      <div class="hero-overlay"></div>
-      <div class="hero-inner wrap">
-        <p class="eyebrow">New builds · Repaints · Renovations · North Auckland</p>
-        <h1>North Auckland painters and plasterers —<br />new builds, repaints and renovations.</h1>
-        <p class="lead">Turning your vision into value.<br />Quality work that stands the test of time.</p>
-        <p class="trust-strip">{BUSINESS.accreditations[0]} · Fully insured · {houseWash}</p>
-        <div class="pills">
-          <span class="pill"><b>{BUSINESS.experienceYears}+ yrs</b> experience</span>
-          <span class="pill"><b>★ {BUSINESS.reviews.rating}</b> on Google</span>
+      <div class="hero-bg"><img id="heroImg" src={heroImg.src} width={heroImg.width} height={heroImg.height} loading="eager" fetchpriority="high" alt="Black cedar and bagged-brick new build exterior at Mangawhai Estuary, painted by MH Painting" /></div>
+      <div class="hero-fade" aria-hidden="true"></div>
+      <div class="amb a1" aria-hidden="true"></div><div class="amb a2" aria-hidden="true"></div><div class="amb a3" aria-hidden="true"></div>
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow" data-e>New builds · Repaints · Renovations</p>
+          <h1 aria-label="North Auckland painters and plasterers — new builds, repaints and renovations.">
+            <span class="line"><span class="w">North&nbsp;Auckland</span></span>
+            <span class="line"><span class="w">painters&nbsp;&amp;&nbsp;plasterers&nbsp;—</span></span>
+            <span class="line"><span class="w">prepped&nbsp;properly,</span></span>
+            <span class="line"><span class="w"><span class="stroke-wrap">finished to last.<svg viewBox="0 0 200 14" preserveAspectRatio="none" aria-hidden="true"><path class="draw" d="M3 9 C 40 3, 90 12, 197 6" /></svg></span></span></span>
+          </h1>
+          <p class="hero-sub" data-e>New builds, repaints and renovations across north Auckland. Fully insured, Dulux Accredited — and a free house wash with every full repaint.</p>
+          <div class="chips" data-e>
+            <span class="chip">{BUSINESS.accreditations[0]}</span>
+            <span class="chip">Fully insured</span>
+            <span class="chip">{BUSINESS.reviews.rating.toFixed(1)} on Google</span>
+          </div>
+          <div class="hero-ctas" data-e>
+            <a class="btn" href="/contact">Get a free quote</a>
+            <a class="btn ghost" href="#works">See our work →</a>
+          </div>
         </div>
-        <div class="cta-row">
-          <a class="btn" href="/contact">Get a free quote</a>
-          <a class="btn ghost" href="/projects">See our work</a>
+        <div class="hero-visual" data-e>
+          <img class="hv-photo" src={heroImg.src} width={heroImg.width} height={heroImg.height} alt="New build exterior painted by MH Painting" loading="lazy" />
+          <div class="exp-tag"><span class="n">{BUSINESS.experienceYears}+ yrs</span>on the tools</div>
+          <div class="metric-card">
+            <div>
+              <div class="stars" aria-hidden="true">★★★★★</div>
+              <div class="big"><span id="countRating">{BUSINESS.reviews.rating.toFixed(1)}</span></div>
+              <div class="lbl">from <span id="countReviews">{BUSINESS.reviews.count}</span> Google reviews</div>
+            </div>
+            <div class="div"></div>
+            <img class="badge" src="/dulux-accredited.png" alt="Dulux Accredited Painter" width="150" height="40" />
+          </div>
         </div>
       </div>
     </section>
 
+    <div class="marquee" aria-hidden="true">
+      <div class="mq-track" id="mqTrack">
+        {marqueeItems.concat(marqueeItems).map((item) => (
+          <span class="mq-item">{item}<svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" /></svg></span>
+        ))}
+      </div>
+    </div>
+
+    <section id="works" class="wrap">
+      <div class="sec-head" data-reveal>
+        <h2><span class="h2-stroke">Featured works<svg viewBox="0 0 200 10" preserveAspectRatio="none" aria-hidden="true"><path class="draw" d="M2 6 C 60 2, 120 9, 198 4" /></svg></span></h2>
+        <p class="sec-sub">Real jobs, photographed as finished — architectural new builds and quality repaints, coastal and inland.</p>
+        <p class="carousel-hint">Swipe to see more</p>
+      </div>
+      <div class="works-grid">
+        {featured.map((p, i) => {
+          const img = leadImage(p.slug);
+          return (
+            <a class="work-card" href={`/projects/${p.slug}`} data-reveal data-dir={i % 2 === 0 ? "left" : "right"}>
+              {img && (
+                <div class="work-photo">
+                  <span class="tag">{p.tag}</span>
+                  <img src={img.src} width={img.width} height={img.height} loading="lazy" alt={`${p.title} — photo 1`} />
+                </div>
+              )}
+              <div class="work-body">
+                <div><h3>{p.title}</h3><p>{p.body[0]}</p></div>
+                <span class="work-arrow" aria-hidden="true">→</span>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+      <p class="works-more" data-reveal><a class="btn ghost" href="/projects">See all projects →</a></p>
+    </section>
+
+    <div class="swipe" data-swipe aria-hidden="true"></div>
+
+    <div class="band" data-reveal>
+      <svg class="roller-bg" viewBox="0 0 100 100" aria-hidden="true"><rect x="14" y="18" width="52" height="22" rx="8" /><path d="M66 29h14v12h-8" /><line x1="72" y1="41" x2="72" y2="62" /><rect x="66" y="62" width="12" height="22" rx="4" /></svg>
+      <div class="wrap">
+        <h2>Prepped properly. Finished to last.</h2>
+        <p>Every full repaint starts with a professional house wash — free, through our partners at <a href="https://www.soclean.co.nz/" target="_blank" rel="noopener noreferrer">So Clean</a>. Because a finish is only as good as the surface under it.</p>
+      </div>
+    </div>
+
     <section class="wrap">
-      <p class="eyebrow">What we do</p>
-      <h2>Painting &amp; plastering, done properly.</h2>
-      <div class="grid3">
+      <div class="sec-head" data-reveal>
+        <h2><span class="h2-stroke">What we do<svg viewBox="0 0 200 10" preserveAspectRatio="none" aria-hidden="true"><path class="draw" d="M2 6 C 60 2, 120 9, 198 4" /></svg></span></h2>
+        <p class="sec-sub">Interior and exterior, new builds and repaints — we explain the process and the reasoning, not just the price.</p>
+        <p class="carousel-hint">Swipe to see more</p>
+      </div>
+      <div class="svc-grid">
         {BUSINESS.services.map((s) => (
-          <div class="cell">
+          <div class="svc" data-reveal>
+            <img class="svc-img" src={`/icons/${s.icon}`} width="88" height="88" alt="" loading="lazy" />
             <h3>{s.title}</h3>
             <p>{s.blurb}</p>
           </div>
@@ -56,129 +143,366 @@ const desc = "Painters and plasterers across north Auckland — new builds, repa
       </div>
     </section>
 
-    <section class="wrap">
-      <p class="eyebrow">Why MH Painting</p>
-      <h2>{BUSINESS.experienceYears} years on the tools.</h2>
-      <div class="prose">
-        <p>Max has been painting for {BUSINESS.experienceYears}+ years — and that shows in the prep, the knowledge and the finish.</p>
-        <p>Specialising in new builds, repaints and commercial painting across Auckland, from the North Shore and Hibiscus Coast through to Orewa, Silverdale and Whangaparāoa.</p>
-        <p>For the right project we'll travel north — as you can see in our portfolio, we've worked on architectural new builds in Mangawhai, Langs Beach, Waipu and Warkworth.</p>
-        <p>We are Dulux Accredited and fully insured, serving builders and homeowners across Auckland and Northland. Every full exterior repaint also comes with a free house wash through our partner <a href="https://www.soclean.co.nz/" target="_blank" rel="noopener noreferrer" style="text-decoration:underline">So Clean</a> — because the job isn't done until it looks the part.</p>
+    <section class="scoper-sec">
+      <div class="wrap">
+        <div class="sec-head" data-reveal>
+          <h2>Scope your job in ten seconds</h2>
+          <p class="sec-sub">Tell us the shape of the work and it lands with Max already scoped — he'll come back with the right questions, not a form letter.</p>
+        </div>
+        <div class="scoper" data-reveal>
+          <div class="scoper-step">
+            <p class="q"><span class="n">01</span>What kind of job is it?</p>
+            <div class="opts" data-group="type">
+              <button class="opt" type="button" data-v="A new build">New build</button>
+              <button class="opt" type="button" data-v="A full repaint">Full repaint</button>
+              <button class="opt" type="button" data-v="A renovation">Renovation</button>
+            </div>
+          </div>
+          <div class="scoper-step">
+            <p class="q"><span class="n">02</span>Which areas?</p>
+            <div class="opts" data-group="area" data-multi>
+              <button class="opt" type="button" data-v="interior">Interior</button>
+              <button class="opt" type="button" data-v="exterior">Exterior</button>
+              <button class="opt" type="button" data-v="roof">Roof</button>
+              <button class="opt" type="button" data-v="plastering">Plastering</button>
+            </div>
+          </div>
+          <div class="scoper-step">
+            <p class="q"><span class="n">03</span>Roughly how big?</p>
+            <div class="opts" data-group="size">
+              <button class="opt" type="button" data-v="a few rooms">A few rooms</button>
+              <button class="opt" type="button" data-v="a whole house">Whole house</button>
+              <button class="opt" type="button" data-v="something bigger">Something bigger</button>
+            </div>
+          </div>
+          <div class="scope-out">
+            <p class="scope-line" id="scopeLine" aria-live="polite">Pick a job type to start —</p>
+            <a class="btn on-dark" href="/contact" id="scopeCta">Send this to Max</a>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section class="wrap">
-      <p class="eyebrow">Recent work</p>
-      <h2>Featured Works</h2>
-      <div class="cards">
-        {featured.map((p) => {
-          const img = leadImage(p.slug);
-          return (
-            <a class="pcard" href={`/projects/${p.slug}`}>
-              {img && (
-                <div class="thumb">
-                  <img
-                    src={img.src}
-                    width={img.width}
-                    height={img.height}
-                    loading="lazy"
-                    alt={`${p.title} — photo 1`}
-                  />
-                </div>
-              )}
-              <span class="tag">{p.tag}</span>
-              <h3>{p.title}</h3>
-              <p>{p.body[0]}</p>
-            </a>
-          );
-        })}
+    <section class="area">
+      <div class="wrap area-inner">
+        <div data-reveal data-dir="left">
+          <h2><span class="h2-stroke">Where we work<svg viewBox="0 0 200 10" preserveAspectRatio="none" aria-hidden="true"><path class="draw" d="M2 6 C 60 2, 120 9, 198 4" /></svg></span></h2>
+          <p class="sec-sub">Takapuna to Warkworth, Long Bay to Helensville — the North Shore, Hibiscus Coast, Rodney and north-west Auckland. And we travel for quality coastal work.</p>
+          <div class="area-list">
+            {suburbs.map((s) => <span>{s}</span>)}
+          </div>
+        </div>
+        <div class="area-photo" data-reveal data-dir="right">
+          {areaPhoto && <img src={areaPhoto.src} width={areaPhoto.width} height={areaPhoto.height} loading="lazy" alt="Board and batten new build in Warkworth painted by MH Painting" />}
+        </div>
       </div>
-      <p style="margin-top:24px"><a class="back" href="/projects">See all projects →</a></p>
     </section>
 
-    <section class="wrap">
-      <h2>Planning a new build or a repaint?</h2>
-      <p class="lead">Tell us a bit about the job and we'll come back to you with a free quote.</p>
-      <div class="cta-row">
-        <a class="btn" href="/contact">Get a free quote</a>
-        <a class="btn ghost" href={tel}>{BUSINESS.phone}</a>
+    <div class="final" id="contact-cta">
+      <div class="bg"><img src={finalPhoto} width="1500" height="1028" loading="lazy" alt="" /></div>
+      <div class="scrim"></div>
+      <div class="wrap" data-reveal>
+        <h2>Ready when you are.</h2>
+        <p>Send the job through, or call Max directly — you'll get a straight answer about approach, timing and what it'll take to do it properly.</p>
+        <div class="hero-ctas">
+          <a class="btn" href={tel}>{BUSINESS.phone}</a>
+          <a class="btn on-dark" href="/contact">Get a free quote</a>
+        </div>
       </div>
-    </section>
+    </div>
   </main>
   <Footer />
+
   <style>
-    h1 { font-size: clamp(40px, 7vw, 76px); font-weight: 600; line-height: 1.04; }
+    /* ---------- hero ---------- */
+    .hero { position: relative; min-height: 92vh; display: flex; align-items: center; padding: 70px 0 100px; overflow: hidden; }
+    .hero-bg { position: absolute; inset: 0; z-index: 0; }
+    .hero-bg img { width: 100%; height: 114%; object-fit: cover; object-position: 62% center; will-change: transform; }
+    .hero-fade { position: absolute; inset: 0; z-index: 1; background:
+      linear-gradient(90deg, var(--bg) 0%, color-mix(in srgb, var(--bg) 96%, transparent) 20%, color-mix(in srgb, var(--bg) 72%, transparent) 33%, color-mix(in srgb, var(--bg) 30%, transparent) 45%, transparent 58%),
+      linear-gradient(180deg, var(--bg) 0%, transparent 24%),
+      linear-gradient(0deg, color-mix(in srgb, var(--bg) 22%, transparent) 0%, transparent 14%); }
+    .amb { position: absolute; border-radius: 100px; background: var(--accent); opacity: .08; pointer-events: none; z-index: 2; }
+    .amb.a1 { width: 340px; height: 64px; top: 12%; right: -80px; transform: rotate(-14deg); }
+    .amb.a2 { width: 220px; height: 44px; bottom: 16%; left: -60px; transform: rotate(10deg); opacity: .07; }
+    .amb.a3 { width: 150px; height: 30px; top: 58%; right: 22%; transform: rotate(-8deg); opacity: .06; }
+    .hero-grid { position: relative; z-index: 3; display: grid; grid-template-columns: 1.05fr .95fr; gap: 56px; align-items: center; width: 100%; }
+    .hero h1 { font-size: clamp(37px, 4.4vw, 62px); margin-bottom: 24px; }
+    .hero h1 .line { display: block; overflow: hidden; }
+    .hero h1 .w { display: inline-block; will-change: transform; }
+    .stroke-wrap { position: relative; display: inline-block; white-space: nowrap; }
+    .stroke-wrap svg { position: absolute; left: -2%; bottom: -6px; width: 104%; height: 14px; overflow: visible; }
+    .stroke-wrap path, .h2-stroke path { fill: none; stroke: var(--accent); stroke-width: 6; stroke-linecap: round; }
+    .hero-sub { font-size: 18.5px; max-width: 500px; color: var(--inkSoft); margin-bottom: 26px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 30px; }
+    .chip { font-size: 13px; font-weight: 600; border: 1.5px solid color-mix(in srgb, var(--ink) 16%, transparent); border-radius: 100px; padding: 8px 15px; background: rgba(255,255,255,.45); }
+    .hero-visual { position: relative; height: 560px; pointer-events: none; }
+    .hv-photo { display: none; }
+    .hero-visual .metric-card, .hero-visual .exp-tag { pointer-events: auto; }
+    .metric-card { position: absolute; right: -10px; bottom: 12px; z-index: 3; background: #fff; border-radius: 13px; padding: 15px 19px; box-shadow: 0 18px 44px rgba(34,31,28,.22); display: flex; gap: 14px; align-items: center; transform: scale(.9); transform-origin: bottom right; }
+    .metric-card .big { font-family: var(--display); font-size: 34px; font-weight: 600; line-height: 1; }
+    .metric-card .stars { color: var(--accent); font-size: 14px; letter-spacing: 2px; }
+    .metric-card .lbl { font-size: 12.5px; color: var(--inkSoft); margin-top: 4px; }
+    .metric-card .div { width: 1px; align-self: stretch; background: color-mix(in srgb, var(--ink) 12%, transparent); }
+    .metric-card .badge { height: 34px; width: auto; }
+    .exp-tag { position: absolute; top: 34px; right: -10px; z-index: 3; background: var(--ink); color: var(--bg); border-radius: 10px; padding: 12px 18px; font-size: 13px; font-weight: 600; box-shadow: 0 14px 34px rgba(34,31,28,.3); }
+    .exp-tag .n { font-family: var(--display); font-size: 24px; color: var(--accent-soft); display: block; line-height: 1.1; }
 
-    /* Full-bleed photographic hero. cover is correct here: this is a
-       decorative backdrop, not content (§9 governs galleries/content, which
-       stay contain). Copy is overlaid in white, left-aligned, vertically
-       centred. */
-    .hero {
-      position: relative;
-      min-height: 80vh;
-      display: flex;
-      align-items: center;
-      overflow: hidden;
-    }
-    .hero-bg {
-      position: absolute; inset: 0; z-index: 0;
-      width: 100%; height: 100%;
-      object-fit: cover; object-position: center;
-    }
-    .hero-overlay {
-      position: absolute; inset: 0; z-index: 1;
-      background:
-        linear-gradient(90deg, rgba(15,18,20,0.80) 0%, rgba(15,18,20,0.55) 45%, rgba(15,18,20,0.20) 100%),
-        linear-gradient(0deg, rgba(15,18,20,0.55) 0%, rgba(15,18,20,0) 55%);
-    }
-    .hero-inner {
-      position: relative; z-index: 2;
-      width: 100%;
-      padding-top: 7vh; padding-bottom: 7vh;
-      color: #fff;
-    }
-    .hero-inner .eyebrow { color: #fff; opacity: 0.85; }
-    .hero-inner h1 { color: #fff; text-shadow: 0 2px 18px rgba(0,0,0,0.35); }
-    .hero-inner .lead { color: rgba(255,255,255,0.92); }
-    .hero-inner .trust-strip {
-      margin-top: 18px;
-      font-size: 14px;
-      letter-spacing: 0.01em;
-      color: rgba(255,255,255,0.9);
-    }
-    /* Trust pills on dark */
-    .hero-inner .pill {
-      background: rgba(255,255,255,0.12); color: #fff;
-      border-color: rgba(255,255,255,0.32);
-    }
-    .hero-inner .pill b { color: #fff; }
-    /* Ghost CTA needs light borders on the dark image */
-    .hero-inner .btn.ghost { color: #fff; border-color: rgba(255,255,255,0.6); }
-    .hero-inner .btn.ghost:hover { border-color: #fff; color: #fff; }
+    /* ---------- marquee ---------- */
+    .marquee { background: var(--ink); color: var(--bg); overflow: hidden; padding: 16px 0; border-top: 3px solid var(--accent); }
+    .mq-track { display: flex; white-space: nowrap; will-change: transform; width: max-content; }
+    .mq-item { font-family: var(--display); font-size: 19px; font-weight: 500; padding: 0 26px; display: inline-flex; align-items: center; gap: 26px; }
+    .mq-item .ic { width: 16px; height: 16px; color: var(--accent-soft); stroke: none; fill: currentColor; }
 
+    /* ---------- section heads / strokes ---------- */
+    .sec-head { max-width: 660px; margin-bottom: 52px; }
+    .h2-stroke { position: relative; display: inline-block; }
+    .h2-stroke svg { position: absolute; left: 0; bottom: -5px; width: 100%; height: 10px; overflow: visible; }
+    .sec-sub { font-size: 17px; color: var(--inkSoft); }
+    .swipe { height: 5px; background: var(--accent); transform-origin: left; border-radius: 3px; margin: 0 auto; max-width: 1140px; }
+    .carousel-hint { display: none; align-items: center; gap: 7px; margin-top: 14px; font-size: 12.5px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--accent-deep); }
+
+    /* ---------- works ---------- */
+    .works-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 26px; }
+    .work-card { display: block; border-radius: 16px; overflow: hidden; background: #fff; box-shadow: 0 2px 8px rgba(34,31,28,.07); transition: transform .4s cubic-bezier(.4,0,.2,1), box-shadow .4s; }
+    .work-card:hover, .work-card:focus-visible { transform: translateY(-7px); box-shadow: 0 24px 52px rgba(34,31,28,.18); }
+    .work-photo { height: 340px; overflow: hidden; background: var(--ink); position: relative; }
+    .work-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s cubic-bezier(.25,0,.2,1), filter .8s; filter: saturate(.82) contrast(1.02); }
+    .work-card:hover .work-photo img { transform: scale(1.06); filter: saturate(1) contrast(1); }
+    .work-photo .tag { position: absolute; top: 16px; left: 16px; background: rgba(25,23,20,.78); backdrop-filter: blur(6px); color: var(--bg); font-size: 11.5px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; padding: 7px 13px; border-radius: 100px; }
+    .work-body { padding: 24px 26px 28px; display: flex; justify-content: space-between; align-items: flex-start; gap: 18px; }
+    .work-body h3 { font-size: 23px; margin-bottom: 6px; }
+    .work-body p { font-size: 14.5px; color: var(--inkSoft); max-width: 420px; }
+    .work-arrow { flex: none; width: 42px; height: 42px; border-radius: 50%; border: 1.5px solid color-mix(in srgb, var(--ink) 16%, transparent); display: flex; align-items: center; justify-content: center; transition: background .3s, border-color .3s, transform .3s; }
+    .work-card:hover .work-arrow { background: var(--accent); border-color: var(--accent); color: #fff; transform: translateX(4px); }
+    .works-more { text-align: center; margin-top: 44px; }
+
+    /* ---------- band ---------- */
+    .band { position: relative; background: var(--accent); color: #fff; padding: 92px 0; overflow: hidden; }
+    .band .roller-bg { position: absolute; right: -40px; top: 50%; transform: translateY(-50%); width: 380px; height: 380px; opacity: .1; pointer-events: none; }
+    .band .roller-bg path, .band .roller-bg rect, .band .roller-bg line { stroke: #fff; fill: none; stroke-width: 2.4; stroke-linecap: round; }
+    .band h2 { color: #fff; max-width: 720px; }
+    .band p { font-size: 18px; max-width: 600px; opacity: .95; margin-top: 14px; }
+    .band a { color: #fff; border-bottom: 1.5px solid rgba(255,255,255,.55); }
+
+    /* ---------- services ---------- */
+    .svc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+    .svc { background: #fff; border-radius: 14px; padding: 32px 28px; border: 1px solid color-mix(in srgb, var(--ink) 7%, transparent); position: relative; overflow: hidden; transition: transform .35s, box-shadow .35s; }
+    .svc:hover { transform: translateY(-5px); box-shadow: 0 18px 40px rgba(34,31,28,.12); }
+    .svc-img { width: 88px; height: 88px; border-radius: 20px; object-fit: cover; margin-bottom: 20px; border: 1px solid color-mix(in srgb, var(--ink) 8%, transparent); transition: transform .35s cubic-bezier(.34,1.56,.64,1); }
+    .svc:hover .svc-img { transform: scale(1.08) rotate(-2deg); }
+    .svc h3 { font-size: 21px; margin-bottom: 9px; }
+    .svc p { font-size: 14.5px; color: var(--inkSoft); }
+
+    /* ---------- scoper ---------- */
+    .scoper-sec { background: var(--charcoal-soft); color: var(--bg); }
+    .scoper-sec h2 { color: var(--bg); }
+    .scoper-sec .sec-sub { color: color-mix(in srgb, var(--bg) 72%, transparent); }
+    .scoper { background: color-mix(in srgb, var(--bg) 6%, var(--charcoal-soft)); border: 1px solid color-mix(in srgb, var(--bg) 10%, transparent); border-radius: 18px; padding: 44px; max-width: 880px; }
+    .scoper-step { margin-bottom: 32px; }
+    .scoper-step .q { font-family: var(--display); font-size: 21px; font-weight: 500; margin-bottom: 16px; display: flex; align-items: baseline; gap: 12px; }
+    .scoper-step .n { font-family: var(--body); font-size: 12px; font-weight: 600; color: var(--accent-soft); letter-spacing: .1em; }
+    .opts { display: flex; flex-wrap: wrap; gap: 10px; }
+    .opt { font-family: var(--body); font-size: 14.5px; font-weight: 500; color: var(--bg); background: transparent; border: 1.5px solid color-mix(in srgb, var(--bg) 28%, transparent); border-radius: 100px; padding: 11px 20px; cursor: pointer; transition: all .25s; }
+    .opt:hover, .opt:focus-visible { border-color: var(--accent); }
+    .opt.sel { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .scope-out { border-top: 1px solid color-mix(in srgb, var(--bg) 12%, transparent); padding-top: 28px; margin-top: 4px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+    .scope-line { font-family: var(--display); font-size: 20px; line-height: 1.45; max-width: 520px; min-height: 28px; }
+    .scope-line :global(em) { font-style: normal; color: var(--accent-soft); border-bottom: 2px solid var(--accent); }
+
+    /* ---------- area ---------- */
+    .area { background: var(--bg-deep); }
+    .area-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+    .area-photo { height: 400px; border-radius: 16px; overflow: hidden; background: var(--ink); }
+    .area-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .area-list { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 22px; }
+    .area-list span { display: inline-flex; align-items: center; font-size: 13.5px; font-weight: 500; background: #fff; border-radius: 100px; padding: 8px 15px; border: 1px solid color-mix(in srgb, var(--ink) 8%, transparent); }
+
+    /* ---------- final ---------- */
+    .final { position: relative; padding: 140px 0; color: var(--bg); overflow: hidden; background: var(--ink-deep); }
+    .final .bg { position: absolute; inset: 0; }
+    .final .bg img { width: 100%; height: 100%; object-fit: cover; object-position: center 40%; }
+    .final .scrim { position: absolute; inset: 0; background: linear-gradient(100deg, rgba(25,23,20,.92) 0%, rgba(25,23,20,.62) 55%, rgba(25,23,20,.35) 100%); }
+    .final .wrap { position: relative; z-index: 2; }
+    .final h2 { color: var(--bg); max-width: 620px; }
+    .final p { max-width: 500px; font-size: 18px; color: color-mix(in srgb, var(--bg) 88%, transparent); margin: 16px 0 32px; }
+    .final .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+
+    /* ---------- shared ---------- */
+    .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+    :global(.btn.on-dark) { background: transparent; border: 1.5px solid var(--bg); color: var(--bg); }
+    :global(.btn.on-dark:hover) { background: var(--bg); color: var(--ink); }
+
+    /* ---------- mobile ---------- */
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero { min-height: auto; padding: 36px 0 64px; }
+      .works-grid, .svc-grid { grid-template-columns: 1fr; }
+      .area-inner { grid-template-columns: 1fr; }
+    }
     @media (max-width: 768px) {
-      /* Top-align on mobile: centring tall content inside overflow:hidden
-         was clipping the eyebrow + H1 behind the nav. */
-      .hero { min-height: 72vh; align-items: flex-start; }
-      .hero-inner { padding-top: 4vh; padding-bottom: 8vh; }
-      /* Smaller headline so it fits without dominating the compact mobile view. */
-      .hero-inner h1 { font-size: 30px; line-height: 1.08; }
-      /* Shift the focal point left to the lighter side of the photo. */
-      .hero-bg { object-position: 25% center; }
-      /* Lighter top-to-bottom scrim — keeps the headline legible on the
-         brighter area without darkening the whole image. */
-      .hero-overlay {
-        background: linear-gradient(180deg, rgba(22,20,18,0.25) 0%, rgba(22,20,18,0.5) 100%);
-      }
-    }
+      .hero h1 { font-size: 31px; }
+      .hero-sub { font-size: 15.5px; }
+      .scoper { padding: 26px 20px; }
+      .work-photo { height: 250px; }
 
-    /* Featured-card thumbnail: uniform box, cover (fills the box; full
-       uncropped images live on the project detail galleries, which stay
-       contain per §9). */
-    .pcard .thumb {
-      width: 100%; aspect-ratio: 3 / 2; margin-bottom: 16px;
-      border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: #faf9f7;
+      /* full-bleed fade is desktop-only; show a large framed photo instead */
+      .hero-bg, .hero-fade { display: none; }
+      .hero-visual { height: 52vh; min-height: 340px; margin-top: 22px; pointer-events: auto; }
+      .hv-photo { display: block; position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 60% center; border-radius: 16px; }
+      .exp-tag { top: 16px; right: 14px; }
+      .metric-card { left: 14px; right: auto; bottom: 16px; transform: scale(.86); transform-origin: bottom left; }
+
+      .works-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 16px; margin: 0 -6vw; padding: 2px 6vw 12px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+      .works-grid::-webkit-scrollbar { display: none; }
+      .works-grid > .work-card { flex: 0 0 84%; scroll-snap-align: start; }
+
+      .svc-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 14px; margin: 0 -6vw; padding: 2px 6vw 12px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+      .svc-grid::-webkit-scrollbar { display: none; }
+      .svc-grid > .svc { flex: 0 0 78%; scroll-snap-align: start; }
+
+      .carousel-hint { display: flex; }
     }
-    .pcard .thumb img { width: 100%; height: 100%; display: block; object-fit: cover; }
   </style>
+
+  <script>
+    // ---- job scoper: in-memory state only (no localStorage), routes into
+    // the real /contact lead form via query params — never a mailto. ----
+    (function () {
+      const state = { type: null, area: [], size: null };
+      const line = document.getElementById("scopeLine");
+      const cta = document.getElementById("scopeCta");
+      if (!line || !cta) return;
+
+      function render() {
+        if (!state.type) {
+          line.textContent = "Pick a job type to start —";
+          cta.setAttribute("href", "/contact");
+          return;
+        }
+        let html = `<em>${state.type}</em>`;
+        if (state.area.length) html += " — " + state.area.join(" + ");
+        if (state.size) html += ", " + state.size;
+        line.innerHTML = html + ".";
+        const params = new URLSearchParams({ source: "scoper", type: state.type });
+        if (state.area.length) params.set("areas", state.area.join(","));
+        if (state.size) params.set("size", state.size);
+        cta.setAttribute("href", "/contact?" + params.toString());
+      }
+
+      document.querySelectorAll(".opts").forEach((group) => {
+        const multi = group.hasAttribute("data-multi");
+        const key = group.getAttribute("data-group");
+        group.querySelectorAll(".opt").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const v = btn.getAttribute("data-v") || "";
+            if (multi) {
+              btn.classList.toggle("sel");
+              const i = state.area.indexOf(v);
+              i > -1 ? state.area.splice(i, 1) : state.area.push(v);
+            } else {
+              group.querySelectorAll(".opt").forEach((b) => b.classList.remove("sel"));
+              btn.classList.add("sel");
+              if (key === "type") state.type = v; else state.size = v;
+            }
+            render();
+          });
+        });
+      });
+      render();
+    })();
+
+    // ---- motion kit: GSAP only loads for visitors who don't prefer
+    // reduced motion. Everything below is presentation-only — copy is
+    // real DOM text already rendered above; JS just animates its arrival. ----
+    (async function () {
+      const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduce) return;
+
+      const { gsap } = await import("gsap");
+      const { ScrollTrigger } = await import("gsap/ScrollTrigger");
+      gsap.registerPlugin(ScrollTrigger);
+
+      // entrance
+      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+      tl.from("nav.site", { y: -24, opacity: 0, duration: 0.5 })
+        .from(".hero h1 .w", { yPercent: 112, duration: 0.85, stagger: 0.09 }, "-=.15");
+      const heroStroke = document.querySelector(".stroke-wrap path.draw");
+      if (heroStroke instanceof SVGGeometryElement) {
+        const len = heroStroke.getTotalLength();
+        gsap.set(heroStroke, { strokeDasharray: len, strokeDashoffset: len });
+        tl.to(heroStroke, { strokeDashoffset: 0, duration: 0.7, ease: "power2.inOut" }, "-=.35");
+      }
+      tl.from("[data-e]", { y: 26, opacity: 0, duration: 0.6, stagger: 0.1 }, "-=.4")
+        .from(".exp-tag", { y: -18, opacity: 0, duration: 0.5, ease: "back.out(1.7)" }, "-=.35")
+        .from(".metric-card", { y: 24, opacity: 0, scale: 0.94, duration: 0.55, ease: "back.out(1.6)" }, "-=.3");
+
+      // review count-up
+      const countEl = document.getElementById("countReviews");
+      if (countEl) {
+        const target = parseInt(countEl.textContent || "0", 10);
+        const counter = { v: 0 };
+        tl.to(counter, {
+          v: target, duration: 1, ease: "power2.out",
+          onUpdate: () => { countEl.textContent = String(Math.round(counter.v)); },
+        }, "-=.5");
+      }
+
+      // hero parallax
+      gsap.to("#heroImg", {
+        yPercent: -16, ease: "none",
+        scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true },
+      });
+
+      // ambient strokes drift
+      gsap.to(".amb.a1", { x: -30, y: 24, rotation: -10, duration: 9, yoyo: true, repeat: -1, ease: "sine.inOut" });
+      gsap.to(".amb.a2", { x: 26, y: -18, rotation: 14, duration: 11, yoyo: true, repeat: -1, ease: "sine.inOut" });
+      gsap.to(".amb.a3", { x: -18, y: 14, duration: 8, yoyo: true, repeat: -1, ease: "sine.inOut" });
+
+      // marquee loop (content already server-duplicated for a seamless wrap)
+      const track = document.getElementById("mqTrack");
+      if (track) {
+        const mqW = track.scrollWidth / 2;
+        gsap.to(track, { x: -mqW, duration: 26, ease: "none", repeat: -1 });
+      }
+
+      // scroll reveals
+      gsap.utils.toArray("[data-reveal]").forEach((el) => {
+        const dir = el.getAttribute("data-dir");
+        let fromX = dir === "left" ? -36 : dir === "right" ? 36 : 0;
+        if (window.innerWidth <= 768) fromX = 0;
+        gsap.from(el, {
+          x: fromX, y: fromX ? 0 : 32, opacity: 0, duration: 0.75, ease: "power3.out",
+          scrollTrigger: { trigger: el, start: "top 85%" },
+        });
+      });
+
+      // paint-swipe divider
+      gsap.utils.toArray("[data-swipe]").forEach((el) => {
+        gsap.from(el, {
+          scaleX: 0, duration: 0.9, ease: "power2.inOut",
+          scrollTrigger: { trigger: el, start: "top 88%" },
+        });
+      });
+
+      // h2 strokes draw
+      gsap.utils.toArray(".h2-stroke path.draw").forEach((p) => {
+        if (!(p instanceof SVGGeometryElement)) return;
+        const l = p.getTotalLength();
+        gsap.set(p, { strokeDasharray: l, strokeDashoffset: l });
+        gsap.to(p, {
+          strokeDashoffset: 0, duration: 0.8, ease: "power2.inOut",
+          scrollTrigger: { trigger: p.closest("h2"), start: "top 82%" },
+        });
+      });
+
+      // service icons pop in
+      gsap.utils.toArray(".svc-img").forEach((ic) => {
+        gsap.from(ic, {
+          scale: 0.5, opacity: 0, rotation: -8, duration: 0.7, ease: "back.out(1.8)",
+          scrollTrigger: { trigger: ic, start: "top 90%" },
+        });
+      });
+    })();
+  </script>
 </Base>
