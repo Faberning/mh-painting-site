@@ -61,7 +61,7 @@ export const BUSINESS = {
   ],
 
   // --- Trust signals (read by pages; deliberately NOT in schema to avoid self-serving review markup) ---
-  experienceYears: 9,                    // MAX's hands-on experience ("9 years on the tools"). NEVER render as business age.
+  experienceYears: 9,                    // MAX's hands-on experience ("9 years on the tools"). NEVER render as business age. Confirmed accurate by Max at go-live (2026-07-16).
   yearsInBusiness: null,                 // Company newly registered — no business-age claim (EKO §6). Keep null.
   accreditations: ["Dulux Accredited Painter"],
   insured: true,
