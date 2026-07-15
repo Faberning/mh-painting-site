@@ -7,7 +7,7 @@
  * Claims discipline (EKO §6): only what is verifiably true is asserted —
  *   - 9 years is MAX'S personal experience, never "years in business" (Co. is new).
  *   - Only Dulux Accredited + fully insured (NOT Master Painters / Resene / coatings).
- *   - Reviews mirror GBP exactly (5.0 / 26) — single source, injected everywhere.
+ *   - Reviews mirror GBP exactly (5.0 / 30) — single source, injected everywhere.
  *   - Free house wash is delivered via partner So Clean — credited, not implied in-house.
  * Service-area business: address + geo are intentionally omitted from schema;
  *   areaServed carries the location signal instead (per Bok: "area service").
@@ -66,8 +66,8 @@ export const BUSINESS = {
   accreditations: ["Dulux Accredited Painter"],
   insured: true,
   reviews: {
-    rating: 5.0, count: 26, url: "https://g.page/r/CcHmBz0_i51sEBM/review",
-    // From the MH Painting Limited Google Business Profile (5.0 / 26).
+    rating: 5.0, count: 30, url: "https://g.page/r/CcHmBz0_i51sEBM/review",
+    // From the MH Painting Limited Google Business Profile (5.0 / 30).
     // Single source — feeds the footer line and the contact-page carousel heading.
     // Display-only (no review schema). Update rating + count from GBP only.
     featured: [
