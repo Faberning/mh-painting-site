@@ -7,18 +7,15 @@ main = "src/worker.js"
 compatibility_date = "2025-09-01"
 workers_dev = true
 
-# Worker Custom Domains (go-live, Step 1) — NOT yet attached. Cloudflare
-# refuses to attach a Custom Domain while the hostname still has externally-
-# managed DNS records (the Squarespace A/CNAME records). Freddie's DNS
-# deletion has to land FIRST; re-add this block once that's confirmed, then
-# `wrangler deploy` again to attach both domains.
-# [[routes]]
-# pattern = "mhpainting.co"
-# custom_domain = true
-#
-# [[routes]]
-# pattern = "www.mhpainting.co"
-# custom_domain = true
+# Worker Custom Domains (go-live, Step 1). Squarespace A/CNAME records
+# confirmed deleted — attaching now.
+[[routes]]
+pattern = "mhpainting.co"
+custom_domain = true
+
+[[routes]]
+pattern = "www.mhpainting.co"
+custom_domain = true
 
 # Static assets served through the ASSETS binding — NEVER by self-fetching the
 # custom domain (522 loop). Astro builds to ./dist.
