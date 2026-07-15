@@ -43,13 +43,16 @@ export const BUSINESS = {
   // --- Services (drive the services grid + Service schema). No steel coatings (Bok). ---
   // Six cards: new build + repaint (interiors/exteriors), plastering, roof. Commercial
   // painting is asserted in schema only (schemaServices) — no card per Max.
+  // Each `icon` names a file in public/icons/ (real commissioned clay-render
+  // icons — see docs brief "Fresh Coat" v1 §1). One per service, kept here so
+  // the icon a service shows is a single-sourced fact like the copy.
   services: [
-    { title: "New build interiors",  blurb: "New build interiors require speed and flexibility without sacrificing quality. We prep thoroughly, then spray-finish everything except the final coat on the walls, which we cut and roll to perfection." },
-    { title: "New build exteriors",  blurb: "With ever-changing manufacturer specs, it's important to stay up to date so you never run the risk of voiding the cladding warranty. We carry out the tailored process from prep to final coat with speed and precision." },
-    { title: "Repaint interiors",    blurb: "When repainting the interior of a home, we assess the condition and select the correct preparation and system for excellent adhesion and finish. Once we start, we treat your home like it's our own — tidy and respectful, every step of the way." },
-    { title: "Repaint exteriors",    blurb: "Repainting exteriors starts with proper prep — washed, scraped, sanded, filled and primed, depending on what the surface needs. The right system is then applied for excellent adhesion and a finish that stands up to New Zealand's harsh weather." },
-    { title: "Plastering",           blurb: "A quality paint job starts with quality plastering. New builds get three coats to all joins and screws, sanded back and light-checked. Older homes get cracks dug out, re-taped and plastered properly so they stay gone — kept tidy every step of the way." },
-    { title: "Roof painting",        blurb: "The right paint for your roof type makes all the difference. Properly treated, properly coated and built to handle New Zealand's harsh weather — a premium finish that adds years back onto your roof." },
+    { title: "New build interiors",  icon: "icon-house.png",    blurb: "New build interiors require speed and flexibility without sacrificing quality. We prep thoroughly, then spray-finish everything except the final coat on the walls, which we cut and roll to perfection." },
+    { title: "New build exteriors",  icon: "icon-roller.png",   blurb: "With ever-changing manufacturer specs, it's important to stay up to date so you never run the risk of voiding the cladding warranty. We carry out the tailored process from prep to final coat with speed and precision." },
+    { title: "Repaint interiors",    icon: "icon-interior.png", blurb: "When repainting the interior of a home, we assess the condition and select the correct preparation and system for excellent adhesion and finish. Once we start, we treat your home like it's our own — tidy and respectful, every step of the way." },
+    { title: "Repaint exteriors",    icon: "icon-brush.png",    blurb: "Repainting exteriors starts with proper prep — washed, scraped, sanded, filled and primed, depending on what the surface needs. The right system is then applied for excellent adhesion and a finish that stands up to New Zealand's harsh weather." },
+    { title: "Plastering",           icon: "icon-trowel.png",   blurb: "A quality paint job starts with quality plastering. New builds get three coats to all joins and screws, sanded back and light-checked. Older homes get cracks dug out, re-taped and plastered properly so they stay gone — kept tidy every step of the way." },
+    { title: "Roof painting",        icon: "icon-roof.png",     blurb: "The right paint for your roof type makes all the difference. Properly treated, properly coated and built to handle New Zealand's harsh weather — a premium finish that adds years back onto your roof." },
   ],
 
   // Services asserted in schema only — real & offered, but no service card (Max's call).
@@ -87,11 +90,19 @@ export const BUSINESS = {
   ],
 
   // --- Brand tokens (MH palette: charcoal / terracotta / cream) ---
+  // "Fresh Coat" adds the tonal range (soft/deep variants) the redesign's
+  // depth (nav blur, marquee, scoper panel, final CTA scrim) needs — same
+  // three-colour family as the original Wet Edge tokens above, just more of it.
   brand: {
     bg: "#F4EFE6",          // warm cream
+    bgDeep: "#EAE3D5",      // cream, one shade down (area band, cards-on-cream)
     ink: "#221F1C",         // charcoal
-    inkSoft: "#6b6053",     // muted warm grey
+    inkSoft: "#6b6053",     // muted warm grey — secondary body text on cream (unchanged, sitewide)
+    charcoalSoft: "#33302C",  // charcoal, one shade up — dark PANEL fills (scoper, marquee-adjacent)
+    inkDeep: "#191714",     // charcoal, darkest (final CTA backdrop)
     accent: "#BD6A4A",      // terracotta
+    accentDeep: "#9E5237",  // terracotta, darkest (hovers/solid-btn depth)
+    accentSoft: "#D08A6E",  // terracotta, lightest (on-dark accents/labels)
     line: "#e2d9c9",        // soft warm divider
     fontDisplay: "'Fraunces', Georgia, serif",
     fontBody: "'Inter', -apple-system, sans-serif",

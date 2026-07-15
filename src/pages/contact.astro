@@ -53,6 +53,7 @@ const desc = "Get a free quote from MH Painting — new builds and repaints acro
         </div>
 
         <div class="leadform">
+          <p id="scopeNote" class="scope-note" hidden>Pre-filled from your job scope — add your details below and Max will pick it up already scoped.</p>
           <input type="text" id="company_url" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
           <div class="field"><label for="f_name">Name</label><input id="f_name" type="text" required /></div>
           <div class="field"><label for="f_email">Email</label><input id="f_email" type="email" required /></div>
@@ -69,6 +70,7 @@ const desc = "Get a free quote from MH Painting — new builds and repaints acro
   <style>
     .contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 44px; margin-top: 30px; }
     .hw { margin-top: 22px; padding: 16px 18px; border: 1px solid var(--line); border-radius: 6px; background: #fff; font-size: 14px; }
+    .scope-note { margin: 0 0 18px; padding: 12px 14px; border-radius: 6px; background: color-mix(in srgb, var(--accent) 10%, #fff); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); font-size: 13px; color: var(--ink); }
     .consent { font-size: 12px; color: var(--inkSoft); margin: 4px 0 14px; }
     .fmsg { margin-top: 14px; font-size: 14px; color: var(--accent); }
     @media (max-width: 820px) { .contact-grid { grid-template-columns: 1fr; } }
@@ -106,6 +108,27 @@ const desc = "Get a free quote from MH Painting — new builds and repaints acro
     @media (prefers-reduced-motion: reduce) { .rv-track { transition: none; } }
   </style>
   <script is:inline>
+    // Prefill from the homepage job scoper (?type=&areas=&size=&source=scoper).
+    // Query params only — no localStorage/sessionStorage. The scope lands in
+    // the same visible, editable textarea a hand-typed enquiry would use, so
+    // it still goes through the one lead pipeline (honeypot, 2xx-fast, notify).
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      const type = params.get('type');
+      if (!type) return;
+      const areas = (params.get('areas') || '').split(',').filter(Boolean);
+      const size = params.get('size');
+      const lines = ['Job: ' + type];
+      if (areas.length) lines.push('Areas: ' + areas.join(', '));
+      if (size) lines.push('Size: ' + size);
+      const details = document.getElementById('f_details');
+      if (details) details.value = lines.join('\n') + '\n\n';
+      const note = document.getElementById('scopeNote');
+      if (note) note.hidden = false;
+      window.__leadSource = 'scoper';
+    })();
+  </script>
+  <script is:inline>
     document.getElementById('f_send').addEventListener('click', async () => {
       const $ = (id) => document.getElementById(id);
       const msg = $('f_msg');
@@ -115,7 +138,7 @@ const desc = "Get a free quote from MH Painting — new builds and repaints acro
         phone: $('f_phone').value.trim(),
         details: $('f_details').value.trim(),
         company_url: $('company_url').value,
-        source: 'contact'
+        source: window.__leadSource || 'contact'
       };
       if (!payload.name || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(payload.email)) {
         msg.hidden = false; msg.textContent = 'Please add your name and a valid email.'; return;
