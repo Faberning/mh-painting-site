@@ -64,10 +64,13 @@ async function handleLead(request, env, ctx) {
   // Acknowledge FAST; do the work after responding (EKO §7).
   ctx.waitUntil(
     Promise.allSettled([
-      storeLead(env, data),
-      notifyTeam(env, data),
-      autoresponder(env, data),
-    ])
+      ["storeLead", storeLead(env, data)],
+      ["notifyTeam", notifyTeam(env, data)],
+      ["autoresponder", autoresponder(env, data)],
+    ].map(([label, p]) => p.then(
+      (v) => console.log(`lead: ${label} ok`, v ?? ""),
+      (e) => console.error(`lead: ${label} FAILED`, e?.message || e)
+    )))
   );
   return json({ ok: true }, 200);
 }
@@ -168,8 +171,10 @@ async function sendEmail(env, { to, replyTo, subject, text }) {
   });
   if (!res.ok) {
     const body = await res.text().catch(() => "");
-    throw new Error(`Resend ${res.status}: ${body}`);
+    throw new Error(`Resend ${res.status} (from=${from}, to=${to}): ${body}`);
   }
+  const body = await res.json().catch(() => ({}));
+  return { to, id: body.id };
 }
 
 function json(obj, status) {
