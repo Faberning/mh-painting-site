@@ -28,6 +28,7 @@ const faqSchema = {
       <p class="eyebrow">Questions we get asked</p>
       <h1>Frequently asked questions.</h1>
       <p class="lead">Straight answers on cost, prep and timing — from {BUSINESS.owner} at {BUSINESS.name}.</p>
+      <p class="area-note">We cover {BUSINESS.coverageSummary}.</p>
 
       <div class="faq-list">
         {FAQS.map((f) => (
@@ -46,6 +47,7 @@ const faqSchema = {
   <Footer />
   <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
   <style>
+    .area-note { color: var(--inkSoft); font-size: 15px; margin-top: -4px; }
     .faq-list { margin-top: 12px; }
     .faq-item { padding: 26px 0; border-bottom: 1px solid var(--line); }
     .faq-item:first-child { padding-top: 0; }

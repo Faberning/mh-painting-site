@@ -28,13 +28,30 @@ export const BUSINESS = {
   phone: "020 4076 7979",
   email: "max@mhpainting.co",
   // address + geo intentionally omitted: areaServed-only (Bok decision).
-  // Bounded by Takapuna→Warkworth (S–N) and Long Bay→Helensville (E–W):
-  // the North Shore, Hibiscus Coast, Rodney and the north-west.
+  // Corrected coverage block (2026-07-17 geo-signal sweep): mirrors the GBP
+  // service area exactly — whole North Shore (harbour bridge up) through to
+  // Warkworth, Gulf Harbour to Helensville, plus the Northland/out-of-block
+  // towns GBP lists. Confirmed by Freddie 2026-07-17. Nothing narrowed —
+  // this is the single source for every areaServed (schema) and every
+  // corridor mention (via `coverageSummary` below); never retype a suburb
+  // list anywhere else.
   areaServed: [
-    "Takapuna", "Long Bay", "Albany", "Browns Bay", "Silverdale", "Millwater",
-    "Orewa", "Whangaparāoa", "Warkworth", "Kumeu", "Riverhead", "Helensville",
-    "North Shore", "Hibiscus Coast", "Rodney", "Auckland",
+    "Takapuna", "Long Bay", "Albany", "Browns Bay", "North Shore",
+    "Silverdale", "Millwater", "Milldale", "Orewa", "Hatfields Beach", "Waiwera", "Red Beach", "Hibiscus Coast",
+    "Whangaparāoa", "Gulf Harbour", "Stanmore Bay", "Manly",
+    "Warkworth", "Rodney",
+    "Riverhead", "Kumeu", "Huapai", "Waimauku", "Coatesville", "Helensville",
+    "Waipu", "Mangawhai", "Te Arai", "Muriwai",
+    "Auckland",
   ],
+
+  // Hand-written prose corridor summary — the single source for every
+  // sentence-form mention of coverage (footer, home, contact, FAQ, roof
+  // page). Never .join() `areaServed` into copy: the array drives machine
+  // surfaces (schema, suburb chips), this drives human-readable prose, so
+  // adding a new suburb to the array doesn't silently mangle a sentence.
+  coverageSummary: "Takapuna to Warkworth, Long Bay to Helensville — the North Shore, Hibiscus Coast, Rodney and north-west Auckland",
+  coverageSummaryShort: "North Auckland — Takapuna to Warkworth",
 
   // --- Schema type ---
   schemaType: "HousePainter",
@@ -69,20 +86,6 @@ export const BUSINESS = {
     title: "Roof Repainting Before & After — Auckland Painters | mh painting", // real YouTube title, verified
     description: "Roof repainting in north Auckland — before and after. A metal roof cleaned, prepped and recoated by MH Painting to bring it back to a clean, protected finish.",
     uploadDate: "2026-06-04T23:54:44-07:00", // real upload date, verified from the YouTube watch page — never guess this
-  },
-
-  // NOTE (2026-07-16 roof brief): this is a DELIBERATELY NARROWER list than
-  // `areaServed` above — it adds Huapai/Waimauku/Milldale and drops Takapuna/
-  // Long Bay/Albany/Browns Bay/Whangaparāoa/North Shore/Hibiscus Coast/Rodney/
-  // Auckland. Scoped to the roof page only pending confirmation of whether
-  // this should also replace `areaServed` sitewide — see audit in chat.
-  // Single source for the roof page's Service schema + "Where we paint
-  // roofs" copy; do not retype this list anywhere.
-  serviceAreas: {
-    primaryCorridor: [
-      "Kumeu", "Huapai", "Riverhead", "Waimauku", "Helensville",
-      "Silverdale", "Millwater", "Milldale", "Orewa", "Warkworth",
-    ],
   },
 
   // --- Trust signals (read by pages; deliberately NOT in schema to avoid self-serving review markup) ---

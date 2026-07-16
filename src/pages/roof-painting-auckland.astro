@@ -44,9 +44,9 @@ const faqSchema = {
 
 const roofService = BUSINESS.services.find((s) => s.id === "roof-painting");
 // Shares the sitewide graph's Service @id (Schema.astro keys off `id` too) —
-// same entity, reconciled with more detail, not a duplicate. areaServed here
-// is deliberately the narrower primaryCorridor, not the general areaServed —
-// see the consts.ts note on that list.
+// same entity, reconciled with more detail, not a duplicate. areaServed
+// reads the same BUSINESS.areaServed as every other page (2026-07-17
+// geo-signal sweep) — no separate narrower list for this service.
 const serviceSchema = {
   "@context": "https://schema.org",
   "@type": "Service",
@@ -56,7 +56,7 @@ const serviceSchema = {
   description: roofService?.blurb,
   provider: { "@id": `${BUSINESS.url}/#business` },
   url: `${BUSINESS.url}/roof-painting-auckland`,
-  areaServed: BUSINESS.serviceAreas.primaryCorridor.map((a) => ({ "@type": "Place", name: a })),
+  areaServed: BUSINESS.areaServed.map((a) => ({ "@type": "Place", name: a })),
 };
 ---
 <Base title="Roof Painting, North Auckland" description={desc} path="/roof-painting-auckland">
@@ -113,7 +113,7 @@ const serviceSchema = {
 
       <div class="roof-block">
         <h2>Where we paint roofs</h2>
-        <p>We cover the north Auckland corridor — Rodney, the Hibiscus Coast and the north-west — including {BUSINESS.serviceAreas.primaryCorridor.join(", ")} and the surrounding areas. If your roof's in the region, we'll come and take a look.</p>
+        <p>We cover {BUSINESS.coverageSummary}. If your roof's in the region, we'll come and take a look.</p>
       </div>
 
       <div class="cta-row">
