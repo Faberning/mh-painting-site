@@ -53,6 +53,18 @@ export const BUSINESS = {
   coverageSummary: "Takapuna to Warkworth, Long Bay to Helensville — the North Shore, Hibiscus Coast, Rodney and north-west Auckland",
   coverageSummaryShort: "North Auckland — Takapuna to Warkworth",
 
+  // --- Google Ads conversion tracking (2026-11-02) ---
+  // Fill these from Max's Google Ads account: Goals > Conversions > New >
+  // Website > "Add a conversion action manually". `id` is the account's tag
+  // ID ("AW-123456789"); each label is the part after the slash in that
+  // action's send_to ("AW-123456789/AbC-dEfGhIj" -> "AbC-dEfGhIj").
+  // While `id` is empty, NO Google script is loaded anywhere on the site.
+  googleAds: {
+    id: "",        // e.g. "AW-123456789"
+    leadLabel: "", // "Lead form" conversion — fires on /thank-you
+    callLabel: "", // "Phone call click" conversion — fires on any tel: link tap
+  },
+
   // --- Schema type ---
   schemaType: "HousePainter",
   priceRange: "$$",
