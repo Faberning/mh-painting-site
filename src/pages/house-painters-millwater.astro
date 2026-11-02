@@ -1,0 +1,173 @@
+---
+// house-painters-millwater.astro — first proof-gated suburb page (2026-11-02
+// geo lever). Proof: Max's real Pioneer Rise, Millwater repaint (street
+// only — never the house number). Framing (Freddie): Millwater homes are
+// reaching their first exterior repaint and owners worry about quality and
+// accreditation, so the Dulux accreditation is the trust block here and the
+// detail lives on the hub page (BUSINESS.duluxPage).
+//
+// Fences: one job is one job — nothing claims Millwater homes as a group
+// have failing primer or says anything about any builder's materials. No
+// prices, no warranty (Freddie, 2026-11-02). Free house wash only in the
+// consts.offer wording (full exterior repaints, So Clean).
+//
+// VIDEO SLOT is dormant (JSX comments below, never shipped). Activate at
+// final deploy only, with the real YouTube ID + upload date.
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import { BUSINESS } from "../consts";
+import { MILLWATER_FAQS } from "../faq";
+
+const path = "/house-painters-millwater";
+const pageUrl = `${BUSINESS.url}${path}`;
+const desc = "Millwater homes are reaching their first exterior repaint. What we found under the paint on a Pioneer Rise house, and what Dulux Accredited checks.";
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: MILLWATER_FAQS.map((f) => ({
+    "@type": "Question",
+    name: f.question,
+    acceptedAnswer: { "@type": "Answer", text: f.answer },
+  })),
+};
+
+// WebPage scoped to the suburb: points at the sitewide business node, with
+// areaServed narrowed to the two places this page is about. Both names
+// exist in BUSINESS.areaServed (checked), so no new place is introduced.
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": `${pageUrl}#webpage`,
+  url: pageUrl,
+  name: "House painters in Millwater",
+  description: desc,
+  about: {
+    "@id": `${BUSINESS.url}/#business`,
+  },
+  mentions: ["Millwater", "Milldale"]
+    .filter((p) => (BUSINESS.areaServed as readonly string[]).includes(p))
+    .map((p) => ({ "@type": "Place", name: p })),
+  breadcrumb: {
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${BUSINESS.url}/` },
+      { "@type": "ListItem", position: 2, name: "House painters in Millwater", item: pageUrl },
+    ],
+  },
+};
+---
+<Base title="House Painters in Millwater" description={desc} path={path}>
+  <Nav />
+  <main>
+    <section class="wrap sub-hero">
+      <p class="eyebrow">Millwater · Hibiscus Coast</p>
+      <h1>House painters in Millwater, for the first repaint.</h1>
+      <p class="lead">A lot of Millwater homes are coming up to their first full exterior repaint. We're Dulux Accredited painters working across the Hibiscus Coast, and we've already repainted in the estate. Here's what we found on one Millwater house, and straight answers to what people ask before they book a painter.</p>
+      <div class="cta-row">
+        <a class="btn" href="/contact">Get a free quote</a>
+        <a class="btn ghost" href={`tel:${BUSINESS.phone.replace(/\s/g, "")}`}>{BUSINESS.phone}</a>
+      </div>
+      <p class="trust-line">Dulux Accredited · Fully insured · ★ {BUSINESS.reviews.rating.toFixed(1)} on Google from {BUSINESS.reviews.count} reviews</p>
+    </section>
+
+    <section class="wrap prose sub-body">
+      <div class="sub-block">
+        <h2><span class="h2-stroke">Why Millwater is different<svg viewBox="0 0 200 10" preserveAspectRatio="none" aria-hidden="true"><path class="draw" d="M2 6 C 60 2, 120 9, 198 4" /></svg></span></h2>
+        <p>Millwater went up in stages, so whole streets share the same era of build and the same kind of cladding, and their paint has had about the same number of summers on it. That's why so many houses here are reaching their first repaint at around the same time. Next door, Milldale is still being built. We do both kinds of work: first repaints on the established side, and new build painting where houses are still going up.</p>
+      </div>
+
+      {/* VIDEO SLOT — DORMANT. Activate at final deploy: replace this comment with the
+          yt-facade block from /roof-painting-auckland, using {{YOUTUBE_ID}}, and add the
+          VideoObject script (uploadDate = {{UPLOAD_DATE}}, the real YouTube upload date). */}
+
+      <div class="sub-block" id="pioneer-rise">
+        <h2>What we found on a Pioneer Rise repaint</h2>
+        <p>This was a full exterior repaint: weatherboards, soffits, garage surround and front door. The weatherboard paint was flaking and blistering back to bare substrate.</p>
+        <p>We scaffolded the house and lightly sanded the whole lot, then sanded all the flaked areas hard until every bit of loose paint was gone, leaving a smooth surface of sound paint and bare weatherboard.</p>
+        <p>This house was interesting. When it was built, the factory primer on the weatherboards had failed. So when we sanded back, we didn't reach factory primer. We reached bare wood.</p>
+        <p>We oil-based undercoated the bare areas first, then water-based undercoated all the affected areas, then filled and gapped. Two topcoats went over the whole house: semi-gloss on the soffits and low sheen on the weatherboards.</p>
+        <h3>Why oil-based first?</h3>
+        <p>Two reasons. That bare timber had been exposed to the weather, and putting water-based paint straight over it can lead to bubbling later, because there's still moisture in the wood. An oil-based undercoat is solvent-based, so it dries the wood out rather than re-saturating it. It's more of a precaution, but one we think is 100% necessary.</p>
+        <p class="note">One house is one house. We're not saying every Millwater home has this problem, only that it's worth knowing what's under your paint before you choose how it gets repainted.</p>
+        {/* PHOTO SLOT — add Pioneer Rise before / sanded-back / finished photos here once
+            they're in public/projects/ (real job photos only). */}
+      </div>
+
+      <div class="sub-block">
+        <h2>Signs your paint is due</h2>
+        <ul>
+          <li>Chalky residue when you run a hand over the cladding</li>
+          <li>Fading on the sunniest walls</li>
+          <li>Hairline cracking in the paint</li>
+          <li>Flaking or blistering, especially if you can see bare timber underneath</li>
+        </ul>
+        <p>The first three mean the coating is getting tired. The last one means it has already let go, and the prep gets bigger the longer it's left.</p>
+      </div>
+
+      <div class="sub-block">
+        <h2>Why accreditation matters for a first repaint</h2>
+        <p>If you've never hired a painter before, accreditation is a fair place to start. We're a Dulux Accredited Painter: Dulux requires its accredited painters to hold current company registration and at least $2 million of public liability cover, and those are monitored independently. It doesn't replace asking what prep is in the quote, but it means the basics have been checked. <a href={BUSINESS.duluxPage}>What Dulux Accredited means, in detail</a>.</p>
+      </div>
+
+      <div class="sub-block">
+        <h2>Getting a quote</h2>
+        <p>We'll come and look at the house, tell you what it needs and why, and give you a fixed quote. {BUSINESS.offer}</p>
+      </div>
+
+      <div class="cta-row">
+        <a class="btn" href="/contact">Get a free quote</a>
+        <a class="btn ghost" href={`tel:${BUSINESS.phone.replace(/\s/g, "")}`}>{BUSINESS.phone}</a>
+      </div>
+    </section>
+
+    <section class="wrap sub-faq">
+      <p class="eyebrow">Millwater painting FAQ</p>
+      <h2>Questions Millwater homeowners ask.</h2>
+      <div class="faq-list">
+        {MILLWATER_FAQS.map((f) => (
+          <div class="faq-item">
+            <h3>{f.question}</h3>
+            <p>{f.answer}</p>
+          </div>
+        ))}
+      </div>
+      <p class="more">More answers on our <a href="/faq">painting FAQ</a>, including cost and the best time of year to paint.</p>
+    </section>
+  </main>
+  <Footer />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(pageSchema)} />
+  {/* VideoObject — DORMANT. Add at final deploy with the real {{YOUTUBE_ID}} and {{UPLOAD_DATE}}. */}
+  <style>
+    .sub-hero { padding-top: 8vh; max-width: 900px; }
+    .sub-hero h1 { font-size: clamp(30px, 4vw, 44px); margin-bottom: 18px; }
+    .sub-hero .lead { margin-bottom: 24px; }
+    .trust-line { margin-top: 16px; font-size: 14px; color: var(--inkSoft); }
+
+    .sub-body { margin-top: 4vh; }
+    .sub-block { padding: 28px 0; border-bottom: 1px solid var(--line); }
+    .sub-block:first-child { padding-top: 0; }
+    .sub-block h2 { font-size: clamp(20px, 2.4vw, 26px); margin-bottom: 10px; }
+    .sub-block h3 { font-size: 18px; margin: 18px 0 8px; }
+    .sub-block p, .sub-block li { color: var(--inkSoft); max-width: 72ch; }
+    .sub-block p + p { margin-top: 12px; }
+    .sub-block ul { padding-left: 20px; margin: 8px 0 12px; }
+    .sub-block a { color: var(--accentDeep); }
+    .sub-block .note { font-size: 14px; font-style: italic; }
+    .h2-stroke { position: relative; display: inline-block; }
+    .h2-stroke svg { position: absolute; left: 0; bottom: -4px; width: 100%; height: 8px; overflow: visible; }
+    .h2-stroke path { fill: none; stroke: var(--accent); stroke-width: 5; stroke-linecap: round; }
+
+    .sub-faq { margin-top: 2vh; max-width: 720px; }
+    .sub-faq > h2 { font-size: clamp(24px, 3.2vw, 34px); margin-bottom: 18px; }
+    .sub-faq .faq-list { margin-top: 8px; }
+    .sub-faq .faq-item { padding: 22px 0; border-bottom: 1px solid var(--line); }
+    .sub-faq .faq-item:first-child { padding-top: 0; }
+    .sub-faq .faq-item h3 { font-size: 18px; margin-bottom: 8px; }
+    .sub-faq .faq-item p { font-size: 15px; color: var(--inkSoft); max-width: 68ch; }
+    .sub-faq .more { margin-top: 18px; font-size: 15px; color: var(--inkSoft); }
+    .sub-faq .more a { color: var(--accentDeep); }
+  </style>
+</Base>

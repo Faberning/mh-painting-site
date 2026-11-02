@@ -1,0 +1,149 @@
+---
+// dulux-accredited-painter-auckland.astro — Dulux accreditation hub page
+// (2026-11-02 geo lever). Every Dulux badge on the site links here; the
+// Millwater page links here for detail and this page links back to it.
+//
+// Claims (EKO §6): every Dulux programme fact was checked on
+// dulux.co.nz/services/find-a-painter-nz/ on 2026-11-02. Dulux does NOT
+// state "invite-only", a signed charter, or a check frequency — never add
+// them. No public Dulux painter register exists (form-based matching only).
+// Warranty left off on purpose (Freddie, 2026-11-02).
+// Accreditation runs to Dec 2026: if it lapses, pull this page and the badges.
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import { BUSINESS } from "../consts";
+import { DULUX_FAQS } from "../faq";
+
+const path = BUSINESS.duluxPage;
+const pageUrl = `${BUSINESS.url}${path}`;
+const desc = "What Dulux Accredited actually checks, what paint we use, and how to get a Dulux Accredited painter in north Auckland without waiting to be matched.";
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: DULUX_FAQS.map((f) => ({
+    "@type": "Question",
+    name: f.question,
+    acceptedAnswer: { "@type": "Answer", text: f.answer },
+  })),
+};
+
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": `${pageUrl}#webpage`,
+  url: pageUrl,
+  name: "Dulux Accredited painter, north Auckland",
+  description: desc,
+  about: { "@id": `${BUSINESS.url}/#business` },
+  breadcrumb: {
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${BUSINESS.url}/` },
+      { "@type": "ListItem", position: 2, name: "Dulux Accredited painter", item: pageUrl },
+    ],
+  },
+};
+
+const millwaterPage = BUSINESS.areaPages["Millwater"];
+---
+<Base title="Dulux Accredited Painter, North Auckland" description={desc} path={path}>
+  <Nav />
+  <main>
+    <section class="wrap sub-hero">
+      <p class="eyebrow">Dulux Accredited · North Auckland</p>
+      <h1>A Dulux Accredited painter in north Auckland, by name.</h1>
+      <p class="lead">Dulux can take your details and match you with an accredited painter. Or you can contact one directly. We're mh painting, Dulux Accredited and covering {BUSINESS.coverageSummary}. Here's what the accreditation actually checks, and what it doesn't.</p>
+      <img class="dulux-lockup" src="/dulux-accredited.png" alt="Dulux Accredited Painter" width="375" height="40" />
+      <div class="cta-row">
+        <a class="btn" href="/contact">Get a free quote</a>
+        <a class="btn ghost" href={`tel:${BUSINESS.phone.replace(/\s/g, "")}`}>{BUSINESS.phone}</a>
+      </div>
+    </section>
+
+    <section class="wrap prose sub-body">
+      <div class="sub-block">
+        <h2><span class="h2-stroke">What the accreditation checks<svg viewBox="0 0 200 10" preserveAspectRatio="none" aria-hidden="true"><path class="draw" d="M2 6 C 60 2, 120 9, 198 4" /></svg></span></h2>
+        <p>Dulux describes its accredited painters as hand-picked for their experience. To stay in the programme, a painter has to:</p>
+        <ul>
+          <li>hold current company registration, as New Zealand law requires</li>
+          <li>carry public liability insurance with at least $2 million of cover</li>
+          <li>meet Dulux's guidelines and programme standards</li>
+        </ul>
+        <p>Registration and insurance are monitored by an independent compliance service, separate from Dulux.</p>
+      </div>
+
+      <div class="sub-block">
+        <h2>What it doesn't do</h2>
+        <p>Dulux is clear that it isn't responsible for an accredited painter's workmanship. The painter is. So accreditation tells you the basics have been checked. It doesn't replace asking what prep is in the quote, what system will go on, and to see recent local work. We'd rather you asked us those questions than took the badge on trust.</p>
+      </div>
+
+      <div class="sub-block">
+        <h2>Matched by Dulux, or direct</h2>
+        <p>There's no public list of Dulux Accredited painters to browse. Dulux's Find a Painter service takes your details and matches you with accredited painters. That works, but you're waiting to be allocated someone. If you're in north Auckland, you can skip that step and talk to us directly: same accreditation, a named local painter, and a quote from the person who'll do the work.</p>
+      </div>
+
+      <div class="sub-block">
+        <h2>What paint we use</h2>
+        <p>Dulux is our standard. If you want Resene or another system, we'll use it. We'd rather match the product to the surface and the exposure than push a brand, which is also what our <a href="/faq">painting FAQ</a> says.</p>
+      </div>
+
+      {millwaterPage && (
+        <div class="sub-block">
+          <h2>What this looks like on a real job</h2>
+          <p>On a Millwater repaint, the factory primer under the weatherboards had failed, so sanding back hit bare timber. We oil-based undercoated the bare areas before anything else. <a href={`${millwaterPage}#pioneer-rise`}>Read what we found on the Pioneer Rise job</a>.</p>
+        </div>
+      )}
+
+      {/* VIDEO SLOT — DORMANT (only if a credential video is made later). */}
+
+      <div class="cta-row">
+        <a class="btn" href="/contact">Get a free quote</a>
+        <a class="btn ghost" href={`tel:${BUSINESS.phone.replace(/\s/g, "")}`}>{BUSINESS.phone}</a>
+      </div>
+    </section>
+
+    <section class="wrap sub-faq">
+      <p class="eyebrow">Dulux accreditation FAQ</p>
+      <h2>Questions people ask about Dulux Accredited painters.</h2>
+      <div class="faq-list">
+        {DULUX_FAQS.map((f) => (
+          <div class="faq-item">
+            <h3>{f.question}</h3>
+            <p>{f.answer}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  </main>
+  <Footer />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(pageSchema)} />
+  <style>
+    .sub-hero { padding-top: 8vh; max-width: 900px; }
+    .sub-hero h1 { font-size: clamp(30px, 4vw, 44px); margin-bottom: 18px; }
+    .sub-hero .lead { margin-bottom: 20px; }
+    .dulux-lockup { display: block; width: 240px; max-width: 100%; height: auto; margin-bottom: 24px; border-radius: 3px; }
+
+    .sub-body { margin-top: 4vh; }
+    .sub-block { padding: 28px 0; border-bottom: 1px solid var(--line); }
+    .sub-block:first-child { padding-top: 0; }
+    .sub-block h2 { font-size: clamp(20px, 2.4vw, 26px); margin-bottom: 10px; }
+    .sub-block p, .sub-block li { color: var(--inkSoft); max-width: 72ch; }
+    .sub-block p + p, .sub-block ul + p { margin-top: 12px; }
+    .sub-block ul { padding-left: 20px; margin: 8px 0 0; }
+    .sub-block a { color: var(--accentDeep); }
+    .h2-stroke { position: relative; display: inline-block; }
+    .h2-stroke svg { position: absolute; left: 0; bottom: -4px; width: 100%; height: 8px; overflow: visible; }
+    .h2-stroke path { fill: none; stroke: var(--accent); stroke-width: 5; stroke-linecap: round; }
+
+    .sub-faq { margin-top: 2vh; max-width: 720px; }
+    .sub-faq > h2 { font-size: clamp(24px, 3.2vw, 34px); margin-bottom: 18px; }
+    .sub-faq .faq-list { margin-top: 8px; }
+    .sub-faq .faq-item { padding: 22px 0; border-bottom: 1px solid var(--line); }
+    .sub-faq .faq-item:first-child { padding-top: 0; }
+    .sub-faq .faq-item h3 { font-size: 18px; margin-bottom: 8px; }
+    .sub-faq .faq-item p { font-size: 15px; color: var(--inkSoft); max-width: 68ch; }
+  </style>
+</Base>

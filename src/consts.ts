@@ -53,6 +53,17 @@ export const BUSINESS = {
   coverageSummary: "Takapuna to Warkworth, Long Bay to Helensville — the North Shore, Hibiscus Coast, Rodney and north-west Auckland",
   coverageSummaryShort: "North Auckland — Takapuna to Warkworth",
 
+  // Suburbs that have earned a dedicated page (proof-gated: a real local job
+  // + photos). Home-page suburb chips link here; everything else stays a
+  // plain chip. Add a suburb only when its page exists.
+  areaPages: {
+    "Millwater": "/house-painters-millwater",
+  } as Record<string, string>,
+
+  // Dulux accreditation hub page — every Dulux badge links here.
+  // Accreditation runs to Dec 2026: if it lapses, pull the badge AND this page.
+  duluxPage: "/dulux-accredited-painter-auckland",
+
   // --- Schema type ---
   schemaType: "HousePainter",
   priceRange: "$$",
