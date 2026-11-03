@@ -146,7 +146,7 @@ const desc = "Get a free quote from MH Painting — new builds and repaints acro
       const btn = $('f_send'); btn.disabled = true; btn.textContent = 'Sending…';
       try {
         const r = await fetch('/api/lead', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(payload) });
-        if (r.ok) { window.location.href = '/thank-you'; return; }
+        if (r.ok) { window.location.href = '/thank-you/'; return; }
         throw new Error('bad status');
       } catch (e) {
         msg.hidden = false;

@@ -12,7 +12,7 @@ interface Props {
   noindex?: boolean;
 }
 const { title, description, path = "", noindex = false } = Astro.props;
-const canonical = `${BUSINESS.url}${path}`;
+const canonical = `${BUSINESS.url}${path.replace(/\/$/, "")}/`; // trailing slash: see astro.config
 const fullTitle = path === "" ? title : `${title} — ${BUSINESS.name}`;
 const b = BUSINESS.brand;
 ---

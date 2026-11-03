@@ -55,7 +55,7 @@ const serviceSchema = {
   name: roofService?.title,
   description: roofService?.blurb,
   provider: { "@id": `${BUSINESS.url}/#business` },
-  url: `${BUSINESS.url}/roof-painting-auckland`,
+  url: `${BUSINESS.url}/roof-painting-auckland/`,
   areaServed: BUSINESS.areaServed.map((a) => ({ "@type": "Place", name: a })),
 };
 ---
@@ -117,7 +117,7 @@ const serviceSchema = {
       </div>
 
       <div class="cta-row">
-        <a class="btn" href="/contact">Get a free quote</a>
+        <a class="btn" href="/contact/">Get a free quote</a>
         <a class="btn ghost" href={`tel:${BUSINESS.phone.replace(/\s/g, "")}`}>{BUSINESS.phone}</a>
       </div>
       <p class="roof-cta-note">Thinking about your roof? Send through a few details or use the quote tool — we'll take a proper look and give you a straight answer on whether it's a recoat or a repair.</p>
