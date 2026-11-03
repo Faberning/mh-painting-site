@@ -5,7 +5,7 @@
 import { BUSINESS } from "../consts";
 
 const { schemaType, name, legalName, url, logo, phone, email, address, geo,
-        areaServed, priceRange, services, schemaServices, sameAs, tagline } = BUSINESS;
+        areaServed, priceRange, services, schemaServices, sameAs, tagline, alternateNames } = BUSINESS;
 
 // Cards + schema-only services (e.g. commercial painting): assert every real
 // service in the markup, even those without a card on the page.
@@ -19,6 +19,7 @@ const biz: Record<string, any> = {
   url,
 };
 if (legalName) biz.legalName = legalName;
+if (alternateNames?.length) biz.alternateName = alternateNames;
 if (tagline) biz.description = tagline;
 if (phone) biz.telephone = phone;
 if (email) biz.email = email;

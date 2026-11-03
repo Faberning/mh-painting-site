@@ -19,7 +19,7 @@ import Footer from "../components/Footer.astro";
 import { BUSINESS } from "../consts";
 import { MILLWATER_FAQS } from "../faq";
 
-const path = "/house-painters-millwater";
+const path = "/house-painters-millwater/";
 const pageUrl = `${BUSINESS.url}${path}`;
 const desc = "Millwater homes are reaching their first exterior repaint. What we found under the paint on a Pioneer Rise house, and what Dulux Accredited checks.";
 
@@ -66,7 +66,7 @@ const pageSchema = {
       <h1>House painters in Millwater, for the first repaint.</h1>
       <p class="lead">A lot of Millwater homes are coming up to their first full exterior repaint. We're Dulux Accredited painters working across the Hibiscus Coast, and we've already repainted in the estate. Here's what we found on one Millwater house, and straight answers to what people ask before they book a painter.</p>
       <div class="cta-row">
-        <a class="btn" href="/contact">Get a free quote</a>
+        <a class="btn" href="/contact/">Get a free quote</a>
         <a class="btn ghost" href={`tel:${BUSINESS.phone.replace(/\s/g, "")}`}>{BUSINESS.phone}</a>
       </div>
       <p class="trust-line">Dulux Accredited · Fully insured · ★ {BUSINESS.reviews.rating.toFixed(1)} on Google from {BUSINESS.reviews.count} reviews</p>
@@ -117,7 +117,7 @@ const pageSchema = {
       </div>
 
       <div class="cta-row">
-        <a class="btn" href="/contact">Get a free quote</a>
+        <a class="btn" href="/contact/">Get a free quote</a>
         <a class="btn ghost" href={`tel:${BUSINESS.phone.replace(/\s/g, "")}`}>{BUSINESS.phone}</a>
       </div>
     </section>
@@ -133,7 +133,7 @@ const pageSchema = {
           </div>
         ))}
       </div>
-      <p class="more">More answers on our <a href="/faq">painting FAQ</a>, including cost and the best time of year to paint.</p>
+      <p class="more">More answers on our <a href="/faq/">painting FAQ</a>, including cost and the best time of year to paint.</p>
     </section>
   </main>
   <Footer />

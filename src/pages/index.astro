@@ -60,7 +60,7 @@ const desc = "Painters and plasterers across north Auckland — new builds, repa
             <span class="chip">{BUSINESS.reviews.rating.toFixed(1)} on Google</span>
           </div>
           <div class="hero-ctas" data-e>
-            <a class="btn" href="/contact">Get a free quote</a>
+            <a class="btn" href="/contact/">Get a free quote</a>
             <a class="btn ghost" href="#works">See our work →</a>
           </div>
         </div>
@@ -98,7 +98,7 @@ const desc = "Painters and plasterers across north Auckland — new builds, repa
         {featured.map((p, i) => {
           const img = leadImage(p.slug);
           return (
-            <a class="work-card" href={`/projects/${p.slug}`} data-reveal data-dir={i % 2 === 0 ? "left" : "right"}>
+            <a class="work-card" href={`/projects/${p.slug}/`} data-reveal data-dir={i % 2 === 0 ? "left" : "right"}>
               {img && (
                 <div class="work-photo">
                   <span class="tag">{p.tag}</span>
@@ -113,7 +113,7 @@ const desc = "Painters and plasterers across north Auckland — new builds, repa
           );
         })}
       </div>
-      <p class="works-more" data-reveal><a class="btn ghost" href="/projects">See all projects →</a></p>
+      <p class="works-more" data-reveal><a class="btn ghost" href="/projects/">See all projects →</a></p>
     </section>
 
     <div class="swipe" data-swipe aria-hidden="true"></div>
@@ -181,7 +181,7 @@ const desc = "Painters and plasterers across north Auckland — new builds, repa
           </div>
           <div class="scope-out">
             <p class="scope-line" id="scopeLine" aria-live="polite">Pick a job type to start —</p>
-            <a class="btn on-dark" href="/contact" id="scopeCta">Send this to Max</a>
+            <a class="btn on-dark" href="/contact/" id="scopeCta">Send this to Max</a>
           </div>
         </div>
       </div>
@@ -210,7 +210,7 @@ const desc = "Painters and plasterers across north Auckland — new builds, repa
         <p>Send the job through, or call Max directly — you'll get a straight answer about approach, timing and what it'll take to do it properly.</p>
         <div class="hero-ctas">
           <a class="btn" href={tel}>{BUSINESS.phone}</a>
-          <a class="btn on-dark" href="/contact">Get a free quote</a>
+          <a class="btn on-dark" href="/contact/">Get a free quote</a>
         </div>
       </div>
     </div>
@@ -401,7 +401,7 @@ const desc = "Painters and plasterers across north Auckland — new builds, repa
       function render() {
         if (!state.type) {
           line.textContent = "Pick a job type to start —";
-          cta.setAttribute("href", "/contact");
+          cta.setAttribute("href", "/contact/");
           return;
         }
         let html = `<em>${state.type}</em>`;
@@ -411,7 +411,7 @@ const desc = "Painters and plasterers across north Auckland — new builds, repa
         const params = new URLSearchParams({ source: "scoper", type: state.type });
         if (state.area.length) params.set("areas", state.area.join(","));
         if (state.size) params.set("size", state.size);
-        cta.setAttribute("href", "/contact?" + params.toString());
+        cta.setAttribute("href", "/contact/?" + params.toString());
       }
 
       document.querySelectorAll(".opts").forEach((group) => {
