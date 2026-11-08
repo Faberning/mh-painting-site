@@ -14,7 +14,7 @@ interface Props {
 }
 const { title, description, path = "", noindex = false, conversion } = Astro.props;
 const ads = BUSINESS.googleAds;
-const canonical = `${BUSINESS.url}${path}`;
+const canonical = `${BUSINESS.url}${path.replace(/\/$/, "")}/`; // trailing slash: see astro.config
 const fullTitle = path === "" ? title : `${title} — ${BUSINESS.name}`;
 const b = BUSINESS.brand;
 ---

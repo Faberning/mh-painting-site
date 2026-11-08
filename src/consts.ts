@@ -20,7 +20,10 @@ export const BUSINESS = {
   nzbn: "9429048898102",
   owner: "Max Hindley",
   tagline: "New builds, repaints and plastering — north Auckland",
-  seoTitle: "House & New Build Painters, North Auckland | MH Painting", // home <title> (<=65)
+  // Leads with the registered name so the exact brand query ("mh painting limited") matches the home page.
+  seoTitle: "MH Painting Limited | Painters & Plasterers, North Auckland", // home <title> (<=65)
+  // Every spelling of the business name people search for (schema alternateName).
+  alternateNames: ["MH Painting Limited", "MH Painting", "mh painting"],
   url: "https://mhpainting.co",
   logo: "/logo.png",
 
@@ -52,6 +55,17 @@ export const BUSINESS = {
   // adding a new suburb to the array doesn't silently mangle a sentence.
   coverageSummary: "Takapuna to Warkworth, Long Bay to Helensville — the North Shore, Hibiscus Coast, Rodney and north-west Auckland",
   coverageSummaryShort: "North Auckland — Takapuna to Warkworth",
+
+  // Suburbs that have earned a dedicated page (proof-gated: a real local job
+  // + photos). Home-page suburb chips link here; everything else stays a
+  // plain chip. Add a suburb only when its page exists.
+  areaPages: {
+    "Millwater": "/house-painters-millwater/",
+  } as Record<string, string>,
+
+  // Dulux accreditation hub page — every Dulux badge links here.
+  // Accreditation runs to Dec 2026: if it lapses, pull the badge AND this page.
+  duluxPage: "/dulux-accredited-painter-auckland/",
 
   // --- Google Ads conversion tracking (2026-11-02) ---
   // Fill these from Max's Google Ads account: Goals > Conversions > New >
@@ -131,6 +145,8 @@ export const BUSINESS = {
   sameAs: [
     "https://www.linkedin.com/in/max-hindley-982b633a8/",
     "https://www.youtube.com/channel/UCMg_AeF09TxhXhpOokr91bA",
+    // Companies Register entry (company no. 9354055, Kaukapakapa) — ties the site to the registered entity.
+    "https://app.companiesoffice.govt.nz/co/9354055",
   ],
 
   // --- Brand tokens (MH palette: charcoal / terracotta / cream) ---

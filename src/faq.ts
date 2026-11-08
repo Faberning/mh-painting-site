@@ -98,3 +98,70 @@ export const ROOF_FAQS: Faq[] = [
       "Often — a clean, freshly coated roof lifts the look of the whole house and reads as well-kept, both in listing photos and from the street.",
   },
 ];
+
+// Millwater Q&As (2026-11-02 geo lever). Question set from live Google
+// People Also Ask for Millwater/Auckland painting queries; answers built on
+// Max's real Pioneer Rise, Millwater repaint (street only, never the
+// number). One job is one job: nothing here claims Millwater homes as a
+// group have failing primer or says anything about any builder's materials.
+// Scoped FAQPage schema on /house-painters-millwater only.
+export const MILLWATER_FAQS: Faq[] = [
+  {
+    question: "How often should you repaint the outside of a house?",
+    answer:
+      "Watch the paint, not the calendar. Chalking (a powdery residue when you run a hand over the cladding), fading on the sunniest walls, hairline cracking, and any flaking or blistering are the signs the coating is giving up. A lot of Millwater homes are now coming up to their first full exterior repaint. Catch it while the paint is just tired and it's a repaint; leave it until it's flaking back to bare timber and there's a lot more prep in the job.",
+  },
+  {
+    question: "Can you just paint over peeling paint?",
+    answer:
+      "No. New paint is only as good as what it's stuck to, and peeling paint isn't stuck to anything. Every loose and flaking area has to come off first. On our Pioneer Rise repaint in Millwater we lightly sanded the whole house, then sanded the flaked areas hard until there was nothing left but sound, adhered paint and bare weatherboard. Only then did undercoat go on.",
+  },
+  {
+    question: "Why is my weatherboard paint peeling or blistering?",
+    answer:
+      "The usual causes are moisture getting in behind the paint, or prep and priming that wasn't right in the first place. On the Pioneer Rise house it was the second: the factory primer on the weatherboards had failed when the house was built, so when we sanded back we hit bare wood rather than primer. That's why it was flaking and blistering back to the substrate. If yours is blistering down to bare timber, it needs proper sanding back and priming, not another coat over the top.",
+  },
+  {
+    question: "Why do quotes for similar-looking houses come back so different?",
+    answer:
+      "Because two houses that look the same from the street can need very different amounts of prep. A house that's just chalky and faded needs a wash, a light sand and two coats. A house where the paint has let go back to bare timber needs hours of sanding, spot priming, undercoats, filling and gapping before the topcoats. Ask every painter what prep is included before you compare prices.",
+  },
+  {
+    question: "Do you paint new builds in Milldale as well?",
+    answer:
+      "Yes. We do new build interiors and exteriors as well as repaints, so we cover both: first repaints in Millwater and new builds going up next door in Milldale.",
+  },
+];
+
+// Dulux accreditation Q&As (2026-11-02 geo lever). Every Dulux programme
+// fact here was checked against dulux.co.nz/services/find-a-painter-nz/ on
+// 2026-11-02. NOT stated by Dulux, so never claim: "invite-only", a signed
+// charter, or how often checks happen. Warranty left off on purpose
+// (Freddie, 2026-11-02). Scoped FAQPage schema on the Dulux page only.
+export const DULUX_FAQS: Faq[] = [
+  {
+    question: "What does Dulux Accredited Painter mean?",
+    answer:
+      "It means Dulux has selected the painter for its accredited painter programme. To be part of it, a painter has to hold current company registration as New Zealand law requires, carry public liability insurance with at least $2 million of cover, and meet Dulux's programme standards. Registration and insurance are monitored by an independent compliance service, not by Dulux itself.",
+  },
+  {
+    question: "How do I find a Dulux Accredited painter in north Auckland?",
+    answer:
+      "There are two ways. You can fill in Dulux's Find a Painter form and Dulux will match you with accredited painters; there isn't a public list to browse. Or you can contact an accredited painter directly. We're mh painting, Dulux Accredited and working across north Auckland, so you can talk to us straight away.",
+  },
+  {
+    question: "Is Dulux responsible for an accredited painter's work?",
+    answer:
+      "No, and Dulux says so plainly: accredited painters have to meet programme standards, but Dulux isn't responsible for their workmanship. The painter is. That's why it's still worth asking any painter what prep is included, what system they'll use and to see recent local work.",
+  },
+  {
+    question: "What paint do you use?",
+    answer:
+      "Dulux is our standard. If you'd like Resene or another system, we'll use that instead. Whatever goes on, the result depends on the prep and on matching the product to the surface and the exposure.",
+  },
+  {
+    question: "Dulux or Resene: which is better for an Auckland house?",
+    answer:
+      "We're Dulux Accredited, so read this knowing which side we're on. Both are premium paint systems made for New Zealand conditions, and we don't think either is the single best choice for every house. On a repaint, the prep and the right product for each surface make far more difference than the brand on the tin. If you've got a preference, tell us and we'll quote on it.",
+  },
+];

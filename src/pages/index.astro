@@ -60,7 +60,7 @@ const desc = "Painters and plasterers across north Auckland — new builds, repa
             <span class="chip">{BUSINESS.reviews.rating.toFixed(1)} on Google</span>
           </div>
           <div class="hero-ctas" data-e>
-            <a class="btn" href="/contact">Get a free quote</a>
+            <a class="btn" href="/contact/">Get a free quote</a>
             <a class="btn ghost" href="#works">See our work →</a>
           </div>
         </div>
@@ -74,7 +74,7 @@ const desc = "Painters and plasterers across north Auckland — new builds, repa
               <div class="lbl">from <span id="countReviews">{BUSINESS.reviews.count}</span> Google reviews</div>
             </div>
             <div class="div"></div>
-            <img class="badge" src="/dulux-accredited.png" alt="Dulux Accredited Painter" width="375" height="40" />
+            <a class="badge-link" href={BUSINESS.duluxPage}><img class="badge" src="/dulux-accredited.png" alt="Dulux Accredited Painter" width="375" height="40" /></a>
           </div>
         </div>
       </div>
@@ -98,7 +98,7 @@ const desc = "Painters and plasterers across north Auckland — new builds, repa
         {featured.map((p, i) => {
           const img = leadImage(p.slug);
           return (
-            <a class="work-card" href={`/projects/${p.slug}`} data-reveal data-dir={i % 2 === 0 ? "left" : "right"}>
+            <a class="work-card" href={`/projects/${p.slug}/`} data-reveal data-dir={i % 2 === 0 ? "left" : "right"}>
               {img && (
                 <div class="work-photo">
                   <span class="tag">{p.tag}</span>
@@ -113,7 +113,7 @@ const desc = "Painters and plasterers across north Auckland — new builds, repa
           );
         })}
       </div>
-      <p class="works-more" data-reveal><a class="btn ghost" href="/projects">See all projects →</a></p>
+      <p class="works-more" data-reveal><a class="btn ghost" href="/projects/">See all projects →</a></p>
     </section>
 
     <div class="swipe" data-swipe aria-hidden="true"></div>
@@ -181,7 +181,7 @@ const desc = "Painters and plasterers across north Auckland — new builds, repa
           </div>
           <div class="scope-out">
             <p class="scope-line" id="scopeLine" aria-live="polite">Pick a job type to start —</p>
-            <a class="btn on-dark" href="/contact" id="scopeCta">Send this to Max</a>
+            <a class="btn on-dark" href="/contact/" id="scopeCta">Send this to Max</a>
           </div>
         </div>
       </div>
@@ -193,7 +193,7 @@ const desc = "Painters and plasterers across north Auckland — new builds, repa
           <h2><span class="h2-stroke">Where we work<svg viewBox="0 0 200 10" preserveAspectRatio="none" aria-hidden="true"><path class="draw" d="M2 6 C 60 2, 120 9, 198 4" /></svg></span></h2>
           <p class="sec-sub">{BUSINESS.coverageSummary}. And we travel for quality coastal work.</p>
           <div class="area-list">
-            {suburbs.map((s) => <span>{s}</span>)}
+            {suburbs.map((s) => BUSINESS.areaPages[s] ? <a href={BUSINESS.areaPages[s]}>{s}</a> : <span>{s}</span>)}
           </div>
         </div>
         <div class="area-photo" data-reveal data-dir="right">
@@ -210,7 +210,7 @@ const desc = "Painters and plasterers across north Auckland — new builds, repa
         <p>Send the job through, or call Max directly — you'll get a straight answer about approach, timing and what it'll take to do it properly.</p>
         <div class="hero-ctas">
           <a class="btn" href={tel}>{BUSINESS.phone}</a>
-          <a class="btn on-dark" href="/contact">Get a free quote</a>
+          <a class="btn on-dark" href="/contact/">Get a free quote</a>
         </div>
       </div>
     </div>
@@ -248,6 +248,7 @@ const desc = "Painters and plasterers across north Auckland — new builds, repa
     .metric-card .stars { color: var(--accent); font-size: 14px; letter-spacing: 2px; }
     .metric-card .lbl { font-size: 12.5px; color: var(--inkSoft); margin-top: 4px; }
     .metric-card .div { width: 1px; align-self: stretch; background: color-mix(in srgb, var(--ink) 12%, transparent); }
+    .metric-card .badge-link { display: contents; }
     .metric-card .badge { height: 34px; width: auto; object-fit: contain; }
     .exp-tag { position: absolute; top: 34px; right: -10px; z-index: 3; background: var(--ink); color: var(--bg); border-radius: 10px; padding: 12px 18px; font-size: 13px; font-weight: 600; box-shadow: 0 14px 34px rgba(34,31,28,.3); }
     .exp-tag .n { font-family: var(--display); font-size: 24px; color: var(--accent-soft); display: block; line-height: 1.1; }
@@ -321,7 +322,8 @@ const desc = "Painters and plasterers across north Auckland — new builds, repa
     .area-photo { height: 400px; border-radius: 16px; overflow: hidden; background: var(--ink); }
     .area-photo img { width: 100%; height: 100%; object-fit: cover; }
     .area-list { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 22px; }
-    .area-list span { display: inline-flex; align-items: center; font-size: 13.5px; font-weight: 500; background: #fff; border-radius: 100px; padding: 8px 15px; border: 1px solid color-mix(in srgb, var(--ink) 8%, transparent); }
+    .area-list a { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 3px; color: inherit; }
+    .area-list span, .area-list a { display: inline-flex; align-items: center; font-size: 13.5px; font-weight: 500; background: #fff; border-radius: 100px; padding: 8px 15px; border: 1px solid color-mix(in srgb, var(--ink) 8%, transparent); }
 
     /* ---------- final ---------- */
     .final { position: relative; padding: 140px 0; color: var(--bg); overflow: hidden; background: var(--ink-deep); }
@@ -399,7 +401,7 @@ const desc = "Painters and plasterers across north Auckland — new builds, repa
       function render() {
         if (!state.type) {
           line.textContent = "Pick a job type to start —";
-          cta.setAttribute("href", "/contact");
+          cta.setAttribute("href", "/contact/");
           return;
         }
         let html = `<em>${state.type}</em>`;
@@ -409,7 +411,7 @@ const desc = "Painters and plasterers across north Auckland — new builds, repa
         const params = new URLSearchParams({ source: "scoper", type: state.type });
         if (state.area.length) params.set("areas", state.area.join(","));
         if (state.size) params.set("size", state.size);
-        cta.setAttribute("href", "/contact?" + params.toString());
+        cta.setAttribute("href", "/contact/?" + params.toString());
       }
 
       document.querySelectorAll(".opts").forEach((group) => {

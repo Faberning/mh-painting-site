@@ -10,12 +10,12 @@ const year = new Date().getFullYear();
       <strong>{BUSINESS.legalName}</strong><br />
       {BUSINESS.experienceYears}+ years' experience · Dulux Accredited · Fully insured
       {/* Dulux Accredited badge — accreditation runs to Dec 2026; remove/refresh if it lapses. */}
-      <img class="dulux-badge" src="/dulux-accredited.png" alt="Dulux Accredited Painter" width="375" height="40" />
+      <a href={BUSINESS.duluxPage}><img class="dulux-badge" src="/dulux-accredited.png" alt="Dulux Accredited Painter" width="375" height="40" /></a>
     </div>
     <div>
       <a href={tel}>{BUSINESS.phone}</a> · <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a><br />
       Serving {BUSINESS.coverageSummaryShort}.<br />
-      <a href="/faq">FAQ</a>
+      <a href="/faq/">FAQ</a>
     </div>
     <div>
       <a href={BUSINESS.reviews.url}>★ {BUSINESS.reviews.rating} on Google ({BUSINESS.reviews.count} reviews)</a><br />
