@@ -318,6 +318,12 @@ def render_frame(t, w, h, tall):
 
 
 # --- audio ----------------------------------------------------------------------
+# Optional music bed (pass --music <file>). The track itself is never committed: it comes from
+# the private Eko Music Library and may only ship inside the finished video.
+MUSIC = sys.argv[sys.argv.index("--music") + 1] if "--music" in sys.argv else None
+MUSIC_DB = -18  # bed level before ducking; the VO sidechain pulls it down a further ~8 dB
+
+
 def build_audio():
     vo = os.path.join(HERE, "vo_raw.mp3")
     out = os.path.join(OUT, "vo_mix.wav")
@@ -327,9 +333,20 @@ def build_audio():
         parts.append(f"[0:a]atrim={a}:{b},asetpts=PTS-STARTPTS,adelay={pad_ms}|{pad_ms}[p{k}]")
         labels.append(f"[p{k}]")
     fc = ";".join(parts) + ";" + "".join(labels) + f"concat=n={len(PARAS)}:v=0:a=1[c];" \
-        f"[c]apad=whole_dur={TOTAL:.3f},loudnorm=I=-16:TP=-1.5:LRA=11[o]"
-    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", vo, "-filter_complex", fc,
-                    "-map", "[o]", "-ar", "48000", "-ac", "2", out], check=True)
+        f"[c]apad=whole_dur={TOTAL:.3f},loudnorm=I=-16:TP=-1.5:LRA=11,aresample=48000," \
+        "aformat=channel_layouts=stereo"
+    inputs = ["-i", vo]
+    if MUSIC:
+        inputs += ["-i", MUSIC]
+        fc += "[v];[v]asplit[v1][v2];" \
+            f"[1:a]atrim=0:{TOTAL:.3f},asetpts=PTS-STARTPTS,aresample=48000,aformat=channel_layouts=stereo," \
+            f"volume={MUSIC_DB}dB,afade=t=in:d=1.5,afade=t=out:st={TOTAL - 3:.3f}:d=3[m];" \
+            "[m][v2]sidechaincompress=threshold=0.02:ratio=6:attack=30:release=500[md];" \
+            "[v1][md]amix=inputs=2:duration=first:normalize=0,alimiter=limit=0.84[o]"
+    else:
+        fc += "[o]"
+    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", *inputs, "-filter_complex", fc,
+                    "-map", "[o]", "-t", f"{TOTAL:.3f}", "-ar", "48000", "-ac", "2", out], check=True)
     return out
 
 
