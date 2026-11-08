@@ -61,7 +61,19 @@ export const BUSINESS = {
   // plain chip. Add a suburb only when its page exists.
   areaPages: {
     "Millwater": "/house-painters-millwater/",
+    "Rodney": "/house-painting-rodney/",
   } as Record<string, string>,
+
+  // Max's typical exterior repaint price (relayed by Freddie, 2026-11-08:
+  // "average is around 15k but depends so much on size and prep"). Always
+  // shown with that caveat; never as a quote or a per-m2 rate. Used only on
+  // the Rodney page so far.
+  typicalExteriorRepaint: "around $15,000",
+
+  // How Max checks for hidden moisture before painting (Freddie, 2026-11-08:
+  // "he uses moisture meters and infrared"). Don't upgrade this to a named
+  // device or to a building-inspection service.
+  moistureChecks: "moisture meters and infrared",
 
   // Dulux accreditation hub page — every Dulux badge links here.
   // Accreditation runs to Dec 2026: if it lapses, pull the badge AND this page.

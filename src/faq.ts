@@ -4,6 +4,7 @@
  * the 2026-07-16 brief. Also the source array for the WF3-MH keyword set
  * (blog/LinkedIn automation) — not built this pass, but the same data.
  */
+import { BUSINESS } from "./consts";
 export interface Faq {
   question: string;
   answer: string;
@@ -163,5 +164,34 @@ export const DULUX_FAQS: Faq[] = [
     question: "Dulux or Resene: which is better for an Auckland house?",
     answer:
       "We're Dulux Accredited, so read this knowing which side we're on. Both are premium paint systems made for New Zealand conditions, and we don't think either is the single best choice for every house. On a repaint, the prep and the right product for each surface make far more difference than the brand on the tin. If you've got a preference, tell us and we'll quote on it.",
+  },
+];
+
+// Rodney Q&As (2026-11-08 geo lever). Question set from Google's AI Overview
+// for "what are people asking about house painting in rodney nz" (cost,
+// coastal weather, fresh paint hiding moisture, vetting a painter). Colour
+// trends left out: no first-hand facts to add. Price and moisture-check
+// facts come from consts (Max via Freddie, 2026-11-08). No Master Painters
+// or warranty claims. Scoped FAQPage schema on /house-painting-rodney only.
+export const RODNEY_FAQS: Faq[] = [
+  {
+    question: "How much does it cost to paint a house in Rodney?",
+    answer:
+      `Our average exterior repaint comes out ${BUSINESS.typicalExteriorRepaint}, but it depends a lot on the size of the house and how much prep it needs. Height and scaffolding, flaking paint back to bare timber, repairs, and the paint system all move the number. A chalky, faded single-storey house is a very different job from a two-storey house with sloping sections and paint that has let go. We come and look, explain what the house needs and why, and give you a fixed quote.`,
+  },
+  {
+    question: "How do I protect exterior paint from the coastal weather?",
+    answer:
+      "Salt, wind-driven rain and strong UV break paint down faster on the coast than inland, especially on walls facing the sea. Protection comes from the prep and the system, not just the topcoat: sound, clean surfaces, the right primer for the substrate, and enough coats of a product suited to the exposure. On our Warkworth board and batten new build, every board and batten got two coats on the backs, bottoms and tops before it went up, then three coats on the outside. After that, watch the paint, not the calendar: chalking, fading and hairline cracks are the early signs it's due.",
+  },
+  {
+    question: "Can fresh paint hide moisture or rot?",
+    answer:
+      `Yes. A new coat can make damp or rotting timber look fine for a while, and it will fail again from underneath. That's why we check before we paint, using ${BUSINESS.moistureChecks}. If the readings say there's moisture in the cladding, the cause gets sorted and any rotted timber gets cut out and repaired before anything is painted. If you're buying a recently painted house, the paint tells you nothing about what's under it, so get the house properly inspected.`,
+  },
+  {
+    question: "How do I check a painter is reliable before I hire them?",
+    answer:
+      "Ask for a written quote that shows what's included, especially the prep and the paint system, not just a total. Check they carry public liability insurance: as a Dulux Accredited Painter we have to hold at least $2 million of cover and current company registration, and both are monitored independently. Ask to see recent work near you, and ask what they'll do if they find damage once they start. Be wary of any quote that's vague about prep.",
   },
 ];
