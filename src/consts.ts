@@ -60,9 +60,12 @@ export const BUSINESS = {
   // action's send_to ("AW-123456789/AbC-dEfGhIj" -> "AbC-dEfGhIj").
   // While `id` is empty, NO Google script is loaded anywhere on the site.
   googleAds: {
-    id: "",        // e.g. "AW-123456789"
-    leadLabel: "", // "Lead form" conversion — fires on /thank-you
-    callLabel: "", // "Phone call click" conversion — fires on any tel: link tap
+    id: "AW-17889602231", // mh painting limited (117-035-6970)
+    // Left empty on purpose: the account's existing "Submit lead form
+    // (https://www.mhpainting.co/)" action is a URL rule on /thank-you that
+    // the Google tag fires by itself. A label here would double-count.
+    leadLabel: "",
+    callLabel: "ZrR5CNufzrQdELfVttJC", // "Phone call click (website)" — any tel: link tap
   },
 
   // --- Schema type ---
