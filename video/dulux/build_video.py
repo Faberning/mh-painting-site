@@ -69,8 +69,9 @@ TITLE = ("What does Dulux® Accredited", "actually check?")
 TITLE_TALL = ("What does", "Dulux® Accredited", "actually check?")
 END_ROWS = ["Dulux® Accredited · North Auckland", "020 4076 7979", "mhpainting.co"]
 
+# ® stays on the title and end card; captions drop it (the font leaves a gap before it).
 CAPTION_FIX = [("M H Painting", "mh painting"), ("M H painting dot co", "mhpainting.co"),
-               ("Dulux", "Dulux®")]
+               ("north Auckland", "North Auckland")]
 
 FONT_CANDIDATES_BOLD = [
     "C:/Windows/Fonts/segoeuib.ttf", "C:/Windows/Fonts/arialbd.ttf",
@@ -295,6 +296,8 @@ def overlay(frame, t, idx, w, h, tall):
 
     # captions
     for a0, b0, text in CAPS:
+        if a0 < para_out_start(1) - 0.5:
+            continue  # the title card already shows the opening question
         if a0 <= t <= b0:
             maxw = w - 240 if not tall else w - 140
             f = font(int((52 if not tall else 60) * s))
