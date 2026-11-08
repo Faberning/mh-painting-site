@@ -26,8 +26,8 @@ FPS = 30
 # --- timing -------------------------------------------------------------------
 LEAD, GAP, END = 1.5, 1.2, 7.0
 # Paragraph windows in the raw VO (seconds), cut in the silences between them.
-PARAS = [(0.0, 2.66), (2.66, 17.08), (17.08, 28.60), (28.60, 38.26), (38.26, 46.90)]
-VO_LEN = 46.90
+PARAS = [(0.0, 2.69), (2.69, 16.70), (16.70, 28.11), (28.11, 38.55), (38.55, 46.62)]
+VO_LEN = 46.62
 
 
 def para_out_start(k):
@@ -52,15 +52,15 @@ SHOTS = [
     (0.0, "little-manly-cliff-house/01.jpg", 0.45, 0.45, 1.00, 1.08, None),
     (para_out_start(1), "board-and-batten-warkworth/01.jpg", 0.40, 0.50, 1.06, 1.00,
      "Current company registration  ·  $2M+ public liability cover"),
-    (src_to_out(11.935) - 0.15, "mangawhai-estuary-new-build/01.jpg", 0.50, 0.50, 1.00, 1.07,
+    (src_to_out(11.656) - 0.15, "mangawhai-estuary-new-build/01.jpg", 0.50, 0.50, 1.00, 1.07,
      "Monitored by an independent compliance service"),
     (para_out_start(2), "little-manly-cliff-house/03.jpg", 0.50, 0.40, 1.07, 1.00,
      "Workmanship is the painter's responsibility"),
-    (src_to_out(23.185) - 0.15, "board-and-batten-warkworth/03.jpg", 0.55, 0.45, 1.00, 1.07,
+    (src_to_out(22.733) - 0.15, "board-and-batten-warkworth/03.jpg", 0.55, 0.45, 1.00, 1.07,
      "Ask what prep is in your quote"),
     (para_out_start(3), "langs-beach-new-build/01.jpg", 0.45, 0.45, 1.06, 1.00,
      "No public register: Dulux® matches you, or you come direct"),
-    (src_to_out(34.575) - 0.15, "pioneer-rise-millwater/01.jpg", 0.45, 0.50, 1.00, 1.07, None),
+    (src_to_out(34.389) - 0.15, "pioneer-rise-millwater/01.jpg", 0.45, 0.50, 1.00, 1.07, None),
     (END_START, "pioneer-rise-millwater/05.jpg", 0.50, 0.42, 1.04, 1.00, None),
 ]
 XFADE = 0.5
@@ -69,8 +69,9 @@ TITLE = ("What does Dulux® Accredited", "actually check?")
 TITLE_TALL = ("What does", "Dulux® Accredited", "actually check?")
 END_ROWS = ["Dulux® Accredited · North Auckland", "020 4076 7979", "mhpainting.co"]
 
+# The VO script spells Dulux "Duelux" so the voice says Due-lux; captions show the real name.
 # ® stays on the title and end card; captions drop it (the font leaves a gap before it).
-CAPTION_FIX = [("M H Painting", "mh painting"), ("M H painting dot co", "mhpainting.co"),
+CAPTION_FIX = [("Duelux", "Dulux"), ("M H Painting", "mh painting"), ("M H painting dot co", "mhpainting.co"),
                ("north Auckland", "North Auckland")]
 
 FONT_CANDIDATES_BOLD = [
