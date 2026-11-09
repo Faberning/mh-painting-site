@@ -10,8 +10,10 @@ interface Props {
   description: string;
   path?: string; // e.g. "/services/industrial-coatings"
   noindex?: boolean;
+  conversion?: "lead"; // fires the Google Ads lead conversion on this page
 }
-const { title, description, path = "", noindex = false } = Astro.props;
+const { title, description, path = "", noindex = false, conversion } = Astro.props;
+const ads = BUSINESS.googleAds;
 const canonical = `${BUSINESS.url}${path.replace(/\/$/, "")}/`; // trailing slash: see astro.config
 const fullTitle = path === "" ? title : `${title} — ${BUSINESS.name}`;
 const b = BUSINESS.brand;
@@ -45,6 +47,28 @@ const b = BUSINESS.brand;
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png" />
     <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png" />
+
+    {ads.id && (
+      <Fragment>
+        <!-- Google Ads tag + conversions. IDs live in consts.ts (googleAds). -->
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${ads.id}`}></script>
+        <script is:inline define:vars={{ ads, conversion }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){ dataLayer.push(arguments); }
+          gtag('js', new Date());
+          gtag('config', ads.id);
+          if (conversion === 'lead' && ads.leadLabel) {
+            gtag('event', 'conversion', { send_to: ads.id + '/' + ads.leadLabel });
+          }
+          if (ads.callLabel) {
+            document.addEventListener('click', function (e) {
+              var a = e.target.closest && e.target.closest('a[href^="tel:"]');
+              if (a) gtag('event', 'conversion', { send_to: ads.id + '/' + ads.callLabel });
+            });
+          }
+        </script>
+      </Fragment>
+    )}
 
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />

@@ -67,6 +67,21 @@ export const BUSINESS = {
   // Accreditation runs to Dec 2026: if it lapses, pull the badge AND this page.
   duluxPage: "/dulux-accredited-painter-auckland/",
 
+  // --- Google Ads conversion tracking (2026-11-02) ---
+  // Fill these from Max's Google Ads account: Goals > Conversions > New >
+  // Website > "Add a conversion action manually". `id` is the account's tag
+  // ID ("AW-123456789"); each label is the part after the slash in that
+  // action's send_to ("AW-123456789/AbC-dEfGhIj" -> "AbC-dEfGhIj").
+  // While `id` is empty, NO Google script is loaded anywhere on the site.
+  googleAds: {
+    id: "AW-17889602231", // mh painting limited (117-035-6970)
+    // Left empty on purpose: the account's existing "Submit lead form
+    // (https://www.mhpainting.co/)" action is a URL rule on /thank-you that
+    // the Google tag fires by itself. A label here would double-count.
+    leadLabel: "",
+    callLabel: "ZrR5CNufzrQdELfVttJC", // "Phone call click (website)" — any tel: link tap
+  },
+
   // --- Schema type ---
   schemaType: "HousePainter",
   priceRange: "$$",
