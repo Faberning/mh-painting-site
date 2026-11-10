@@ -1,0 +1,123 @@
+---
+// house-painting-rodney.astro — Rodney answer page (2026-11-08 geo lever).
+// Built from the questions in Google's AI Overview for "what are people
+// asking about house painting in rodney nz". The Q&As are the body (single
+// source: RODNEY_FAQS), so the page text and FAQPage schema can't drift.
+//
+// Proof: real jobs from projects.ts only. Warkworth is in Rodney; Little
+// Manly is on the Whangaparāoa Peninsula (Hibiscus Coast); Langs Beach and
+// Mangawhai are just north, so they're described as "further up the coast",
+// never as Rodney. Price + moisture-check facts come from consts.
+// Also meant as the landing page for Rodney-area Search ad groups.
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import { BUSINESS } from "../consts";
+import { RODNEY_FAQS } from "../faq";
+import { PROJECTS } from "../projects";
+
+const path = "/house-painting-rodney/";
+const pageUrl = `${BUSINESS.url}${path}`;
+const desc = "What Rodney homeowners ask before painting: cost, coastal weather, whether fresh paint hides moisture, and how to vet a painter. Answers from mh painting.";
+
+const proofSlugs = ["board-and-batten-warkworth", "little-manly-cliff-house", "langs-beach-new-build", "mangawhai-estuary-new-build"];
+const proof = proofSlugs
+  .map((s) => PROJECTS.find((p) => p.slug === s))
+  .filter((p): p is (typeof PROJECTS)[number] => Boolean(p));
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: RODNEY_FAQS.map((f) => ({
+    "@type": "Question",
+    name: f.question,
+    acceptedAnswer: { "@type": "Answer", text: f.answer },
+  })),
+};
+
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": `${pageUrl}#webpage`,
+  url: pageUrl,
+  name: "House painting in Rodney",
+  description: desc,
+  about: { "@id": `${BUSINESS.url}/#business` },
+  mentions: ["Rodney", "Warkworth", "Orewa", "Whangaparāoa", "Hibiscus Coast"]
+    .filter((p) => (BUSINESS.areaServed as readonly string[]).includes(p))
+    .map((p) => ({ "@type": "Place", name: p })),
+  breadcrumb: {
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${BUSINESS.url}/` },
+      { "@type": "ListItem", position: 2, name: "House painting in Rodney", item: pageUrl },
+    ],
+  },
+};
+---
+<Base title="House Painting in Rodney: Costs & Questions" description={desc} path={path}>
+  <Nav />
+  <main>
+    <section class="wrap sub-hero">
+      <p class="eyebrow">Rodney · Hibiscus Coast to Warkworth</p>
+      <h1>House painting in Rodney: straight answers before you book.</h1>
+      <p class="lead">These are the questions people in Rodney ask most before they paint: what it costs, how to make paint last on the coast, whether fresh paint is hiding a problem, and how to tell a reliable painter from the rest. We're Dulux Accredited painters working across Rodney and the Hibiscus Coast, and these are our answers.</p>
+      <div class="cta-row">
+        <a class="btn" href="/contact/">Get a free quote</a>
+        <a class="btn ghost" href={`tel:${BUSINESS.phone.replace(/\s/g, "")}`}>{BUSINESS.phone}</a>
+      </div>
+      <p class="trust-line">Dulux Accredited · Fully insured · ★ {BUSINESS.reviews.rating.toFixed(1)} on Google from {BUSINESS.reviews.count} reviews</p>
+    </section>
+
+    <section class="wrap prose sub-body">
+      {RODNEY_FAQS.map((f) => (
+        <div class="sub-block">
+          <h2>{f.question}</h2>
+          <p>{f.answer}</p>
+        </div>
+      ))}
+
+      <div class="sub-block">
+        <h2>Our work in Rodney and up the coast</h2>
+        <p>A few jobs that show how we handle coastal exposure, from Warkworth and the Whangaparāoa Peninsula to further up the coast at Langs Beach and Mangawhai.</p>
+        <ul class="proof">
+          {proof.map((p) => (
+            <li><a href={`/projects/${p.slug}/`}>{p.title}</a>: {p.body[p.body.length - 1]}</li>
+          ))}
+        </ul>
+        <p>Being accredited doesn't replace asking about prep, but it means the basics have been checked. <a href={BUSINESS.duluxPage}>What Dulux Accredited actually checks</a>. If you're in Millwater, see <a href={BUSINESS.areaPages["Millwater"]}>what we found on a Pioneer Rise repaint</a>.</p>
+      </div>
+
+      <div class="sub-block">
+        <h2>Getting a quote</h2>
+        <p>We'll come and look at the house, check it for moisture, tell you what it needs and why, and give you a fixed quote. {BUSINESS.offer}</p>
+      </div>
+
+      <div class="cta-row">
+        <a class="btn" href="/contact/">Get a free quote</a>
+        <a class="btn ghost" href={`tel:${BUSINESS.phone.replace(/\s/g, "")}`}>{BUSINESS.phone}</a>
+      </div>
+      <p class="more">More answers on our <a href="/faq/">painting FAQ</a>, including the best time of year to paint.</p>
+    </section>
+  </main>
+  <Footer />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(pageSchema)} />
+  <style>
+    .sub-hero { padding-top: 8vh; max-width: 900px; }
+    .sub-hero h1 { font-size: clamp(30px, 4vw, 44px); margin-bottom: 18px; }
+    .sub-hero .lead { margin-bottom: 24px; }
+    .trust-line { margin-top: 16px; font-size: 14px; color: var(--inkSoft); }
+
+    .sub-body { margin-top: 4vh; }
+    .sub-block { padding: 28px 0; border-bottom: 1px solid var(--line); }
+    .sub-block:first-child { padding-top: 0; }
+    .sub-block h2 { font-size: clamp(20px, 2.4vw, 26px); margin-bottom: 10px; }
+    .sub-block p, .sub-block li { color: var(--inkSoft); max-width: 72ch; }
+    .sub-block p + p { margin-top: 12px; }
+    .sub-block ul { padding-left: 20px; margin: 8px 0 12px; }
+    .sub-block li + li { margin-top: 8px; }
+    .sub-block a, .more a { color: var(--accentDeep); }
+    .more { margin-top: 18px; font-size: 15px; color: var(--inkSoft); }
+  </style>
+</Base>
