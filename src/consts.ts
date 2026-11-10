@@ -75,10 +75,12 @@ export const BUSINESS = {
   // While `id` is empty, NO Google script is loaded anywhere on the site.
   googleAds: {
     id: "AW-17889602231", // mh painting limited (117-035-6970)
-    // Left empty on purpose: the account's existing "Submit lead form
-    // (https://www.mhpainting.co/)" action is a URL rule on /thank-you that
-    // the Google tag fires by itself. A label here would double-count.
-    leadLabel: "",
+    // "Submit lead form" manual-event action (ctId 7470454290). Fired on
+    // /thank-you/ by Base.astro. The old URL-rule action ("Submit lead form
+    // (https://www.mhpainting.co/)") watches www.mhpainting.co/thank-you,
+    // which the apex-domain site never serves, so it has recorded nothing.
+    // Set that one to Secondary in Google Ads so leads aren't double-counted.
+    leadLabel: "ppesCJKsmOobELfVttJC",
     callLabel: "ZrR5CNufzrQdELfVttJC", // "Phone call click (website)" — any tel: link tap
   },
 
