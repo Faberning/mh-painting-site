@@ -14,6 +14,7 @@ import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import { BUSINESS } from "../consts";
 import RingLinks from "../components/RingLinks.astro";
+import RingVideo from "../components/RingVideo.astro";
 import { RODNEY_FAQS } from "../faq";
 import { PROJECTS } from "../projects";
 
@@ -71,6 +72,7 @@ const pageSchema = {
     </section>
 
     <section class="wrap prose sub-body">
+      <RingVideo path={path} />
       {RODNEY_FAQS.map((f) => (
         <div class="sub-block">
           <h2>{f.question}</h2>

@@ -1,0 +1,59 @@
+---
+// Click-to-play YouTube embed + VideoObject for a geo-lever page, driven by
+// ring.ts. Renders nothing until the page's video is set (public videos only).
+import { BUSINESS } from "../consts";
+import { RING } from "../ring";
+interface Props { path: string }
+const { path } = Astro.props;
+const v = RING[path]?.video;
+const thumb = v ? `https://i.ytimg.com/vi/${v.id}/hqdefault.jpg` : "";
+const schema = v && {
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  name: v.title,
+  description: v.description,
+  thumbnailUrl: thumb,
+  uploadDate: v.uploadDate,
+  contentUrl: `https://youtu.be/${v.id}`,
+  embedUrl: `https://www.youtube-nocookie.com/embed/${v.id}`,
+  publisher: {
+    "@type": "Organization",
+    name: BUSINESS.name,
+    logo: { "@type": "ImageObject", url: `${BUSINESS.url}${BUSINESS.logo}` },
+  },
+};
+---
+{v && (
+  <div class="sub-block ring-video">
+    <div class="yt-facade" data-yt-id={v.id} data-yt-title={v.title} role="button" tabindex="0" aria-label={`Play video: ${v.title}`}>
+      <img src={thumb} alt={v.title} width="480" height="360" loading="lazy" />
+      <span class="yt-play" aria-hidden="true">
+        <svg viewBox="0 0 68 48" width="56" height="40"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.64 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#191714"/><path d="M45 24 27 14v20" fill="#F4EFE6"/></svg>
+      </span>
+    </div>
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </div>
+)}
+<script>
+  document.querySelectorAll<HTMLElement>(".ring-video .yt-facade").forEach((facade) => {
+    const load = () => {
+      const iframe = document.createElement("iframe");
+      iframe.className = "yt-iframe";
+      iframe.src = `https://www.youtube-nocookie.com/embed/${facade.dataset.ytId}?autoplay=1&rel=0`;
+      iframe.title = facade.dataset.ytTitle ?? "";
+      iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+      iframe.allowFullscreen = true;
+      facade.replaceWith(iframe);
+    };
+    facade.addEventListener("click", load);
+    facade.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); load(); }
+    });
+  });
+</script>
+<style>
+  .yt-facade { position: relative; aspect-ratio: 16/9; border-radius: 16px; overflow: hidden; cursor: pointer; background: var(--ink); border: 1px solid var(--line); }
+  .yt-facade img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .yt-play { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+  :global(.ring-video .yt-iframe) { width: 100%; aspect-ratio: 16/9; border: 0; border-radius: 16px; display: block; }
+</style>

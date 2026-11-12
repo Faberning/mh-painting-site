@@ -1,24 +1,34 @@
 ---
-// Links from a geo-lever page out to its live GBP post and YouTube video.
-// Renders nothing until ring.ts has a live entry for the page.
-import { RING } from "../ring";
+// Links from a geo-lever page out to its live posts and video, plus the
+// sibling geo pages. Post links render only once ring.ts has a live entry.
+import { RING, RING_PAGES } from "../ring";
 interface Props { path: string }
 const { path } = Astro.props;
 const r = RING[path] ?? {};
-const items = [
-  r.gbpPost && { href: r.gbpPost, label: "Our Google Business Profile post on this" },
-  r.youtubeId && { href: `https://www.youtube.com/watch?v=${r.youtubeId}`, label: "Watch the video on YouTube" },
+const posts = [
+  r.gbpPost && { href: r.gbpPost, label: "Google Business Profile" },
+  r.video && { href: `https://www.youtube.com/watch?v=${r.video.id}`, label: "YouTube" },
+  r.linkedinPost && { href: r.linkedinPost, label: "LinkedIn" },
+  r.facebookPost && { href: r.facebookPost, label: "Facebook" },
+  r.instagramPost && { href: r.instagramPost, label: "Instagram" },
 ].filter(Boolean) as { href: string; label: string }[];
+const siblings = RING_PAGES.filter((p) => p.path !== path);
 ---
-{items.length > 0 && (
+{posts.length > 0 && (
   <p class="ring-links">
-    Also from mh painting:{" "}
-    {items.map((it, i) => (
-      <>{i > 0 && " · "}<a href={it.href} rel="noopener" target="_blank">{it.label}</a></>
-    ))}
+    We've also posted about this on{" "}
+    {posts.map((it, i) => (
+      <>{i > 0 && (i === posts.length - 1 ? " and " : ", ")}<a href={it.href} rel="noopener" target="_blank">{it.label}</a></>
+    ))}.
   </p>
 )}
+<p class="ring-links">
+  More answers:{" "}
+  {siblings.map((p, i) => (
+    <>{i > 0 && " · "}<a href={p.path}>{p.label}</a></>
+  ))}
+</p>
 <style>
-  .ring-links { margin-top: 18px; font-size: 15px; color: var(--inkSoft); }
+  .ring-links { margin-top: 14px; font-size: 15px; color: var(--inkSoft); }
   .ring-links a { color: var(--accentDeep); }
 </style>
