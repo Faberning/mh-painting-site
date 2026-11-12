@@ -11,13 +11,13 @@
 // prices, no warranty (Freddie, 2026-11-02). Free house wash only in the
 // consts.offer wording (full exterior repaints, So Clean).
 //
-// VIDEO SLOT is dormant (JSX comments below, never shipped). Activate at
-// final deploy only, with the real YouTube ID + upload date.
+// Video: RingVideo renders from src/ring.ts once a public video is set.
 import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import { BUSINESS } from "../consts";
 import RingLinks from "../components/RingLinks.astro";
+import RingVideo from "../components/RingVideo.astro";
 import { MILLWATER_FAQS } from "../faq";
 
 const path = "/house-painters-millwater/";
@@ -79,9 +79,7 @@ const pageSchema = {
         <p>Millwater went up in stages, so whole streets share the same era of build and the same kind of cladding, and their paint has had about the same number of summers on it. That's why so many houses here are reaching their first repaint at around the same time. Next door, Milldale is still being built. We do both kinds of work: first repaints on the established side, and new build painting where houses are still going up.</p>
       </div>
 
-      {/* VIDEO SLOT — DORMANT. Activate at final deploy: replace this comment with the
-          yt-facade block from /roof-painting-auckland, using {{YOUTUBE_ID}}, and add the
-          VideoObject script (uploadDate = {{UPLOAD_DATE}}, the real YouTube upload date). */}
+      <RingVideo path={path} />
 
       <div class="sub-block" id="pioneer-rise">
         <h2>What we found on a Pioneer Rise repaint</h2>
@@ -155,7 +153,6 @@ const pageSchema = {
   <Footer />
   <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
   <script type="application/ld+json" set:html={JSON.stringify(pageSchema)} />
-  {/* VideoObject — DORMANT. Add at final deploy with the real {{YOUTUBE_ID}} and {{UPLOAD_DATE}}. */}
   <style>
     .sub-hero { padding-top: 8vh; max-width: 900px; }
     .sub-hero h1 { font-size: clamp(30px, 4vw, 44px); margin-bottom: 18px; }
