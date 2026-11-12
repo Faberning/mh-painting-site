@@ -40,6 +40,12 @@ export const RING: Record<string, RingLinks> = {
     //   title: "What Does Dulux Accredited Actually Check? | North Auckland Painter",
     //   description: "What a Dulux Accredited Painter has to have, what the accreditation doesn't cover, and how to find one in north Auckland without waiting to be matched." },
   },
-  "/house-painters-millwater/": {},
-  "/house-painting-rodney/": {},
+  "/house-painters-millwater/": {
+    // localPosts/4378894379906002447, posted 2026-11-12.
+    gbpPost: "https://local.google.com/place?id=7826564831162918593&use=posts&lpsid=CAIQACoeChxtc3BfaDprdVpDcmd3OENDX2pmZHFSOURaMWZB",
+  },
+  "/house-painting-rodney/": {
+    // localPosts/3973761207060502823, posted 2026-11-12.
+    gbpPost: "https://local.google.com/place?id=7826564831162918593&use=posts&lpsid=CAIQACoeChxtc3BfaDpxTDlSS3BOdW9RdG5kTHRUM1hqeFhB",
+  },
 };
