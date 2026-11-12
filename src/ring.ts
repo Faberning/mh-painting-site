@@ -34,12 +34,18 @@ export const RING: Record<string, RingLinks> = {
   "/dulux-accredited-painter-auckland/": {
     // localPosts/4838353422543723350, live since 2026-11-03.
     gbpPost: "https://local.google.com/place?id=7826564831162918593&use=posts&lpsid=CAIQACoeChxtc3BfaDpvNklYbTZXNnhVY1lUbUlyU3FxLVdB",
-    // Video t4Gn-KyiZmQ is uploaded but PRIVATE (2026-11-10). Add it here
-    // only once it is public:
-    // video: { id: "t4Gn-KyiZmQ", uploadDate: "2026-11-10T03:44:53Z",
-    //   title: "What Does Dulux Accredited Actually Check? | North Auckland Painter",
-    //   description: "What a Dulux Accredited Painter has to have, what the accreditation doesn't cover, and how to find one in north Auckland without waiting to be matched." },
+    // Video t4Gn-KyiZmQ, public on Max's channel since 2026-11-12 (YouTube
+    // publishedAt 2026-11-12T11:54:35-08:00).
+    video: { id: "t4Gn-KyiZmQ", uploadDate: "2026-11-12T19:54:35Z",
+      title: "What Does Dulux Accredited Actually Check? | North Auckland Painter",
+      description: "What a Dulux Accredited Painter has to have, what the accreditation doesn't cover, and how to find one in north Auckland without waiting to be matched." },
   },
-  "/house-painters-millwater/": {},
-  "/house-painting-rodney/": {},
+  "/house-painters-millwater/": {
+    // localPosts/4378894379906002447, posted 2026-11-12.
+    gbpPost: "https://local.google.com/place?id=7826564831162918593&use=posts&lpsid=CAIQACoeChxtc3BfaDprdVpDcmd3OENDX2pmZHFSOURaMWZB",
+  },
+  "/house-painting-rodney/": {
+    // localPosts/3973761207060502823, posted 2026-11-12.
+    gbpPost: "https://local.google.com/place?id=7826564831162918593&use=posts&lpsid=CAIQACoeChxtc3BfaDpxTDlSS3BOdW9RdG5kTHRUM1hqeFhB",
+  },
 };
