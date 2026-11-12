@@ -17,6 +17,7 @@ import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import { BUSINESS } from "../consts";
+import RingLinks from "../components/RingLinks.astro";
 import { MILLWATER_FAQS } from "../faq";
 
 const path = "/house-painters-millwater/";
@@ -91,8 +92,21 @@ const pageSchema = {
         <h3>Why oil-based first?</h3>
         <p>Two reasons. That bare timber had been exposed to the weather, and putting water-based paint straight over it can lead to bubbling later, because there's still moisture in the wood. An oil-based undercoat is solvent-based, so it dries the wood out rather than re-saturating it. It's more of a precaution, but one we think is 100% necessary.</p>
         <p class="note">One house is one house. We're not saying every Millwater home has this problem, only that it's worth knowing what's under your paint before you choose how it gets repainted.</p>
-        {/* PHOTO SLOT — add Pioneer Rise before / sanded-back / finished photos here once
-            they're in public/projects/ (real job photos only). */}
+        {/* Real Pioneer Rise photos (Max's album, 20 Feb 2026, EXIF stripped). Finished
+            shots only: the album has no before/prep photos. Never use 03 (readable plate)
+            or 04 (interior visible). */}
+        <div class="job-photos">
+          <figure class="wide">
+            <img src="/projects/pioneer-rise-millwater/05.jpg" alt="Finished exterior repaint on a Pioneer Rise, Millwater home: rear elevation across the pool, sage-green weatherboards and white joinery" width="1600" height="1200" loading="lazy" decoding="async" />
+          </figure>
+          <figure>
+            <img src="/projects/pioneer-rise-millwater/01.jpg" alt="Front of the repainted Pioneer Rise house from the driveway, weatherboards and garage surround finished" width="1600" height="1200" loading="lazy" decoding="async" />
+          </figure>
+          <figure>
+            <img src="/projects/pioneer-rise-millwater/02.jpg" alt="Rear lawn side of the Pioneer Rise house after the repaint, weatherboards across the two-storey block" width="1600" height="1200" loading="lazy" decoding="async" />
+          </figure>
+          <p class="photo-note">The finished job. We don't have photos of the sanding or undercoat stages for this house.</p>
+        </div>
       </div>
 
       <div class="sub-block">
@@ -115,6 +129,8 @@ const pageSchema = {
         <h2>Getting a quote</h2>
         <p>We'll come and look at the house, tell you what it needs and why, and give you a fixed quote. {BUSINESS.offer}</p>
       </div>
+
+      <RingLinks path={path} />
 
       <div class="cta-row">
         <a class="btn" href="/contact/">Get a free quote</a>
@@ -169,5 +185,11 @@ const pageSchema = {
     .sub-faq .faq-item p { font-size: 15px; color: var(--inkSoft); max-width: 68ch; }
     .sub-faq .more { margin-top: 18px; font-size: 15px; color: var(--inkSoft); }
     .sub-faq .more a { color: var(--accentDeep); }
+    .job-photos { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+    .job-photos figure { margin: 0; }
+    .job-photos .wide { grid-column: 1 / -1; }
+    .job-photos img { width: 100%; height: auto; display: block; border-radius: 12px; border: 1px solid var(--line); }
+    .job-photos .photo-note { grid-column: 1 / -1; font-size: 14px; }
+    @media (max-width: 640px) { .job-photos { grid-template-columns: 1fr; } }
   </style>
 </Base>
