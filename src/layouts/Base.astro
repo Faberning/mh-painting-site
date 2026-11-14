@@ -34,9 +34,16 @@ const b = BUSINESS.brand;
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:site_name" content={BUSINESS.name} />
-    <meta property="og:image" content={`${BUSINESS.url}/og-wordmark.png`} />
+    <!-- 1200x630 (1.91:1) on cream: the old og-wordmark.png was 1568x364 with
+         a black background behind dark ink, so WhatsApp/Facebook cropped it
+         to a dark, cut-off strip. Width/height let scrapers render on first share. -->
+    <meta property="og:image" content={`${BUSINESS.url}/og-image.png`} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="mh painting — painters and plasterers, North Auckland" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content={`${BUSINESS.url}/og-wordmark.png`} />
+    <meta name="twitter:image" content={`${BUSINESS.url}/og-image.png`} />
     <!-- Roller favicon set (2026-07-16 brief) — SVG mark intentionally not
          referenced here: it's a different (monogram) design and SVG icons
          take priority over PNG/ICO in browsers, which would mask the roller. -->
