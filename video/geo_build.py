@@ -321,7 +321,10 @@ def render_frame(t, w, h, tall):
 # --- audio ----------------------------------------------------------------------
 # Optional music bed (pass --music <file>). The track itself is never committed: it comes from
 # the private Eko Music Library and may only ship inside the finished video.
-MUSIC = sys.argv[sys.argv.index("--music") + 1] if "--music" in sys.argv else None
+# Default: the Eko-owned bed from the public eko-asset-library (licence-clean, Freddie 15 Nov 2026:
+# always include library music). Clone it next to this repo or pass --music <file>.
+_LIB = os.path.join(ROOT, "..", "faberning", "eko-asset-library", "audio", "eko-calm-pulse-bed-96bpm-61s_2026-11-13.mp3")
+MUSIC = sys.argv[sys.argv.index("--music") + 1] if "--music" in sys.argv else (_LIB if os.path.exists(_LIB) else None)
 MUSIC_DB = -18  # bed level before ducking; the VO sidechain pulls it down a further ~8 dB
 
 
@@ -338,7 +341,7 @@ def build_audio():
         "aformat=channel_layouts=stereo"
     inputs = ["-i", vo]
     if MUSIC:
-        inputs += ["-i", MUSIC]
+        inputs += ["-stream_loop", "-1", "-i", MUSIC]
         fc += "[v];[v]asplit[v1][v2];" \
             f"[1:a]atrim=0:{TOTAL:.3f},asetpts=PTS-STARTPTS,aresample=48000,aformat=channel_layouts=stereo," \
             f"volume={MUSIC_DB}dB,afade=t=in:d=1.5,afade=t=out:st={TOTAL - 3:.3f}:d=3[m];" \

@@ -1,16 +1,91 @@
 {
   "slug": "rodney",
-  "cuts": [0.0, 4.93, 17.26, 26.64, 35.5, 41.0, 49.78],
-  "title": ["House painting in Rodney:", "straight answers"],
-  "title_tall": ["House painting", "in Rodney:", "straight answers"],
-  "end_rows": ["Dulux® Accredited · Rodney & Hibiscus Coast", "020 4076 7979", "mhpainting.co"],
+  "cuts": [
+    0.0,
+    4.64,
+    17.31,
+    26.86,
+    36.0,
+    41.62,
+    49.63
+  ],
+  "title": [
+    "House painting in Rodney:",
+    "straight answers"
+  ],
+  "title_tall": [
+    "House painting",
+    "in Rodney:",
+    "straight answers"
+  ],
+  "end_rows": [
+    "Dulux® Accredited · Rodney & Hibiscus Coast",
+    "020 4076 7979",
+    "mhpainting.co"
+  ],
   "shots": [
-    ["P0", "board-and-batten-warkworth/01.jpg", 0.45, 0.50, 1.00, 1.08, null],
-    ["P1", "little-manly-cliff-house/04.jpg", 0.50, 0.45, 1.06, 1.00, "Average exterior repaint: around $15,000 · size and prep move it"],
-    ["w:We", "board-and-batten-warkworth/04.jpg", 0.50, 0.50, 1.00, 1.07, "We look first, then give a fixed quote"],
-    ["P2", "langs-beach-new-build/03.jpg", 0.50, 0.45, 1.06, 1.00, "Coastal salt, wind and sun: protection is prep plus the paint system"],
-    ["P3", "little-manly-cliff-house/03.jpg", 0.50, 0.45, 1.00, 1.07, "We check first: moisture meters and infrared"],
-    ["P4", "mangawhai-estuary-new-build/01.jpg", 0.50, 0.45, 1.06, 1.00, "Get a written quote that shows the prep · check insurance"],
-    ["P5", "langs-beach-new-build/01.jpg", 0.45, 0.45, 1.04, 1.00, null]
+    [
+      "P0",
+      "board-and-batten-warkworth/01.jpg",
+      0.45,
+      0.5,
+      1.0,
+      1.08,
+      null
+    ],
+    [
+      "P1",
+      "little-manly-cliff-house/04.jpg",
+      0.5,
+      0.45,
+      1.06,
+      1.0,
+      "Average exterior repaint: around $15,000 · size and prep move it"
+    ],
+    [
+      "w:We",
+      "board-and-batten-warkworth/04.jpg",
+      0.5,
+      0.5,
+      1.0,
+      1.07,
+      "We look first, then give a fixed quote"
+    ],
+    [
+      "P2",
+      "langs-beach-new-build/03.jpg",
+      0.5,
+      0.45,
+      1.06,
+      1.0,
+      "Coastal salt, wind and sun: protection is prep plus the paint system"
+    ],
+    [
+      "P3",
+      "little-manly-cliff-house/03.jpg",
+      0.5,
+      0.45,
+      1.0,
+      1.07,
+      "We check first: moisture meters and infrared"
+    ],
+    [
+      "P4",
+      "mangawhai-estuary-new-build/01.jpg",
+      0.5,
+      0.45,
+      1.06,
+      1.0,
+      "Get a written quote that shows the prep · check insurance"
+    ],
+    [
+      "P5",
+      "langs-beach-new-build/01.jpg",
+      0.45,
+      0.45,
+      1.04,
+      1.0,
+      null
+    ]
   ]
 }
