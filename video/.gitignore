@@ -1,0 +1,4 @@
+out/
+vo_raw.mp3
+__pycache__/
+*.log

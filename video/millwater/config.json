@@ -1,0 +1,16 @@
+{
+  "slug": "millwater",
+  "cuts": [0.0, 2.85, 11.95, 20.45, 31.6, 38.05, 45.42],
+  "title": ["Is your Millwater house due", "for its first repaint?"],
+  "title_tall": ["Is your Millwater", "house due for its", "first repaint?"],
+  "end_rows": ["Dulux® Accredited · Hibiscus Coast", "020 4076 7979", "mhpainting.co"],
+  "shots": [
+    ["P0", "pioneer-rise-millwater/02.jpg", 0.50, 0.45, 1.00, 1.08, null],
+    ["P1", "pioneer-rise-millwater/01.jpg", 0.45, 0.50, 1.06, 1.00, "Many Millwater homes are due their first repaint"],
+    ["P2", "pioneer-rise-millwater/05.jpg", 0.50, 0.42, 1.00, 1.07, "What we found at Pioneer Rise: failed factory primer"],
+    ["P3", "pioneer-rise-millwater/02.jpg", 0.30, 0.55, 1.10, 1.02, "Sanded back to sound paint and bare weatherboard"],
+    ["w:Only", "pioneer-rise-millwater/01.jpg", 0.60, 0.45, 1.02, 1.10, "Then undercoat"],
+    ["P4", "little-manly-cliff-house/03.jpg", 0.50, 0.45, 1.06, 1.00, "Ask what prep is in the price"],
+    ["P5", "pioneer-rise-millwater/05.jpg", 0.50, 0.42, 1.04, 1.00, null]
+  ]
+}
