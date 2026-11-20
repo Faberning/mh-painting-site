@@ -10,6 +10,7 @@ import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import { BUSINESS } from "../consts";
 import { ROOF_FAQS } from "../faq";
+import RingLinks from "../components/RingLinks.astro";
 
 const { youtubeId, title: videoTitle, description: videoDescription, uploadDate } = BUSINESS.roofVideo;
 const thumbnailUrl = `https://i.ytimg.com/vi/${youtubeId}/maxresdefault.jpg`;
@@ -134,6 +135,7 @@ const serviceSchema = {
           </div>
         ))}
       </div>
+      <RingLinks path="/roof-painting-auckland/" />
     </section>
   </main>
   <Footer />
