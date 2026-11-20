@@ -39,13 +39,36 @@ export const RING: Record<string, RingLinks> = {
     video: { id: "t4Gn-KyiZmQ", uploadDate: "2026-11-12T19:54:35Z",
       title: "What Does Dulux Accredited Actually Check? | North Auckland Painter",
       description: "What a Dulux Accredited Painter has to have, what the accreditation doesn't cover, and how to find one in north Auckland without waiting to be matched." },
+    // Facebook post on Max's Page, posted 2026-11-20.
+    facebookPost: "https://www.facebook.com/890262937512763/posts/122145148221240802",
   },
   "/house-painters-millwater/": {
     // localPosts/4378894379906002447, posted 2026-11-12.
     gbpPost: "https://local.google.com/place?id=7826564831162918593&use=posts&lpsid=CAIQACoeChxtc3BfaDprdVpDcmd3OENDX2pmZHFSOURaMWZB",
+    // Facebook post on Max's Page, posted 2026-11-20.
+    facebookPost: "https://www.facebook.com/890262937512763/posts/122145148497240802",
+    // Video WRvRv6pq1BM was uploaded PRIVATE on 2026-11-20. Uncomment once
+    // Freddie sets it Public, with uploadDate from the API's publishedAt.
+    // video: { id: "WRvRv6pq1BM", uploadDate: "<publishedAt>",
+    //   title: "Painting a Millwater House: What We Found Under the Paint | mh painting",
+    //   description: "Many Millwater homes are reaching their first exterior repaint." },
   },
   "/house-painting-rodney/": {
     // localPosts/3973761207060502823, posted 2026-11-12.
     gbpPost: "https://local.google.com/place?id=7826564831162918593&use=posts&lpsid=CAIQACoeChxtc3BfaDpxTDlSS3BOdW9RdG5kTHRUM1hqeFhB",
+    // Facebook post on Max's Page, posted 2026-11-20.
+    facebookPost: "https://www.facebook.com/890262937512763/posts/122145148629240802",
+    // Video obhW7LHvgt4 was uploaded PRIVATE on 2026-11-20. Uncomment once
+    // Freddie sets it Public, with uploadDate from the API's publishedAt.
+    // video: { id: "obhW7LHvgt4", uploadDate: "<publishedAt>",
+    //   title: "House Painting in Rodney: Cost, Coastal Weather and Moisture | mh painting",
+    //   description: "Straight answers to what people in Rodney ask before painting." },
+  },
+  "/roof-painting-auckland/": {
+    // localPosts/8399627754623970195, posted 2026-11-20. The roof page embeds
+    // its own video (BUSINESS.roofVideo), so no video entry here.
+    gbpPost: "https://local.google.com/place?id=7826564831162918593&use=posts&lpsid=CAIQACoeChxtc3BfaDplM2Z4TVBPZm5EbFV0QmxfX1BqaUhR",
+    // Facebook post on Max's Page, posted 2026-11-20.
+    facebookPost: "https://www.facebook.com/890262937512763/posts/122145148683240802",
   },
 };
