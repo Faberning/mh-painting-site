@@ -98,6 +98,29 @@ const serviceSchema = {
       </div>
 
       <div class="roof-block">
+        <h2>A recent roof: before and after</h2>
+        <p>One of our recent roofs, on a hillside villa: from green to dark charcoal. Same roof, same angle, before and after.</p>
+        {/* Max's job photos, Nov 2026 (EXIF and GPS stripped). No address or street
+            number on the site. */}
+        <div class="job-photos">
+          <figure>
+            <img src="/projects/villa-roof-recoat/01.jpg" alt="Before: the villa's faded green corrugated roof, looking out over the pool and the valley" width="1600" height="1200" loading="lazy" decoding="async" />
+            <figcaption>Before</figcaption>
+          </figure>
+          <figure>
+            <img src="/projects/villa-roof-recoat/02.jpg" alt="After: the same roof from the same spot, recoated dark charcoal" width="1600" height="1200" loading="lazy" decoding="async" />
+            <figcaption>After</figcaption>
+          </figure>
+          <figure>
+            <img src="/projects/villa-roof-recoat/03.jpg" alt="Finished dark charcoal hip roof on the villa, with the scaffold still up at the edge" width="1600" height="1200" loading="lazy" decoding="async" />
+          </figure>
+          <figure>
+            <img src="/projects/villa-roof-recoat/04.jpg" alt="Finished dark charcoal roof section around the solar panels" width="1600" height="1200" loading="lazy" decoding="async" />
+          </figure>
+        </div>
+      </div>
+
+      <div class="roof-block">
         <h2>Auckland's coast is hard on roofs</h2>
         <p>Out here, salt-laden air and strong northern UV break coatings down faster than they would inland — exposed, sea-facing roofs feel it most. That's why product choice and prep matter: the right system for the exposure lasts, the wrong one doesn't. We work across the north Auckland corridor and paint every common roof here — {BUSINESS.roofSubstrates.join(", ")} — matching the coating system to the roof and its exposure.</p>
       </div>
@@ -182,6 +205,11 @@ const serviceSchema = {
     @media (prefers-reduced-motion: reduce) {
       .yt-facade:hover .yt-play svg, .yt-facade:focus-visible .yt-play svg { transform: none; }
     }
+    .job-photos { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+    .job-photos figure { margin: 0; }
+    .job-photos img { width: 100%; height: auto; display: block; border-radius: 12px; border: 1px solid var(--line); }
+    .job-photos figcaption { font-size: 14px; color: var(--inkSoft); margin-top: 6px; }
+    @media (max-width: 640px) { .job-photos { grid-template-columns: 1fr; } }
   </style>
   <script define:vars={{ youtubeId, videoTitle }}>
     // Click-to-load facade — the iframe (and YouTube's JS) never loads until
