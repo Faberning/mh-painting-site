@@ -3,11 +3,10 @@
 # - Merge to main (Freddie's approval): build, gate, `wrangler deploy`, live crawler check.
 # - "Run workflow" button in the Actions tab: redeploy main by hand, from any device.
 #
-# Needs two repo secrets (Settings > Secrets and variables > Actions):
+# Needs one repo secret (Settings > Secrets and variables > Actions):
 #   CLOUDFLARE_API_TOKEN   token from the "Edit Cloudflare Workers" template,
 #                          limited to the account that owns this Worker
-#   CLOUDFLARE_ACCOUNT_ID  that account's id
-# Pinning the account id stops wrangler picking the wrong account.
+# The account id is pinned below, which stops wrangler picking the wrong account.
 name: Deploy to Cloudflare
 
 on:
@@ -53,7 +52,7 @@ jobs:
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          accountId: b9b88e649d24b4071e3b4a9093205070  # Ekomediamarketing account (not secret)
           command: deploy
       - name: Live check (AI crawlers get 200, no challenge page)
         # The form round-trip in scripts/postdeploy-check.sh is left out on
