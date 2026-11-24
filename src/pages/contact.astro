@@ -52,17 +52,17 @@ const desc = "Get a free quote from MH Painting — new builds and repaints acro
           </div>
         </div>
 
-        <div class="leadform">
+        <form class="leadform" id="leadForm" novalidate>
           <p id="scopeNote" class="scope-note" hidden>Pre-filled from your job scope — add your details below and Max will pick it up already scoped.</p>
-          <input type="text" id="company_url" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
-          <div class="field"><label for="f_name">Name</label><input id="f_name" type="text" required /></div>
-          <div class="field"><label for="f_email">Email</label><input id="f_email" type="email" required /></div>
-          <div class="field"><label for="f_phone">Phone</label><input id="f_phone" type="tel" /></div>
-          <div class="field"><label for="f_details">Details</label><textarea id="f_details" rows="5" placeholder="New build or repaint? Where's the job, and roughly when? Mention the free house wash if you'd like it."></textarea></div>
+          <input type="text" id="company_url" name="company_url" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <div class="field"><label for="f_name">Name</label><input id="f_name" name="name" type="text" autocomplete="name" required /></div>
+          <div class="field"><label for="f_email">Email</label><input id="f_email" name="email" type="email" autocomplete="email" required /></div>
+          <div class="field"><label for="f_phone">Phone</label><input id="f_phone" name="phone" type="tel" autocomplete="tel" /></div>
+          <div class="field"><label for="f_details">Details</label><textarea id="f_details" name="details" rows="5" placeholder="New build or repaint? Where's the job, and roughly when? Mention the free house wash if you'd like it."></textarea></div>
           <p class="consent">By sending this you agree we can contact you about your enquiry. We don't share your details.</p>
-          <button class="btn" id="f_send" type="button">Send enquiry</button>
-          <p id="f_msg" class="fmsg" hidden></p>
-        </div>
+          <button class="btn" id="f_send" type="submit">Send enquiry</button>
+          <p id="f_msg" class="fmsg" role="status" hidden></p>
+        </form>
       </div>
     </section>
   </main>
@@ -129,7 +129,8 @@ const desc = "Get a free quote from MH Painting — new builds and repaints acro
     })();
   </script>
   <script is:inline>
-    document.getElementById('f_send').addEventListener('click', async () => {
+    document.getElementById('leadForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
       const $ = (id) => document.getElementById(id);
       const msg = $('f_msg');
       const payload = {
