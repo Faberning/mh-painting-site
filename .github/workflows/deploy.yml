@@ -1,0 +1,69 @@
+# Auto-deploy to Cloudflare.
+# - Pull request: build + the EKO check gate only. Nothing goes live.
+# - Merge to main (Freddie's approval): build, gate, `wrangler deploy`, live crawler check.
+# - "Run workflow" button in the Actions tab: redeploy main by hand, from any device.
+#
+# Needs one repo secret (Settings > Secrets and variables > Actions):
+#   CLOUDFLARE_API_TOKEN   token from the "Edit Cloudflare Workers" template,
+#                          limited to the account that owns this Worker
+# The account id is pinned below, which stops wrangler picking the wrong account.
+name: Deploy to Cloudflare
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: EKO build gate (builds into dist/)
+        run: npm run check
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+          retention-days: 3
+
+  deploy:
+    needs: check
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+      - name: Deploy Worker
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: b9b88e649d24b4071e3b4a9093205070  # Ekomediamarketing account (not secret)
+          command: deploy
+      - name: Live check (AI crawlers get 200, no challenge page)
+        # The form round-trip in scripts/postdeploy-check.sh is left out on
+        # purpose: it would send a test lead to the client on every deploy.
+        run: |
+          sleep 10
+          URL=https://mhpainting.co
+          fail=0
+          for UA in ClaudeBot GPTBot PerplexityBot; do
+            CODE=$(curl -s -A "$UA" -o /dev/null -w "%{http_code}" "$URL/")
+            echo "$UA -> $CODE"; [ "$CODE" = "200" ] || fail=1
+          done
+          curl -s "$URL/" | grep -qiE 'cf-mitigated|just a moment|__cf_chl' && { echo "challenge page served"; fail=1; }
+          exit $fail
