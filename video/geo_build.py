@@ -20,7 +20,10 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), 
 HERE = os.path.abspath(sys.argv[1])
 CFG = json.load(open(os.path.join(HERE, "config.json")))
 SLUG = CFG["slug"]
-PROJ = os.path.join(ROOT, "public", "projects")
+# Photos come from public/projects/ unless the config names a private "src_dir" (relative to the
+# folder, gitignored): e.g. a client upload that must not ship with the site. A shot path ending
+# in .mp4 is a real clip (played from its start, cover-cropped); "A.jpg|B.jpg" is a before/after wipe.
+PROJ = os.path.join(HERE, CFG["src_dir"]) if CFG.get("src_dir") else os.path.join(ROOT, "public", "projects")
 OUT = os.path.join(HERE, "out")
 FPS = 30
 
@@ -158,12 +161,51 @@ def ken_burns(path, fx, fy, z, w, h):
     return im.resize((w, h), Image.BILINEAR, box=box)
 
 
+_clips = {}
+
+
+def clip_frame(path, t, w, h, dur):
+    """Frame of a real clip at t seconds from its start (held on the last frame), cover-cropped.
+    Decodes only the shot's length, and keeps one clip in memory at a time."""
+    key = (path, w, h)
+    if key not in _clips:
+        _clips.clear()
+        cw, ch = int(w * 1.0) // 2 * 2, int(h * 1.0) // 2 * 2
+        vf = f"scale={cw}:{ch}:force_original_aspect_ratio=increase,crop={cw}:{ch},fps={FPS}"
+        raw = subprocess.run(["ffmpeg", "-loglevel", "error", "-t", f"{dur + XFADE + 0.2:.2f}", "-i", os.path.join(PROJ, path), "-an", "-vf", vf,
+                              "-f", "rawvideo", "-pix_fmt", "rgb24", "-"], check=True, capture_output=True).stdout
+        n = len(raw) // (cw * ch * 3)
+        _clips[key] = (np.frombuffer(raw, np.uint8)[: n * cw * ch * 3].reshape(n, ch, cw, 3), cw, ch)
+    arr, cw, ch = _clips[key]
+    k = min(int(max(t, 0) * FPS), len(arr) - 1)
+    im = Image.fromarray(arr[k])
+    return im if (cw, ch) == (w, h) else im.resize((w, h), Image.BILINEAR)
+
+
+def wipe_progress(t, st, en):
+    a, b = st + (en - st) * 0.30, st + (en - st) * 0.62
+    p = min(max((t - a) / max(b - a, 0.01), 0), 1)
+    return p * p * (3 - 2 * p)
+
+
 def shot_frame(i, t, w, h):
     st, path, fx, fy, z0, z1, _ = SHOTS[i]
     en = SHOTS[i + 1][0] if i + 1 < len(SHOTS) else TOTAL
+    if path.endswith(".mp4"):
+        return clip_frame(path, t - st, w, h, en - st)
     p = min(max((t - st) / max(en - st, 0.01), 0), 1)
     p = p * p * (3 - 2 * p)
-    return ken_burns(path, fx, fy, z0 + (z1 - z0) * p, w, h)
+    z = z0 + (z1 - z0) * p
+    if "|" in path:
+        a, b = path.split("|")
+        before, after = ken_burns(a, fx, fy, z, w, h), ken_burns(b, fx, fy, z, w, h)
+        x = int(w * wipe_progress(t, st, en))
+        if x > 0:
+            before.paste(after.crop((0, 0, x, h)), (0, 0))
+            if x < w:
+                ImageDraw.Draw(before).rectangle((x - 3, 0, x + 3, h), fill=(255, 255, 255))
+        return before
+    return ken_burns(path, fx, fy, z, w, h)
 
 
 def background(t, w, h):
@@ -251,6 +293,20 @@ def overlay(frame, t, idx, w, h, tall):
         d.rectangle((0, y0 - int(40 * s), w, y0 + lh * len(lines) + int(40 * s)), fill=(0, 0, 0, int(120 * a)))
         for k, ln in enumerate(lines):
             text_center(d, w / 2, y0 + k * lh, ln, f, (255, 255, 255, int(255 * a)))
+
+    # before/after chips on a wipe shot
+    if "|" in SHOTS[idx][1] and not in_end:
+        st = SHOTS[idx][0]
+        en = SHOTS[idx + 1][0] if idx + 1 < len(SHOTS) else TOTAL
+        x = w * wipe_progress(t, st, en)
+        f = font(int(40 * s))
+        yb = h - int((200 if not tall else 640) * s)
+        for txt, cx, show in (("Before", w * 0.82, x < w * 0.70), ("After", w * 0.18, x > w * 0.30)):
+            if show:
+                tw = d.textlength(txt, font=f)
+                d.rounded_rectangle((cx - tw / 2 - 20 * s, yb - 10 * s, cx + tw / 2 + 20 * s, yb + f.size + 14 * s),
+                                    radius=int(14 * s), fill=(0, 0, 0, 170))
+                text_center(d, cx, yb, txt, f)
 
     # key-point label
     label = SHOTS[idx][6]
@@ -356,14 +412,16 @@ def build_audio():
 
 def render(kind):
     w, h, tall = (1920, 1080, False) if kind == "wide" else (1080, 1920, True)
+    # --until S renders only the first S seconds (a test cut; full renders stay on the render box)
+    until = float(sys.argv[sys.argv.index("--until") + 1]) if "--until" in sys.argv else TOTAL
+    n = int(min(until, TOTAL) * FPS)
     audio = build_audio()
     dst = os.path.join(OUT, f"{SLUG}_{kind}.mp4")
     p = subprocess.Popen(["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24",
                           "-s", f"{w}x{h}", "-r", str(FPS), "-i", "-", "-i", audio,
                           "-c:v", "libx264", "-preset", "medium", "-crf", "19", "-pix_fmt", "yuv420p",
-                          "-c:a", "aac", "-b:a", "192k", "-shortest", "-movflags", "+faststart", dst],
+                          "-c:a", "aac", "-b:a", "192k", "-t", f"{n / FPS:.3f}", "-movflags", "+faststart", dst],
                          stdin=subprocess.PIPE)
-    n = int(TOTAL * FPS)
     for i in range(n):
         p.stdin.write(np.asarray(render_frame(i / FPS, w, h, tall)).tobytes())
         if i % 150 == 0:

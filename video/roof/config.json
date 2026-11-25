@@ -1,0 +1,147 @@
+{
+ "slug": "roof",
+ "src_dir": "src",
+ "cuts": [
+  0.0,
+  3.34,
+  5.83,
+  20.32,
+  27.84,
+  40.74,
+  47.69,
+  54.15
+ ],
+ "title": [
+  "Paint or replace",
+  "your roof?"
+ ],
+ "title_tall": [
+  "Paint or",
+  "replace",
+  "your roof?"
+ ],
+ "end_rows": [
+  "Dulux® Accredited · North Auckland",
+  "020 4076 7979",
+  "mhpainting.co"
+ ],
+ "shots": [
+  [
+   "P0",
+   "20261117_103852.jpg|20261120_122911.jpg",
+   0.5,
+   0.55,
+   1.0,
+   1.05,
+   null
+  ],
+  [
+   "w:hillside",
+   "20261120_123127.jpg",
+   0.5,
+   0.6,
+   1.08,
+   1.0,
+   null
+  ],
+  [
+   "P2",
+   "20261117_103823.jpg",
+   0.45,
+   0.6,
+   1.0,
+   1.08,
+   null
+  ],
+  [
+   "w:protects",
+   "20261120_122819.mp4",
+   0.5,
+   0.5,
+   1.0,
+   1.0,
+   "Sound roof: a coating adds years"
+  ],
+  [
+   "w:failing",
+   "20261117_103820.jpg",
+   0.5,
+   0.65,
+   1.1,
+   1.18,
+   "Failing sheets or flashings: paint won't fix them"
+  ],
+  [
+   "P3",
+   "20261117_103831.mp4",
+   0.4,
+   0.6,
+   1.0,
+   1.07,
+   "Prep is the job"
+  ],
+  [
+   "w:solar",
+   "20261117_103757.mp4",
+   0.5,
+   0.5,
+   1.0,
+   1.0,
+   "Solar panels covered"
+  ],
+  [
+   "w:edge",
+   "20261117_103855.jpg",
+   0.3,
+   0.35,
+   1.0,
+   1.08,
+   "Edge protection all the way round"
+  ],
+  [
+   "P4",
+   "20261117_103825.jpg|20261120_122920.jpg",
+   0.5,
+   0.55,
+   1.0,
+   1.05,
+   null
+  ],
+  [
+   "w:Pitch",
+   "20261120_123055.jpg",
+   0.5,
+   0.5,
+   1.0,
+   1.07,
+   "What drives the price: pitch, height, access, prep"
+  ],
+  [
+   "w:quote",
+   "20261120_122728.mp4",
+   0.5,
+   0.5,
+   1.0,
+   1.0,
+   "We quote on your roof, not a photo"
+  ],
+  [
+   "P5",
+   "20261120_123044.mp4",
+   0.5,
+   0.5,
+   1.0,
+   1.0,
+   "In the quote? Access, moss and rust treatment, coats"
+  ],
+  [
+   "P6",
+   "20261120_123101.jpg",
+   0.5,
+   0.5,
+   1.0,
+   1.06,
+   null
+  ]
+ ]
+}
