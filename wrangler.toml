@@ -4,6 +4,9 @@
 # for git auto-deploy so the "no manual deploy" loop holds.
 name = "mh-painting"
 main = "src/worker.js"
+# Ekomediamarketing Cloudflare account. Pinned so wrangler never deploys to the
+# wrong account when one login can reach several.
+account_id = "b9b88e649d24b4071e3b4a9093205070"
 compatibility_date = "2025-09-01"
 workers_dev = true
 
