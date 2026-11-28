@@ -125,10 +125,10 @@ export const BUSINESS = {
   // to roof jobs — full exterior repaints only; never state it on that page.
   roofSubstrates: ["long-run steel", "corrugated iron", "concrete tile", "Decramastic"],
   roofVideo: {
-    youtubeId: "5VdfSKiGCJk",
-    title: "Roof Repainting Before & After — Auckland Painters | mh painting", // real YouTube title, verified
-    description: "Roof repainting in north Auckland — before and after. A metal roof cleaned, prepped and recoated by MH Painting to bring it back to a clean, protected finish.",
-    uploadDate: "2026-06-04T23:54:44-07:00", // real upload date, verified from the YouTube watch page — never guess this
+    youtubeId: "BiZbhbclbTM",
+    title: "Paint or Replace Your Roof? North Auckland Villa Repaint | mh painting", // real YouTube title, verified (API, 2026-11-28)
+    description: "Is your roof worth painting, or is it time for a new one? A hillside villa in north Auckland repainted from faded green to dark charcoal, with the solar panels covered and edge protection all the way round, plus what drives the price and what to check in a roof quote.",
+    uploadDate: "2026-11-28T06:26:57Z", // YouTube API publishedAt (when it went public), verified — never guess this
   },
 
   // --- Trust signals (read by pages; deliberately NOT in schema to avoid self-serving review markup) ---
